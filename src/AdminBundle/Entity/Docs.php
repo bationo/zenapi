@@ -1,0 +1,256 @@
+<?php
+
+namespace AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
+
+/**
+ * Docs
+ *
+ * @ORM\Table(name="docs")
+ * @ORM\Entity(repositoryClass="AdminBundle\Repository\DocsRepository")
+ */
+class Docs
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     */
+    private $description;
+
+ 	/**
+     * @var datetime
+     *
+     * @ORM\Column(name="created", type="datetime"  )  
+	 * @Gedmo\Timestampable(on="create")
+     */
+	 
+	  private $created;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="modified", type="datetime"  )
+	 * @Gedmo\Timestampable(on="update")
+     */
+    private $modified;
+	
+	  /**
+     * @ORM\OneToOne(targetEntity="\AdminBundle\Entity\Document", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\File(maxSize = "6M", mimeTypes = {"image/jpeg", "image/gif", "image/png" , "image/jpg", "application/pdf" , "application/x-pdf"  } , mimeTypesMessage = "Le fichier choisi ne correspond pas à un fichier valide"  , notFoundMessage = "Le fichier n'a pas été trouvé sur le disque" , uploadErrorMessage = "Erreur dans l'upload du fichier" )
+     */
+    private $document;
+	
+	 /**
+     * @ORM\ManyToOne(targetEntity="\UserBundle\Entity\User", inversedBy="document")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
+     */
+    private $user;
+	
+	/**
+     * @ORM\ManyToOne(targetEntity="GeranceBundle\Entity\Immobilier", inversedBy="justificatif")
+     * @ORM\JoinColumn(name="immobilier_id", referencedColumnName="id", nullable=true)
+     */
+    private $immobilier;
+	
+	
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Docs
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Docs
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return Docs
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set modified
+     *
+     * @param \DateTime $modified
+     *
+     * @return Docs
+     */
+    public function setModified($modified)
+    {
+        $this->modified = $modified;
+
+        return $this;
+    }
+
+    /**
+     * Get modified
+     *
+     * @return \DateTime
+     */
+    public function getModified()
+    {
+        return $this->modified;
+    }
+
+    /**
+     * Set document
+     *
+     * @param \AdminBundle\Entity\Document $document
+     *
+     * @return Docs
+     */
+    public function setDocument(\AdminBundle\Entity\Document $document)
+    {
+        $this->document = $document;
+
+        return $this;
+    }
+
+    /**
+     * Get document
+     *
+     * @return \AdminBundle\Entity\Document
+     */
+    public function getDocument()
+    {
+        return $this->document;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \UserBundle\Entity\User $user
+     *
+     * @return Docs
+     */
+    public function setUser(\UserBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set immobilier
+     *
+     * @param \GeranceBundle\Entity\Immobilier $immobilier
+     *
+     * @return Docs
+     */
+    public function setImmobilier(\GeranceBundle\Entity\Immobilier $immobilier)
+    {
+        $this->immobilier = $immobilier;
+
+        return $this;
+    }
+
+    /**
+     * Get immobilier
+     *
+     * @return \GeranceBundle\Entity\Immobilier
+     */
+    public function getImmobilier()
+    {
+        return $this->immobilier;
+    }
+}

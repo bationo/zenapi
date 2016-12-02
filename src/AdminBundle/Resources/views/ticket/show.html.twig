@@ -1,0 +1,112 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Ticket {% if ticket.deliveryMan %}livré{% else %}réservé{% endif %} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">Ticket {% if ticket.deliveryMan %}livré{% else %}réservé{% endif %}</h1>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-hover record_properties">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Nom</th>
+                                    <td>{{ ticket.name }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Téléphone</th>
+                                    <td>{{ ticket.phone }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Adresse</th>
+                                    <td>{{ ticket.address }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Cinéma</th>
+                                    <td>{{ ticket.place.title }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Ticket</th>
+                                    <td>{{ ticket.ticketNumber }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Réservation</th>
+                                    <td>{{ 'Le ' ~ ticket.bookedAt|localizeddate('full', 'none') }}</td>
+                                </tr>
+                                {% if ticket.deliveryMan %}
+                                <tr>
+                                    <th scope="row">Livrerur</th>
+                                    <td>{{ ticket.deliveryMan }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Livraison</th>
+                                    <td>{{ 'Le ' ~ ticket.deliveredAt|localizeddate('full', 'none') }}</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                        <div class="btn-group record_actions">
+                            <a class="btn btn-info pull-left" href="{{ path('admin_tickets') }}">
+                                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+                            </a>
+                            {% if ticket.deliveryMan is null %}<button class="btn btn-primary" data-toggle="modal" data-target="#delivery"><i class="fa fa-check"></i> Livrer</button>{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" id="delivery">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                {{ form_start(ticket_form) }}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Livraison</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-inject row no-margin">
+                            {{ form_errors(ticket_form) }}
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    {{ form_label(ticket_form.deliveryMan, "Livreur") }}
+                                    {{ form_widget( ticket_form.deliveryMan, { 'attr': { 'class': 'form-control', 'placeholder': 'Nom du livreur' } } ) }}
+                                    {{ form_errors(ticket_form.deliveryMan) }}
+                                </div>
+                                {{ form_rest(ticket_form) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Livrer</button>
+                        <button class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    </div>
+                {{ form_end(ticket_form) }}
+            </div>
+        </div>
+    </div>
+    <div id="delete_confirm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>{{ 'Confirm delete'|trans({}, 'admin') }}</h3>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'You are about to delete an item'|trans({}, 'admin') }}, {{ 'this procedure is irreversible'|trans({}, 'admin') }}.</p>
+                    <p>{{ 'Do you want to proceed?'|trans({}, 'admin') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger">{{ 'Yes'|trans({}, 'admin') }}</button>
+                    <button class="btn btn-default" data-dismiss="modal">{{ 'No'|trans({}, 'admin') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

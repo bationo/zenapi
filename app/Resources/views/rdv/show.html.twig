@@ -1,0 +1,368 @@
+
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Rendez-vous'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+        <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="{{ path('pro_rdv_liste') }}"  > Mes Rendez-vous </a> </li>
+                                <li> <a href="#" class="active" > Fiche Rendez-vous </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+<!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Fiche Rendez-vous N° {{rdv.id}}</h3>
+                                    </div>
+                                    <!-- BASIC FORM ELEMENTS -->
+                                    <!--===================================================-->
+
+                                      {% for message in app.session.flashbag.get('notice') %}
+        <div class="alert alert-dismissible alert-success">
+  <button type="button" class="close" data-dismiss="alert">X</button>
+ <span style="color:green; font-weight: bold;"> {{ message }} </span>
+</div>
+      {% endfor %}
+                                       
+                                            <table class="table table-hover record_properties">
+                                            <tbody>
+
+                                                   
+                                                <tr>
+                                                    <th scope="row">Patient</th>
+                                                    <td><a  data-toggle="modal" href="#plan" >{{rdv.profil.nom}} {{rdv.profil.prenom}}</a></td>
+                                                </tr>
+                                                  <tr>
+                                                    <th scope="row">Spécialité</th>
+                                                    <td>{{rdv.specialite.libele}}</td>
+                                                </tr> 
+                                                  <tr>
+                                                    <th scope="row">Docteur</th>
+                                                    <td><a  data-toggle="modal" href="#doc" > {{rdv.docteur.nom}} </a></td>
+                                                </tr>
+                                                 <tr>
+                                                    <th scope="row">Date du rendez-vous</th>
+                                                    <td> {{rdv.dateRdv|localizeddate('full', 'short')}} </td>
+                                                </tr> 
+                                                <tr>
+                                                    <th scope="row">Consultation au domicile du patient ?</th>
+                                                    <td> 
+                                                        {% if rdv.domicile == true %} OUI {% else %} NON {% endif %}
+                                                        
+                                                    </td>
+                                                </tr>
+                                                 <tr>
+                                                    <th scope="row">Commentaire pour le Docteur</th>
+                                                    <td> {{rdv.commentaire}} </td>
+                                                </tr>
+
+                                                 <tr>
+                                                    <th scope="row">Bilan du  Docteur</th>
+                                                    <td> {{rdv.bilan}} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Statut </th>
+                                                    <td>
+                                    {% if rdv.statut == 0 %} <span class="label label-primary">En Cour</span> {% endif %}
+                                 {% if rdv.statut == 1 %} <span class="label label-info">Terminer</span> {% endif %}
+                                    {% if rdv.statut == 2 %} <span class="label label-warning">Annuler</span> {% endif %}
+
+
+                                                     </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">date de prise du rendez-vous</th>
+                                                    <td> {{rdv.created|localizeddate('full', 'short')}} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">date de modification du rendez-vous</th>
+                                                    <td> {{rdv.modified|localizeddate('full', 'short')}} </td>
+                                                </tr>
+                                               
+                                               
+                                                
+
+                                            </tbody>
+                                        </table>
+
+
+ <div id="plan" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+
+
+                     <table class="table table-hover record_properties">
+                                            <tbody>
+
+                                                 <tr>
+                                                    <th scope="row"></th>
+                                                    <td> <img src="{{ asset(rdv.profil.user.webpath) }} " style="height:120px;"> </td>
+                                                </tr>
+                                              <tr>
+                                                    <th scope="row">Genre</th>
+                                                    <td>{{ rdv.profil.genre }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Nom</th>
+                                                    <td>{{ rdv.profil.nom }}</td>
+                                                </tr>
+                                               
+                                                <tr>
+                                                    <th scope="row">Prénom</th>
+                                                    <td>{{ rdv.profil.prenom }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Lieu de Naissance</th>
+                                                    <td>{{ rdv.profil.lieuNaissance }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Ville de résidence</th>
+                                                    <td>{{ rdv.profil.ville }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Pays de résidence</th>
+                                                    <td>{{ rdv.profil.user.pays.nom }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Numéro de Téléphone</th>
+                                                    <td>{{ rdv.profil.user.pays.indicatif }} {{ rdv.profil.tel }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Adresse Mail</th>
+                                                    <td>{{ rdv.profil.user.email }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Date de Naissance</th>
+                                                    <td>{{ rdv.profil.dateNaissance|localizeddate('full', 'none') }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Groupe Sanguin </th>
+                                                    <td>{{ rdv.profil.groupeSanguin }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Le Patient est-il Assuré ? </th>
+                                                    <td> {% if rdv.profil.assurer == true  %} OUI {% else %} NON {% endif %}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Compagnie d'assurance </th>
+                                                    <td>{{ rdv.profil.compagnieAssurance }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">identifiant d'assurance </th>
+                                                    <td>{{ rdv.profil.numeroAssurance }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Commentaire </th>
+                                                    <td>{{ rdv.profil.note }}  </td>
+                                                </tr>
+
+                                               
+
+                                                
+
+                                                
+
+                                                   
+                                            </tbody>
+                     </table>   
+                                             
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+<div id="doc" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+
+
+                      <table class="table table-hover record_properties">
+                                            <tbody>
+
+                                                    {% if rdv.docteur.image != null  %}
+                                                 <tr>
+                                                    <th scope="row"></th>
+                                                    <td> <img src="{{ asset(rdv.docteur.image.webpath) }} " style="height:120px;"> </td>
+                                                </tr>
+                                            {% endif %}
+                                              
+                                                <tr>
+                                                    <th scope="row">Titre</th>
+                                                    <td>{{ rdv.docteur.titre.libele }}</td>
+                                                </tr>
+                                               
+                                                <tr>
+                                                    <th scope="row">Nom</th>
+                                                    <td>{{ rdv.docteur.nom }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Mail</th>
+                                                    <td>{{ rdv.docteur.mail }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Tel</th>
+                                                    <td>{{ rdv.docteur.professionnel.user.pays.indicatif }} {{ rdv.docteur.tel }}</td>
+                                                </tr>
+
+                                                 <tr>
+                                                    <th scope="row">Spécialité</th>
+                                                    <td>
+                                                        <ul>
+                                                        {% for specialite in rdv.docteur.ListeSpecialite %}
+                                                            <li>  <span class="ff">{{specialite.libele}}</span>   </li>
+                                                        {% endfor %}
+                                                        </ul>
+
+                                                    </td>
+                                                </tr>
+
+                                                  <tr>
+                                                    <th scope="row">Disponibilité</th>
+                                                    <td>
+                                                        
+                                                        {% for disponible in rdv.docteur.disponible %}
+
+                                                            <ul>
+                                                            <li> Le <span class="ff">{{disponible.jour.libele}}</span>     De <span class="ff">{{disponible.heure|date('H:i')}}</span> A <span class="ff">{{disponible.heureFin|date('H:i')}}</span> </li> 
+                                                             <li> Intervalle de temps : <span class="ff">{{disponible.creno}}</span> Minutes </li>
+                                                             <li> Consultation à domicile : <span class="ff"> {% if disponible.domicile == true %} OUI {% else  %} NON {% endif %} </span>  </li>
+                                                            </ul>
+
+                                                        {% endfor %}
+                                                        
+
+                                                    </td>
+                                                </tr>
+                                                 
+
+                                                
+
+                                                    <th scope="row">Date de creation </th>
+                                                        <td>{{ rdv.docteur.created|localizeddate('full', 'short') }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Date de modification</th>
+                                                        <td>{{ rdv.docteur.modified|localizeddate('full', 'short') }}</td>
+                                                    </tr>
+                                            </tbody>
+                                        </table>  
+                                             
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+
+<style type="text/css">
+.ff{
+    color: green;
+    font-weight: bold;
+}
+</style>
+          
+   
+    <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('pro_rdv_liste') }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+            
+            {% if rdv.statut == 0 %}
+            <a class="btn btn-primary" href="{{ path( 'pro_rdv_edit' , {id: rdv.id  } )    }}">
+                <i class="fa fa-edit"></i> Modifier le rendez-vous
+            </a>
+
+            <button type="button" data-toggle="modal" data-target="#delete_confirm" class="btn btn-danger" type="submit"><i class="fa fa-trash-o"></i> annuler le rendez-vous </button>
+
+    <div id="delete_confirm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>Confirmation </h3>
+                </div>
+                <div class="modal-body">
+                    <p>Voulez-vous vraiment annuler ce rendez-vous ,  cette procédure est irréversible..</p>
+                    <p>Voulez-vous poursuivre?</p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-danger" href="{{ path( 'pro_rdv_annuler' , {id: rdv.id  } )    }}">{{ 'Yes'|trans({}, 'admin') }}</a>
+                    <button class="btn btn-default" data-dismiss="modal">{{ 'No'|trans({}, 'admin') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>  
+{% endif %}
+
+        </div>
+
+                          
+      
+                            </div>
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+
+
+
+    
+     
+        
+       
+   
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

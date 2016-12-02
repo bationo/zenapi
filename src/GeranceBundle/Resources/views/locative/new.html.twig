@@ -1,0 +1,167 @@
+
+
+{{ form_start(form, {"attr":{ "class":"FormNewLocative "}, "action":path('locative_create' , {id:immobilier.id })}) }}
+
+
+    <section class="card">
+        <div class="card-block">
+            <h4 class="with-border">Ajouter une nouvelle locative <span style="color:green">  </span>  </h4>
+                <span class="erreur"></span>
+            <div class="row">    
+               {% for flashMessage in app.session.flashbag.get('noticee') %}
+     
+                                                      
+                                             <div class="alert alert-dismissible alert-danger">
+                                              <button type="button" class="close" data-dismiss="alert">x</button>
+                                              {{ flashMessage }} 
+                                              </div>
+                 {% endfor %}
+                <!-- FRMULAIRE BIEN -->
+                <div class="col-lg-6">
+                                        
+                    <fieldset class="form-group">
+                        {{ form_label(form.piece, "Nombre de pièces", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.piece , { 'attr' : {'placeholder' : 'Nombre de pièces',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.piece , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {{ form_label(form.loyer, "Montant du loyer", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.loyer , { 'attr' : {'placeholder' : 'Montant du loyer',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.loyer , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {{ form_label(form.porte, "Numéro de porte", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.porte , { 'attr' : {'placeholder' : 'Numéro de porte',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.porte , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset> 
+
+                     <fieldset class="form-group">
+                        {{ form_label(form.type, "Type de locative", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.type , { 'attr' : {'placeholder' : 'Type de locative',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.type , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                                                  
+                </div>
+
+                <div class="col-lg-6">
+                    <fieldset class="form-group">
+                        {{ form_label(form.meuble, "Locative meuble ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.meuble , { 'attr' : {'placeholder' : 'Locative meuble ',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.meuble , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>  
+                    <fieldset class="form-group">
+                        {{ form_label(form.supercie, "Superficie ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.supercie , { 'attr' : {'placeholder' : 'Superficie',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.supercie , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {{ form_label(form.charge, "Charge sur loyer", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.charge , { 'attr' : {'placeholder' : 'Charge sur loyer',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.charge , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>                    
+                    <fieldset class="form-group">
+                        {{ form_label(form.commentaire, "Commentaire ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.commentaire , { 'attr' : {'placeholder' : 'Commentaire',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.commentaire , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>            
+                </div>      
+            </div>
+            <h5 class="with-border"></h5>
+            <div class="form-group">
+                <div class="chargement">
+                     <button class="btn btn-inline btn-info ladda-button" data-style="zoom-out"><span class="ladda-label"><i class="glyphicon glyphicon-floppy-saved"></i> Enregister</span><span class="ladda-spinner"></span><div class="ladda-progress" style="width: 0px;"></div></button>
+                </div>
+
+                 <div class="chargement1" style="display:none">
+               
+                    <div><img src="{{ asset('theme/ring.svg') }}" style="width: auto; height: 70px;"></div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+        
+    {{ form_end(form) }}
+
+
+<script type="text/javascript">
+$('.FormNewLocative').submit(function(){
+
+
+    var data = $('.FormNewLocative').serializeArray().reduce(function(obj, item) {
+    obj[item.name] = item.value;
+    return obj;
+}, {});
+
+immo = $('.immo').text();
+url = "{{ path( 'immobilier' , {id: "id"  } )    }}";
+url = url.replace("id", immo);
+
+         $('.chargement1').show(); 
+        $('.chargement').hide();
+       $.ajax({
+                    url : "{{ path( 'locative_create' , {id:immobilier.id} ) }}",
+                    type : 'post',
+                    data: data ,
+
+                    success : function( statut){
+                      if(statut){
+
+                        if(statut==3){
+                             $('.modal-backdrop').removeClass('modal-backdrop');
+                            $('.newLocativeModal').modal('hide');
+
+
+                   formdata = { id:"1" };
+             $('#tabs-4-tab-2').html("<div style=\"text-align:center\"><img src=\"{{ asset('theme/ripple.svg') }}\"></div>");
+                   $.ajax({
+                                url : url,
+                                type : 'post',
+                                data : formdata  ,
+                                success : function( statut){
+                                  if(statut){
+                                    $('#tabs-4-tab-2').html(statut);
+                                  }
+                                }
+                                ,
+                                error : function(resultat, statut, erreur){
+                                  if(statut){
+                                    error = '<div class="alert alert-dismissible alert-danger">' + 
+                                      '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                                      erreur + " ! veuillez recommencer " +
+                                      '</div>';
+                                    $('#tabs-4-tab-2').html(error);
+                                  }
+                                }
+                              }
+                          );
+
+
+                        }else{
+                            $('.contNewLocative').html(statut);
+                        }
+                          $('.chargement1').hide(); 
+                          $('.chargement').show();
+                        
+                      }
+                    }
+                    ,
+                    error : function(resultat, statut, erreur){
+                      if(statut){
+                        error = '<div class="alert alert-dismissible alert-danger">' + 
+                          '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                          erreur + " ! veuillez recommencer " +
+                          '</div>';
+                        $('.erreur').html(error);
+                         $('.chargement1').hide(); 
+                          $('.chargement').show();
+                      }
+                    }
+                  }
+              );
+
+return false;
+} );
+
+</script>

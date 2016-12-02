@@ -1,0 +1,11 @@
+<div class="col-sm-16">
+    <div class="f-title">inscrivez vous à notre newsletter</div>
+    {{ form_start(newsletter_form, { action: path('newsletter'), method: 'post', 'attr': { "class": "form-inline"} }) }}
+        {{ form_widget( newsletter_form.email, { 'attr': { "class": "form-control", "placeholder": "Entrer votre adresse email", "autocomplete": "off" }}) }}
+        <button type="submit" class="btn"> <span class="ion-paper-airplane text-danger"></span> </button>
+        {{ form_errors(newsletter_form.email) }}
+        {{ form_widget(newsletter_form.route, { 'attr': { 'value': route } }) }}
+        {{ form_widget(newsletter_form.parameters, { 'attr': { 'value': parameters } }) }}
+        {{ form_widget(newsletter_form) }}
+    {{ form_end(newsletter_form) }}
+</div>

@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Compte Patient - {{ parent() }}{% endblock %}
+
+
+{% block content %}
+<div style="background: #00944A!important; height:10px!important;">
+               
+        </div>
+<div style=""> 
+ <div class="container">
+
+<div id="main" class="site-main">
+
+            <div class="container active-sidebar">
+                <div id="primary" class="content-area">
+                    <div id="content" class="site-content" role="main">
+                        <div id="post-378" class="entry post-378 page type-page status-publish hentry">
+                            <div class="entry-content">
+                                <div class="vc_row wpb_row vc_row-fluid">
+                                    <div class="row">
+                                        <div class="h-padding-0 wpb_column vc_column_container vc_col-sm-12">
+                                            <div class="wpb_wrapper">
+                                                <div class="wpb_text_column wpb_content_element  woocommerce">
+                                                    <div class="wpb_wrapper">
+                                                        
+
+                                                        <hr>
+                                                        <h3>Profil {{ docteur.titre.libele }} {{ docteur.nom }} - {{ docteur.professionnel.nom }}  </h3>
+
+                                                    
+                                        <table class="table table-hover record_properties ">
+                                            <tbody>
+
+                                                    {% if docteur.image != null  %}
+                                                 <tr>
+                                                    <th scope="row"></th>
+                                                    <td> <img src="{{ asset(docteur.image.webpath) }} " style="height:120px;"> </td>
+                                                </tr>
+                                            {% endif %}
+                                              
+                                                <tr>
+                                                    <th scope="row">Titre</th>
+                                                    <td>{{ docteur.titre.libele }}</td>
+                                                </tr>
+                                               
+                                                <tr>
+                                                    <th scope="row">Nom</th>
+                                                    <td>{{ docteur.nom }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Mail</th>
+                                                    <td>{{ docteur.mail }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Tel</th>
+                                                    <td>{{ app.user.pays.indicatif }} {{ docteur.tel }}</td>
+                                                </tr>
+
+                                                 <tr>
+                                                    <th scope="row">Spécialité</th>
+                                                    <td>
+                                                        <ul class="ul">
+                                                        {% for specialite in docteur.ListeSpecialite %}
+                                                            <li>  <span class="ff">{{specialite.libele}}</span>   </li>
+                                                        {% endfor %}
+                                                        </ul>
+
+                                                    </td>
+                                                </tr>
+
+                                                  <tr>
+                                                    <th scope="row">Agneda</th>
+                                                    <td>
+                                                        
+                                                        {% for disponible in docteur.disponible %}
+
+                                                            <ul class="ul">
+                                                            <li> Les <span class="ff">{{disponible.jour.libele}}</span>     De <span class="ff">{{disponible.heure|date('H:i')}}</span> A <span class="ff">{{disponible.heureFin|date('H:i')}}</span> </li> 
+                                                             
+                                                             <li> Consultation à domicile : <span class="ff"> {% if disponible.domicile == true %} OUI {% else  %} NON {% endif %} </span>  </li>
+                                                            </ul>
+
+                                                        {% endfor %}
+                                                        
+
+                                                    </td>
+                                                </tr>
+                                                
+
+                                                
+
+                                            </tbody>
+                                        </table>
+
+        <div class="btn-group record_actions">
+
+        <a style="background-color:#00944A; color:#ffffff;" class="btn" href="{{ path( 'rdv_detail' , {id: id  } )    }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+            
+          
+
+           
+        </div>
+                                                     
+
+                                                
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- .entry-content -->
+                        </div>
+                        <!-- #post -->
+                    </div>
+                    <!-- #content -->
+                </div>
+                <!-- #primary -->
+                <div id="tertiary" class="sidebar-container shop" role="complementary">
+                    <div class="sidebar-inner">
+                        <div class="widget-area clearfix">
+                            <div id="vc_widget-18" class="widget-9 widget-odd widget widget_vc_widget">
+                                <div class="scoped-style">
+                                    <style type="text/css" data-type="vc_shortcodes-custom-css" scoped>
+                                        .vc_custom_1456310629405 {
+                                            margin-bottom: 0px !important;
+                                        }
+                                    </style>
+                                    <div class="vc_row wpb_row vc_row-fluid vc_custom_1456310629405">
+                                        <div class="row">
+                                          {% include 'default/menu.html.twig' %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                         
+                        </div>
+                        <!-- .widget-area -->
+                    </div>
+                    <!-- .sidebar-inner -->
+                </div>
+                <!-- #tertiary -->
+            </div>
+
+        </div>
+
+</div>
+</div>
+
+<style type="text/css">
+.ul li {
+    list-style-image: none!important;
+}
+</style>
+{% endblock %}

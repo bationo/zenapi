@@ -1,0 +1,818 @@
+<?php
+
+namespace UserBundle\Entity;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Particulier
+ *
+ * @ORM\Table(name="particulier")
+ * @ORM\Entity(repositoryClass="UserBundle\Repository\ParticulierRepository")
+ */
+class Particulier
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="civilite", type="string", length=255)
+     */
+    private $civilite;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=255)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prenom", type="string", length=255)
+     */
+    private $prenom;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="dateNaissance", type="date",  nullable=true)
+     */
+    private $dateNaissance;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lieuNaissance", type="string", length=255, nullable=true)
+     */
+    private $lieuNaissance;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="naturePiece", type="string", length=255, nullable=true)
+     */
+    private $naturePiece;
+	
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="numeroPiece", type="string", length=255, nullable=true)
+     */
+    private $numeroPiece;
+	
+	/**
+     * @var datetime
+     *
+     * @ORM\Column(name="dateDelivrance", type="date",  nullable=true)
+     */
+    private $dateDelivrance;
+
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="lieuDelivrance", type="string", length=255, nullable=true)
+     */
+    private $lieuDelivrance;
+	
+	 /**
+     * @var string
+     *
+     * @ORM\Column(name="autre", type="string", length=255 , nullable=true)
+     */
+    private $autre;
+
+
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="telephone", type="string", length=255, nullable=true)
+     */
+    private $telephone;	
+	
+	
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="cellulaire", type="string", length=255, nullable=true)
+     */
+    private $cellulaire;	
+
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="numeroContribuable", type="string", length=255, nullable=true)
+     */
+    private $numeroContribuable;	
+
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="lieuHabitation", type="string", length=255 )
+     */
+    private $lieuHabitation;
+	
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="adressePostale", type="string", length=255, nullable=true)
+     */
+    private $adressePostale;
+	
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="nomSociete", type="string", length=255, nullable=true)
+     */
+    private $nomSociete;
+	
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="profession", type="string", length=255, nullable=true)
+     */
+    private $profession;
+	
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="telBureau", type="string", length=255, nullable=true)
+     */
+    private $telBureau;
+
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="adresseGeographique", type="string", length=255, nullable=true)
+     */
+    private $adresseGeographique;
+
+   /**
+     * @var string
+     *
+     * @ORM\Column(name="nomContactUrgence", type="string", length=255, nullable=true)
+     */
+    private $nomContactUrgence;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="affiniteContactUrgence", type="string", length=255, nullable=true)
+     */
+    private $affiniteContactUrgence;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="telContactUrgence", type="string", length=255 , nullable=true)
+     */
+    private $telContactUrgence;
+	
+	
+	/**
+     * @ORM\OneToOne(targetEntity="UserBundle\Entity\Proprietaire", inversedBy="particulier" , cascade={"persist", "remove"})
+	 *@ORM\JoinColumn(name="proprietaire_id", referencedColumnName="id")
+     */
+    private $proprietaire;
+	
+	 	/**
+     * @var datetime
+     *
+     * @ORM\Column(name="created", type="datetime"  )  
+	 * @Gedmo\Timestampable(on="create")
+     */
+	 
+	  private $created;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="modified", type="datetime"  )
+	 * @Gedmo\Timestampable(on="update")
+     */
+    private $modified;
+	
+	
+	
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+ 
+
+    /**
+     * Set civilite
+     *
+     * @param string $civilite
+     *
+     * @return Particulier
+     */
+    public function setCivilite($civilite)
+    {
+        $this->civilite = $civilite;
+
+        return $this;
+    }
+
+    /**
+     * Get civilite
+     *
+     * @return string
+     */
+    public function getCivilite()
+    {
+        return $this->civilite;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return Particulier
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set prenom
+     *
+     * @param string $prenom
+     *
+     * @return Particulier
+     */
+    public function setPrenom($prenom)
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    /**
+     * Get prenom
+     *
+     * @return string
+     */
+    public function getPrenom()
+    {
+        return $this->prenom;
+    }
+
+    /**
+     * Set dateNaissance
+     *
+     * @param datetime $dateNaissance
+     *
+     * @return Particulier
+     */
+    public function setDateNaissance($dateNaissance)
+    {
+        $this->dateNaissance = $dateNaissance;
+
+        return $this;
+    }
+
+    /**
+     * Get dateNaissance
+     *
+     * @return datetime
+     */
+    public function getDateNaissance()
+    {
+        return $this->dateNaissance;
+    }
+
+    /**
+     * Set lieuNaissance
+     *
+     * @param string $lieuNaissance
+     *
+     * @return Particulier
+     */
+    public function setLieuNaissance($lieuNaissance)
+    {
+        $this->lieuNaissance = $lieuNaissance;
+
+        return $this;
+    }
+
+    /**
+     * Get lieuNaissance
+     *
+     * @return string
+     */
+    public function getLieuNaissance()
+    {
+        return $this->lieuNaissance;
+    }
+
+    /**
+     * Set naturePiece
+     *
+     * @param string $naturePiece
+     *
+     * @return Particulier
+     */
+    public function setNaturePiece($naturePiece)
+    {
+        $this->naturePiece = $naturePiece;
+
+        return $this;
+    }
+
+    /**
+     * Get naturePiece
+     *
+     * @return string
+     */
+    public function getNaturePiece()
+    {
+        return $this->naturePiece;
+    }
+
+    /**
+     * Set numeroPiece
+     *
+     * @param string $numeroPiece
+     *
+     * @return Particulier
+     */
+    public function setNumeroPiece($numeroPiece)
+    {
+        $this->numeroPiece = $numeroPiece;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroPiece
+     *
+     * @return string
+     */
+    public function getNumeroPiece()
+    {
+        return $this->numeroPiece;
+    }
+
+    /**
+     * Set dateDelivrance
+     *
+     * @param \DateTime $dateDelivrance
+     *
+     * @return Particulier
+     */
+    public function setDateDelivrance($dateDelivrance)
+    {
+        $this->dateDelivrance = $dateDelivrance;
+
+        return $this;
+    }
+
+    /**
+     * Get dateDelivrance
+     *
+     * @return \DateTime
+     */
+    public function getDateDelivrance()
+    {
+        return $this->dateDelivrance;
+    }
+
+    /**
+     * Set lieuDelivrance
+     *
+     * @param string $lieuDelivrance
+     *
+     * @return Particulier
+     */
+    public function setLieuDelivrance($lieuDelivrance)
+    {
+        $this->lieuDelivrance = $lieuDelivrance;
+
+        return $this;
+    }
+
+    /**
+     * Get lieuDelivrance
+     *
+     * @return string
+     */
+    public function getLieuDelivrance()
+    {
+        return $this->lieuDelivrance;
+    }
+
+    /**
+     * Set telephone
+     *
+     * @param string $telephone
+     *
+     * @return Particulier
+     */
+    public function setTelephone($telephone)
+    {
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    /**
+     * Get telephone
+     *
+     * @return string
+     */
+    public function getTelephone()
+    {
+        return $this->telephone;
+    }
+
+    /**
+     * Set cellulaire
+     *
+     * @param string $cellulaire
+     *
+     * @return Particulier
+     */
+    public function setCellulaire($cellulaire)
+    {
+        $this->cellulaire = $cellulaire;
+
+        return $this;
+    }
+
+    /**
+     * Get cellulaire
+     *
+     * @return string
+     */
+    public function getCellulaire()
+    {
+        return $this->cellulaire;
+    }
+
+    /**
+     * Set numeroContribuable
+     *
+     * @param string $numeroContribuable
+     *
+     * @return Particulier
+     */
+    public function setNumeroContribuable($numeroContribuable)
+    {
+        $this->numeroContribuable = $numeroContribuable;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroContribuable
+     *
+     * @return string
+     */
+    public function getNumeroContribuable()
+    {
+        return $this->numeroContribuable;
+    }
+
+    /**
+     * Set lieuHabitation
+     *
+     * @param string $lieuHabitation
+     *
+     * @return Particulier
+     */
+    public function setLieuHabitation($lieuHabitation)
+    {
+        $this->lieuHabitation = $lieuHabitation;
+
+        return $this;
+    }
+
+    /**
+     * Get lieuHabitation
+     *
+     * @return string
+     */
+    public function getLieuHabitation()
+    {
+        return $this->lieuHabitation;
+    }
+
+    /**
+     * Set adressePostale
+     *
+     * @param string $adressePostale
+     *
+     * @return Particulier
+     */
+    public function setAdressePostale($adressePostale)
+    {
+        $this->adressePostale = $adressePostale;
+
+        return $this;
+    }
+
+    /**
+     * Get adressePostale
+     *
+     * @return string
+     */
+    public function getAdressePostale()
+    {
+        return $this->adressePostale;
+    }
+
+    /**
+     * Set nomSociete
+     *
+     * @param string $nomSociete
+     *
+     * @return Particulier
+     */
+    public function setNomSociete($nomSociete)
+    {
+        $this->nomSociete = $nomSociete;
+
+        return $this;
+    }
+
+    /**
+     * Get nomSociete
+     *
+     * @return string
+     */
+    public function getNomSociete()
+    {
+        return $this->nomSociete;
+    }
+
+    /**
+     * Set profession
+     *
+     * @param string $profession
+     *
+     * @return Particulier
+     */
+    public function setProfession($profession)
+    {
+        $this->profession = $profession;
+
+        return $this;
+    }
+
+    /**
+     * Get profession
+     *
+     * @return string
+     */
+    public function getProfession()
+    {
+        return $this->profession;
+    }
+
+    /**
+     * Set telBureau
+     *
+     * @param string $telBureau
+     *
+     * @return Particulier
+     */
+    public function setTelBureau($telBureau)
+    {
+        $this->telBureau = $telBureau;
+
+        return $this;
+    }
+
+    /**
+     * Get telBureau
+     *
+     * @return string
+     */
+    public function getTelBureau()
+    {
+        return $this->telBureau;
+    }
+
+    /**
+     * Set adresseGeographique
+     *
+     * @param string $adresseGeographique
+     *
+     * @return Particulier
+     */
+    public function setAdresseGeographique($adresseGeographique)
+    {
+        $this->adresseGeographique = $adresseGeographique;
+
+        return $this;
+    }
+
+    /**
+     * Get adresseGeographique
+     *
+     * @return string
+     */
+    public function getAdresseGeographique()
+    {
+        return $this->adresseGeographique;
+    }
+
+    /**
+     * Set nomContactUrgence
+     *
+     * @param string $nomContactUrgence
+     *
+     * @return Particulier
+     */
+    public function setNomContactUrgence($nomContactUrgence)
+    {
+        $this->nomContactUrgence = $nomContactUrgence;
+
+        return $this;
+    }
+
+    /**
+     * Get nomContactUrgence
+     *
+     * @return string
+     */
+    public function getNomContactUrgence()
+    {
+        return $this->nomContactUrgence;
+    }
+
+    /**
+     * Set affiniteContactUrgence
+     *
+     * @param string $affiniteContactUrgence
+     *
+     * @return Particulier
+     */
+    public function setAffiniteContactUrgence($affiniteContactUrgence)
+    {
+        $this->affiniteContactUrgence = $affiniteContactUrgence;
+
+        return $this;
+    }
+
+    /**
+     * Get affiniteContactUrgence
+     *
+     * @return string
+     */
+    public function getAffiniteContactUrgence()
+    {
+        return $this->affiniteContactUrgence;
+    }
+
+    /**
+     * Set telContactUrgence
+     *
+     * @param string $telContactUrgence
+     *
+     * @return Particulier
+     */
+    public function setTelContactUrgence($telContactUrgence)
+    {
+        $this->telContactUrgence = $telContactUrgence;
+
+        return $this;
+    }
+
+    /**
+     * Get telContactUrgence
+     *
+     * @return string
+     */
+    public function getTelContactUrgence()
+    {
+        return $this->telContactUrgence;
+    }
+
+    /**
+     * Set proprietaire
+     *
+     * @param \UserBundle\Entity\Proprietaire $proprietaire
+     *
+     * @return Particulier
+     */
+    public function setProprietaire(\UserBundle\Entity\Proprietaire $proprietaire = null)
+    {
+        $this->proprietaire = $proprietaire;
+
+        return $this;
+    }
+
+    /**
+     * Get proprietaire
+     *
+     * @return \UserBundle\Entity\Proprietaire
+     */
+    public function getProprietaire()
+    {
+        return $this->proprietaire;
+    }
+	
+	   /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return Entreprise
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set modified
+     *
+     * @param \DateTime $modified
+     *
+     * @return Entreprise
+     */
+    public function setModified($modified)
+    {
+        $this->modified = $modified;
+
+        return $this;
+    }
+
+    /**
+     * Get modified
+     *
+     * @return \DateTime
+     */
+    public function getModified()
+    {
+        return $this->modified;
+    }
+
+
+    /**
+     * Set autre
+     *
+     * @param string $autre
+     *
+     * @return Particulier
+     */
+    public function setAutre($autre)
+    {
+        $this->autre = $autre;
+
+        return $this;
+    }
+
+    /**
+     * Get autre
+     *
+     * @return string
+     */
+    public function getAutre()
+    {
+        return $this->autre;
+    }
+}

@@ -1,0 +1,42 @@
+
+ <section class="card">
+                <div class="card-block">
+                    <h4 class="with-border">Télécharger le document  correctement signer </h4>
+
+                    <div class="row"> 
+{{ form_start(form, {"attr":{ "class":"panel-body telechargerDoc form-horizontal erreur"} , action: path('document_create' , {id:immobilier.id})}) }}
+
+<div class="col-md-12">
+
+	 							<fieldset class="form-group">
+                                    {{ form_label(form.document, "document", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(form.document , { 'attr' : {'placeholder' : 'Photo',  'class' : 'form-control' , 'required':'required' }} ) }}
+                                    <small class="help-block">{{ form_errors(form.document , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group chargementFichier" style="display:none">
+
+	<ul  class="uploading-list">
+						<li class="uploading-list-item">
+									
+									<progress class="progress progressForm" value="0" max="100">
+										<div class="progress" id="uploadProgressBar">
+											<span class="progress-bar" style="width: 0%;">0%</span>
+										</div>
+									</progress>
+									<div class="uploading-list-item-progress " id="uploadProgressPercent"></div>
+								</li>
+
+</ul>
+
+
+                                </fieldset>
+
+  					<div class="form-group">
+                       
+                        <button class="btn btn-inline btn-info ladda-button" data-style="zoom-out"><span class="ladda-label"><i class="glyphicon glyphicon-floppy-saved"></i> Envoyer</span><span class="ladda-spinner"></span></button>
+                    </div>
+</div>
+
+ {{ form_end(form) }}
+
+

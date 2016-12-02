@@ -1,0 +1,7 @@
+{% if setting.backgroundImages %}
+    <ul class="cb-slideshow">
+        {% for image in setting.backgroundImages %}
+            <li><span style="background-image: url({{ asset( image.webpath ) }});">Image {{ loop.index }}</span></li>
+        {% endfor %}
+    </ul>
+{% endif %}

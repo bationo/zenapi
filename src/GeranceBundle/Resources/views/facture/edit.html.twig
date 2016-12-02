@@ -1,0 +1,89 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ '%entity% edit'|trans({'%entity%': 'Facture'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+{% block route %}
+
+         <header class="section-header">
+            <div class="tbl">
+                <div class="tbl-row">
+                    <div class="tbl-cell">
+                        <h3></h3>
+                        <ol class="breadcrumb breadcrumb-simple pull-left">
+                            <li><a href="{{ path('homepage') }}">Accueil</a></li>
+                            <li><a href="{{ path('proprietaire') }}">Liste des propriétaires</a></li>
+                            <li><a href="{{ path('locataire', {id: locataire.proprietaire.id}) }}">Liste des locataires </a></li>
+                            <li><a href="{{ path('facture', {id: facture.id}) }}">Liste des factures </a></li>
+                            <li class="active">Modifier la factures</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+    {% endblock %}
+
+{% block body %}
+
+    {{ form_start(edit_form) }}
+
+     <section class="card">
+        <div class="card-block">
+            <h4 class="with-border">Modifer la facture <span style="color:green"></span>  </h4>
+
+            <div class="row">    
+                <!-- FRMULAIRE BIEN -->
+                <div class="col-lg-6">                    
+                    <fieldset class="form-group">
+                        {{ form_label(edit_form.tva, "TVA ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(edit_form.tva , { 'attr' : {'placeholder' : 'TVA',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(edit_form.tva , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>           
+                </div>     
+            </div>
+            
+            <h5 class="with-border"></h5>
+            <div class="form-group">
+                <a href="{{ path('facture') }}" class="btn btn-inline btn-danger ladda-button" data-style="zoom-in"><span class="ladda-label"><i class="fa fa-list"></i> Retour</span><span class="ladda-spinner"></span></a>
+
+                <button class="btn btn-inline btn-info ladda-button" data-style="zoom-out"><span class="ladda-label"><i class="fa fa-edit"></i> {{ 'Edit'|trans({}, 'admin') }}</span><span class="ladda-spinner"></span></button>
+
+                <button class="btn btn-danger pull-right" type="submit"><i class="fa fa-trash-o"></i> {{ 'Delete'|trans({}, 'admin') }}</button>
+            </div>
+            
+        </div>
+    </section>
+
+
+        {{ form_widget(edit_form) }}
+        
+    {{ form_end(edit_form) }}
+
+    {{ form_start(delete_form) }}
+        {{ form_widget(delete_form) }}
+
+        
+
+        <input name="modal" type="hidden" value="0">
+    {{ form_end(delete_form) }}
+
+    <div id="delete_confirm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>{{ 'Confirm delete'|trans({}, 'admin') }}</h3>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'You are about to delete an item'|trans({}, 'admin') }}, {{ 'this procedure is irreversible'|trans({}, 'admin') }}.</p>
+                    <p>{{ 'Do you want to proceed?'|trans({}, 'admin') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger">{{ 'Yes'|trans({}, 'admin') }}</button>
+                    <button class="btn btn-default" data-dismiss="modal">{{ 'No'|trans({}, 'admin') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "base.html.twig" %}
+{% block title %}Proprietaire - {{ parent() }}{% endblock %}
+{% block route %}
+<header class="section-header">
+  <div class="tbl">
+    <div class="tbl-row">
+      <div class="tbl-cell">
+        <h3>
+        </h3>
+        <ol class="breadcrumb breadcrumb-simple pull-left">
+          <li>
+            <a href="{{ path('homepage') }}">Accueil
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('proprietaire') }}">Proprietaire
+            </a>
+          </li>
+          {% if user.proprietaire.entreprise != null  %}
+          <li class="active">Fiche du  proprietaire {{user.proprietaire.entreprise.raisonSocial}} 
+          </li>
+          {% else %}
+          <li class="active">Fiche du  proprietaire {{user.proprietaire.particulier.nom}} {{user.proprietaire.particulier.prenom}} 
+          </li>
+          {% endif %}
+        </ol>
+      </div>
+    </div>
+  </div>
+</header>
+{% endblock %}
+{% block body %}
+  <span style="display:none" class="immo">{{user.proprietaire.id}}</span>
+<section class="tabs-section">
+  <div class="tabs-section-nav tabs-section-nav-inline">
+    <ul class="nav" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" href="#tabs-4-tab-1" role="tab" data-toggle="tab">
+          Fiche   proprietaire 
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link btnListImmobilier" href="#tabs-4-tab-2" role="tab" data-toggle="tab">
+          Biens immobiliers
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#tabs-4-tab-3" role="tab" data-toggle="tab">
+          Lsite Locataire
+        </a>
+      </li>
+     
+    </ul>
+  </div>
+  <!--.tabs-section-nav-->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="tabs-4-tab-1">
+      <div class="row">
+        {% include 'UserBundle:proprietaire:showProprietaire.html.twig' with {'user': user} %}
+        
+      
+      </div>
+    </div>
+    <!--.tab-pane-->
+    <div role="tabpanel" class="tab-pane fade" id="tabs-4-tab-2">
+    
+    </div>
+    <!--.tab-pane-->
+    <div role="tabpanel" class="tab-pane fade" id="tabs-4-tab-3">Tab 3
+    </div>
+   
+  </div>
+  <!--.tab-content-->
+</section> 
+
+
+<script type="text/javascript">
+$('.btnListImmobilier').click(function(){
+ formdata = { id:"1" };
+ $('#tabs-4-tab-2').html("<div style=\"text-align:center\"><img src=\"{{ asset('theme/ripple.svg') }}\"></div>");
+       $.ajax({
+                    url : "{{ path( 'immobilier' , {id:user.proprietaire.id} ) }}",
+                    type : 'post',
+                    data : formdata  ,
+                    success : function( statut){
+                      if(statut){
+                        $('#tabs-4-tab-2').html(statut);
+                      }
+                    }
+                    ,
+                    error : function(resultat, statut, erreur){
+                      if(statut){
+                        error = '<div class="alert alert-dismissible alert-danger">' + 
+                          '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                          erreur + " ! veuillez recommencer " +
+                          '</div>';
+                        $('#tabs-4-tab-2').html(error);
+                      }
+                    }
+                  }
+              );
+
+} );
+</script>
+
+{% endblock %}

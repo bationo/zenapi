@@ -1,0 +1,185 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Compte Patient - {{ parent() }}{% endblock %}
+
+
+{% block content %}
+<div style="background: #00944A!important; height:10px!important;">
+               
+        </div>
+<div style=""> 
+ <div class="container">
+
+<div id="main" class="site-main">
+
+            <div class="container active-sidebar">
+                <div id="primary" class="content-area">
+                    <div id="content" class="site-content" role="main">
+                        <div id="post-378" class="entry post-378 page type-page status-publish hentry">
+                            <div class="entry-content">
+                                <div class="vc_row wpb_row vc_row-fluid">
+                                    <div class="row">
+                                        <div class="h-padding-0 wpb_column vc_column_container vc_col-sm-12">
+                                            <div class="wpb_wrapper">
+                                                <div class="wpb_text_column wpb_content_element  woocommerce">
+                                                    <div class="wpb_wrapper">
+                                                        
+
+                                                        <hr>
+                                                        <h3>Fiche Rendez-vous N° {{rdv.id}}</h3>
+                                                         {% for message in app.session.flashbag.get('notice') %}
+        <div class="alert alert-dismissible alert-success">
+  <button type="button" class="close" data-dismiss="alert">X</button>
+ <span style="color:green; font-weight: bold;"> {{ message }} </span>
+</div>
+      {% endfor %}
+
+                                                    
+                                        <table class="table table-hover record_properties">
+                                            <tbody>
+
+                                                   
+                                                <tr>
+                                                    <th scope="row">Patient</th>
+                                                    <td><a   href="{{ path( 'front_rdv_show' ) }}" >{{rdv.profil.nom}} {{rdv.profil.prenom}}</a></td> 
+                                                </tr>
+                                                  <tr>
+                                                    <th scope="row">Spécialité</th>
+                                                    <td>{{rdv.specialite.libele}}</td>
+                                                </tr> 
+                                                  <tr>
+                                                    <th scope="row">Praticien</th>
+                                                    <td><a   href="{{ path( 'rdv_fiche_docteur' , {id: rdv.id  } )    }}" > {{rdv.docteur.nom}} </a></td>
+                                                </tr>
+                                                 <tr>
+                                                    <th scope="row">Date du rendez-vous</th>
+                                                    <td> {{rdv.dateRdv|localizeddate('full', 'short')}} </td>
+                                                </tr> 
+                                                <tr>
+                                                    <th scope="row">Consultation à domicile ?</th>
+                                                    <td> 
+                                                        {% if rdv.domicile == true %} OUI {% else %} NON {% endif %}
+                                                        
+                                                    </td>
+                                                </tr>
+                                                 <tr>
+                                                    <th scope="row">Commentaire pour le Docteur</th>
+                                                    <td> {{rdv.commentaire}} </td>
+                                                </tr>
+
+                                                 <tr>
+                                                    <th scope="row">Bilan du  Docteur</th>
+                                                    <td> {{rdv.bilan}} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Statut </th>
+                                                    <td>
+                                    {% if rdv.statut == 0 %} <span class="label label-primary">En Cour</span> {% endif %}
+                                 {% if rdv.statut == 1 %} <span class="label label-info">Terminer</span> {% endif %}
+                                    {% if rdv.statut == 2 %} <span class="label label-warning">Annuler</span> {% endif %}
+
+
+                                                     </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">date de prise du rendez-vous</th>
+                                                    <td> {{rdv.created|localizeddate('full', 'short')}} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">date de modification du rendez-vous</th>
+                                                    <td> {{rdv.modified|localizeddate('full', 'short')}} </td>
+                                                </tr>
+                                               
+                                               
+                                                
+
+                                            </tbody>
+                                        </table>
+                                                     
+  <div class="btn-group record_actions">
+
+            <a style="background-color:#00944A; color:#ffffff;" class="btn" href="{{ path('mon_compte') }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+            
+            {% if rdv.statut == 0 %}
+            <a style="background-color:#262e31; color:#ffffff;" class="btn" href="{{ path( 'rdv_detail_edit' , {id: rdv.id  } )    }}">
+                <i class="fa fa-edit"></i> Modifier le rendez-vous
+            </a>
+
+            <button type="button" data-toggle="modal" data-target="#delete_confirm" style="background-color:#f72d26; color:#ffffff;" class="btn" type="submit"><i class="fa fa-trash-o"></i> annuler le rendez-vous </button>
+
+    <div id="delete_confirm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button style="color:#ffffff;" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>Confirmation </h3>
+                </div>
+                <div class="modal-body">
+                    <p>Voulez-vous vraiment annuler ce rendez-vous ,  cette procédure est irréversible..</p>
+                    <p>Voulez-vous poursuivre?</p>
+                </div>
+                <div class="modal-footer">
+                    <a style="background-color:#f72d26; color:#ffffff;" class="btn" href="{{ path( 'front_rdv_annuler' , {id: rdv.id  } )    }}">{{ 'Yes'|trans({}, 'admin') }}</a>
+                    <button style="background-color:#00944A; color:#ffffff;" class="btn" data-dismiss="modal">{{ 'No'|trans({}, 'admin') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>  
+{% endif %}
+
+        </div>
+
+                                                
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- .entry-content -->
+                        </div>
+                        <!-- #post -->
+                    </div>
+                    <!-- #content -->
+                </div>
+                <!-- #primary -->
+                <div id="tertiary" class="sidebar-container shop" role="complementary">
+                    <div class="sidebar-inner">
+                        <div class="widget-area clearfix">
+                            <div id="vc_widget-18" class="widget-9 widget-odd widget widget_vc_widget">
+                                <div class="scoped-style">
+                                    <style type="text/css" data-type="vc_shortcodes-custom-css" scoped>
+                                        .vc_custom_1456310629405 {
+                                            margin-bottom: 0px !important;
+                                        }
+                                    </style>
+                                    <div class="vc_row wpb_row vc_row-fluid vc_custom_1456310629405">
+                                        <div class="row">
+                                          {% include 'default/menu.html.twig' %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                         
+                        </div>
+                        <!-- .widget-area -->
+                    </div>
+                    <!-- .sidebar-inner -->
+                </div>
+                <!-- #tertiary -->
+            </div>
+
+        </div>
+
+</div>
+</div>
+
+
+{% endblock %}

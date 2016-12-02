@@ -1,0 +1,151 @@
+
+{% extends "docteur.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Docteur'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+      <h3><i class="fa fa-home"></i> Interface Spécialiste </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('docteur_pro_connecter') }}"  > Accueil </a> </li>
+                                 <li> <a href="{{ path('docteur_pro_profil') }}"  > Mon Profil </a> </li>
+                                <li> <a href="#"  class="active" > Editer Mon Profil </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+<!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Editer mon Profil </h3>
+                                    </div>
+                                    <!-- BASIC FORM ELEMENTS -->
+                                    <!--===================================================-->
+                                        {{ form_start(edit_form, {"attr":{ "class":"panel-body form-horizontal"}}) }}
+                                       
+                                             {% for flashMessage in app.session.flashbag.get('notice') %}
+     
+                                                      
+                                                      <div class="alert alert-dismissible alert-success"  style="color:green; font-weight:bold"  >
+                                                  {{ flashMessage }}</a>.
+                                                </div>
+                                                  {% endfor %}
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(edit_form.image.tempFile, "Image de Profil", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(edit_form.image.tempFile , { 'attr' : {'placeholder' : 'Téléphone',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(edit_form.image.tempFile , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(edit_form.ListeSpecialite, "Spécialité", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(edit_form.ListeSpecialite , { 'attr' : {'placeholder' : 'Téléphone',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(edit_form.ListeSpecialite , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+                                                                      
+                                        <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(edit_form.titre, "Titre", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(edit_form.titre , { 'attr' : {'placeholder' : 'Titre',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(edit_form.titre , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(edit_form.nom, "Nom Complet", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(edit_form.nom , { 'attr' : {'placeholder' : 'Nom',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(edit_form.nom , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(edit_form.mail, "Mail", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(edit_form.mail , { 'attr' : {'placeholder' : 'Mail',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(edit_form.mail , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(edit_form.tel, "Tel  " ~ docteur.professionnel.user.pays.indicatif, {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                 {{ form_widget(edit_form.tel , { 'attr' : {'placeholder' : 'Téléphone',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(edit_form.tel , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+
+
+                                 
+        <div style="float:right">
+            <button type="submit"   class="btn btn-pink">Editer</button>
+        </div>
+                               
+                               
+                               
+
+                               
+                               
+                              {{ form_end(edit_form) }}
+
+                                
+
+        <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('docteur_pro_profil') }}">
+                <i class="fa fa-list"></i> Retour
+            </a>
+           
+
+           
+
+        </div>
+
+       
+
+                            </div>
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+
+
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+

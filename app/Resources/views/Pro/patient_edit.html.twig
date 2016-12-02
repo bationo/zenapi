@@ -1,0 +1,315 @@
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Docteur'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+        <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="{{ path('pro_patient') }}"  > Mes Patients </a> </li>
+                                <li> <a href="#" class="active" > Modifier Patient </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+<!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Modifier un  Patient</h3>
+                                    </div>
+                                    <!-- BASIC FORM ELEMENTS -->
+                                    <!--===================================================-->
+                                        {{ form_start(form, {"attr":{ "class":"panel-body form-horizontal erreur"}}) }}
+
+                                         {% for flashMessage in app.session.flashbag.get('notice') %}
+     
+                                                        <ul class="woocommerce-error">
+                                                          <li style="color:red"><strong></strong> {{ flashMessage }}</li>
+                                                      </ul>
+                                                  {% endfor %}
+                                       
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.tempFile, "Image de Profil", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.tempFile , { 'attr' : {'placeholder' : '',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.tempFile , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.profil.genre, "Genre *", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.profil.genre , { 'attr' : {'placeholder' : 'Genre',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.profil.genre , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                          <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.email, "Adresse e-mail *", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.email , { 'attr' : {'placeholder' : 'Adresse e-mail',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.email , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+                                                                      
+                                        <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.profil.nom, " Nom de famille *", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.profil.nom , { 'attr' : {'placeholder' : 'Nom de famille',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.profil.nom , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.profil.prenom, "Prénom *", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.profil.prenom , { 'attr' : {'placeholder' : 'Prénom',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.profil.prenom , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.profil.lieuNaissance, "Lieu de Naissance *", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.profil.lieuNaissance , { 'attr' : {'placeholder' : 'Lieu de Naissance',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.profil.lieuNaissance , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.profil.ville, "Ville de résidence * " , {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                 {{ form_widget(form.profil.ville , { 'attr' : {'placeholder' : 'Ville de résidence',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.profil.ville , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.pays, "Pays de résidence * " , {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                 {{ form_widget(form.pays , { 'attr' : {'placeholder' : 'Pays de résidence',  'class' : 'form-control indicatiff'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.pays , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                          <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.profil.tel, " Téléphone * " , {'label_attr': {'class': 'col-md-3 control-label indicatif'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.profil.tel , { 'attr' : {'placeholder' : 'Téléphone',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.profil.lieuNaissance , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                          <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.profil.dateNaissance, "Date de Naissance *", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.profil.dateNaissance , { 'attr' : {'placeholder' : 'Date de Naissance',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.profil.dateNaissance , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                          <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.profil.groupeSanguin, "Groupe Sanguin ", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.profil.groupeSanguin , { 'attr' : {'placeholder' : 'Groupe Sanguin ',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.profil.groupeSanguin , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.profil.assurer, "Le Patient est-il   assuré ? *", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.profil.assurer , { 'attr' : {'placeholder' : '',  'class' : 'form-control choix assure'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.profil.assurer , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                    <div style="display:none" class="showw">
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.profil.compagnieAssurance, " Compagnie d\'assurance ", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.profil.compagnieAssurance , { 'attr' : {'placeholder' : 'Compagnie d\'assurance',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.profil.compagnieAssurance , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.profil.numeroAssurance, "Votre identifiant d\'assurance ", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.profil.numeroAssurance , { 'attr' : {'placeholder' : 'Votre identifiant d\'assurance',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.profil.numeroAssurance , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.profil.note, "Commentaire (présicer si le patient à la tension , diabète, asthmatique, etc) ", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.profil.note , { 'attr' : {'placeholder' : 'Commentaire (présicer si le patient à la tension , diabète, asthmatique, etc)',  'class' : 'form-control' , 'rows' : '8' }} ) }}
+                                                <small class="help-block">{{ form_errors(form.profil.note , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                     
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.profil.commenatire, "Merci de justifier pourquoi vous souhaitez faire ses modifications ", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.profil.commenatire , { 'attr' : {'placeholder' : 'Merci de justifier pourquoi vous souhaitez faire ses modifications',  'class' : 'form-control' , 'rows' : '8' , 'style': 'border:1px solid red' }} ) }}
+                                                <small class="help-block">{{ form_errors(form.profil.commenatire , { 'attr' : {'class' : 'red'  }} ) }}</small>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('pro_patient') }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+
+
+
+
+        </div>
+        <div style="float:right">
+            <button type="submit"   class="btn btn-pink">Modifier</button>
+        </div>
+                                </div>
+                               
+                               
+                               
+
+                               
+                               
+                              {{ form_end(form) }}
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+
+
+    <script type="text/javascript">
+
+
+
+
+
+    
+
+$(function() {
+
+      var person = new Object();
+
+    {% for pays in liste %}
+
+    person[{{pays.id}}] = "{{pays.indicatif}}";
+
+    {%  endfor %}
+
+
+indice =   $('.indicatiff').val();
+
+
+   $('.indicatif').text( "Téléphone * " + person[indice]);  
+
+
+ choix = $( '.assure' ).val();
+
+          if(choix == "1"){
+
+            $( ".showw" ).show();
+          }
+           if(choix == "0"){
+
+            $( ".showw" ).hide();
+          }
+
+
+
+          $('.assure').change(function(){
+
+
+          choix = $( this ).val();
+
+          if(choix == "1"){
+
+            $( ".showw" ).show();
+          }
+           if(choix == "0"){
+
+            $( ".showw" ).hide();
+          }
+
+
+
+
+
+        } );
+
+
+    $( ".indicatiff" ).change(function() {
+ 
+   indice =   $(this).val(); 
+
+   $('.indicatif').text( "Téléphone * " + person[indice]);
+
+
+});
+
+});
+
+    </script>
+       <style type="text/css">
+    .erreur   ul li {
+        color: red;
+        font-weight: bold;
+         background: none!important;
+    }
+
+
+</style>
+        
+       
+   
+    
+{% endblock %}

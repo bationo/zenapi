@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Newsletter - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>Newsletter</h1>
+
+    <table class="table table-hover record_properties">
+        <tbody>
+            <tr>
+                <th scope="row">Id</th>
+                <td>{{ newsletter.id }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Email</th>
+                <td>{{ newsletter.email }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Createdat</th>
+                <td>{{ newsletter.createdAt|date('Y-m-d H:i:s P') }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+        <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('admin_newsletter') }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+
+
+        </div>
+
+{% endblock %}

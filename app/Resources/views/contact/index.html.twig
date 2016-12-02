@@ -1,0 +1,92 @@
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Messages'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+        <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="#" class="active" > Mes Messages </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+
+ <!--===================================================-->
+                        <!-- End Row selection (single row) -->
+                        <!-- Row selection and deletion (multiple rows) -->
+                        <!--===================================================-->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Mes Messages </h3>
+                            </div>
+                            <div id="demo-custom-toolbar" class="table-toolbar-left">
+                                 
+                            </div>
+                            <div class="panel-body">
+                                <table id="demo-dt-delete" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Sujet</th>
+                                            <th>Mail</th>
+                                            <th>Tel</th>
+                                            
+                                            <th scope="col">{{ 'Actions'|trans({}, 'admin') }}</th>
+                                        </tr>
+                                    </thead> 
+                                    <tbody>
+
+                                         {% for contact in contacts %}
+                                            <tr>
+                                                <td>{{ contact.nom }}</td>
+                                                <td> {% if contact.statut == false %} <b> <a href="{{ path('contact_show_pro', {id: contact.id}) }}">{{ contact.sujet }}</a>   </b> {% else %} 
+                                                    {{ contact.sujet }} {% endif %} </td>
+                                                <td>{{ contact.mail }} </td>
+                                                <td> {{ contact.tel }} </td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-default btn-sm" href="{{ path('contact_show_pro', {id: contact.id}) }}">
+                                                            <i class="fa fa-file-o"></i> {{ 'show'|trans({}, 'admin') }}
+                                                        </a>
+                                                     
+                                                        
+                                                      
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                          
+                                        {% endfor %}
+                                        
+                                      
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--===================================================-->
+                        <!-- End Row selection and deletion (multiple rows) -->
+                        <!-- Add Row -->
+                        <!--===================================================-->
+
+
+
+
+
+
+
+
+
+    
+   
+    
+{% endblock %}

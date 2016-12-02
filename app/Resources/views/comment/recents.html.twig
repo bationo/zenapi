@@ -1,0 +1,15 @@
+<ul class="list-unstyled">
+    {% for comment in comments %}
+        <li>
+            <a href="{{ path('affairage_show', { 'slug': comment.post.slug, 'id': comment.post.id }) }}" title="{{ comment.post.title }}" >
+                <div class="row">
+                    <div class="col-sm-5  col-md-4 "><img class="img-thumbnail pull-left" src="{{ asset( 'uploads/avatars/avatar.jpe' ) }}" width="164" height="152" alt=""/> </div>
+                    <div class="col-sm-11  col-md-12 ">
+                        <h4>{{ comment.pseudo }}</h4>
+                        <p>{% if comment.content|length > 60 %}{{ [comment.content|slice(0, 60),'..']|join('') }}{% else %}{{ comment.content }}{% endif %}</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+    {% endfor %}
+</ul>

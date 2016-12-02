@@ -1,0 +1,23 @@
+                               
+                                
+                                <p>&nbsp;</p>
+                                <div class="form-group">
+                                                <label class="control-label col-md-3"> Docteur </label>
+                                                <div class="col-md-9">
+                                                    <!-- Bootstrap Select with Search Input -->
+                                                    <!--===================================================-->
+                                                    <select class="form-control selectpicker docteur docteurrdv" data-live-search="true">
+                                                        <option value="">Choix</option>
+                                                {% for docteur in  docteurs %}
+                                                        <option value="{{docteur.id}}">{{docteur.nom}}</option>
+                                                {% endfor %}
+                                                       
+                                                    </select>
+                                                    <!--===================================================-->
+                                                </div>
+                                        </div>
+                                         <p>&nbsp;</p>
+                                        <div class="agendaM">
+
+
+                                        </div>

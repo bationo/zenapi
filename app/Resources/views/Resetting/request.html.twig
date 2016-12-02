@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mot de passe oublié - {{ parent() }}{% endblock %}
+{% block content %}
+
+<div style="background: #00944A!important; height:10px!important;">
+               
+        </div>
+            <div id="main" class="site-main">
+
+            <div class="container active-sidebar">
+                <div id="primary" class="content-area">
+                    <div id="content" class="site-content" role="main">
+                        <div id="post-62" class="entry post-62 page type-page status-publish hentry">
+                            <div class="entry-content">
+                                <div class="vc_row wpb_row vc_row-fluid vc_custom_1456310629405">
+                                    <div class="row">
+                                        <div class="h-padding-0 wpb_column vc_column_container vc_col-sm-12">
+                                            <div class="wpb_wrapper">
+                                                <div class="woocommerce">
+
+                                                 {% trans_default_domain 'FOSUserBundle' %}
+
+                                               
+     
+                                                       
+
+                                                   {% if invalid_username is defined %}
+                                                    <div class="alert alert-dismissible alert-danger">
+                                                <button type="button" class="close" data-dismiss="alert">x</button> 
+                                                         {{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}
+                                                        </div>
+                                                   	
+											          
+											        {% endif %}
+
+                                                    <div class="col2-set" id="customer_login">
+
+                                                        <div class="col-3">
+
+
+                                                             <h2 style="color:#00944A" >Initialisez votre mot de passe
+                      </h2>
+
+                                                          <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+
+
+                                                                <p class="form-row form-row-wide">
+                                                                     <label for="username">Saisissez votre adresse e-mail</label>
+                                                                    
+                                                                    <input type="text" id="username" name="username" required="required" placeholder="Saisissez votre adresse e-mail" />
+                                                                </p>
+
+                                                                
+        
+
+                                                             
+
+
+                                                                <p class="form-row">
+                                                                     <input style="background-color:#00944A!important; color:white" type="submit" class="btn btn-form btn-validate" name="login"  value="{{ 'resetting.request.submit'|trans }}" /> 
+                                                                   
+                                                                </p> 
+                                                              
+                                                               
+                                                            </form>
+
+
+                                                        </div>
+
+                                                     
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- .entry-content -->
+                        </div>
+                        <!-- #post -->
+                    </div>
+                    <!-- #content -->
+                </div>
+                <!-- #primary -->
+             
+            </div>
+
+        </div>
+<br/><br/><br/>
+{% endblock %} 
+

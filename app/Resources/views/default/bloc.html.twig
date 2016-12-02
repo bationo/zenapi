@@ -1,0 +1,78 @@
+
+<h3>Votre rendez-vous en ligne</h3>
+<form name="form" method="post" action="/recherche" class="recherche azqf-query-form ">
+                                                              <span class="toggle"></span>
+                                                                <div class="wrapper">
+                                                                    <div class="s-wrapper"><label>Centre de Santé</label>
+                                                                     <input type="text" id="form_nom" name="form[nom]" class=" nom" placeholder=" Centre de Santé" />
+
+                                                                    </div>
+
+
+
+                                                                    <div class="taxonomy-dropdown product_cat-wrapper" data-taxonomy="product_cat"><label>Spécialité</label>
+
+
+                                                                    <select id="form_specialite" name="form[specialite]" class="select2 speciale" placeholder="Spécialité">
+
+                                                                      <option value=""></option>
+                                                                        {% for specialite in specialites %}
+                                                                          <option value="{{specialite.id}}">  {{specialite.libele}} </option>
+
+                                                                      {% endfor %}
+                                                                    </select>
+
+
+
+                                                                    </div>
+
+                                                                    <div class="geo-location"><label>Localité</label>
+
+                                                                        <div class="location">
+                                                                          <input type="text" id="form_ville" name="form[ville]" required="required" class="txtLieuHome" placeholder="commune, ville," />
+
+
+                                                                          <input name="latitude" type="hidden" value=""><input name="longitude" type="hidden" value=""></div>
+
+
+                                                                       
+                                                                    </div>
+                                                                   
+                                                                  
+                                                                    <div class="submit recherche_rdv">
+                                                                        <button id="recherche_rdv" >CHERCHER</button>
+                                                                    </div>
+                                                                </div>
+                                                                </form>
+                                                              <script type="text/javascript">
+                    
+                
+                    $('#recherche_rdv').click(function(){
+
+
+                            $nom = $('.nom').val();
+                            $speciale = $('.select2-hidden-accessible').text();
+                            $etat = 0; 
+                           
+
+                            if($nom == "" ){ $etat = $etat +1; }
+
+                            if( $speciale == ""){ $etat = $etat +1; }
+
+                          
+                            if($etat == 2){
+                                 alert("Veuillez choisir au moins une spécialité ou saisir un nom d'un centre de santé");
+
+                              
+
+                            }else{
+                                $('.recherche').submit();
+                            }
+
+
+                           
+                           
+                        return false;
+                    });
+
+       </script>

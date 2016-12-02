@@ -1,0 +1,288 @@
+
+{{ form_start(edit_form, {"attr":{ "class":"FormEditImmobilier"} }) }}
+
+           {% macro information_prototype(document , image_path , title) %}
+                  {% set image_path = image_path|default(null) %}
+      
+        <div class="row">    
+        <!-- FRMULAIRE BIEN -->
+            <div class="col-md-2">                    
+                <fieldset class="form-group">
+                    {{ form_label(document.title, "Nom du document ", {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(document.title , { 'attr' : {'placeholder' : 'Nom du document',  'class' : 'form-control'  }} ) }}
+                    <small class="help-block">{{ form_errors(document.title , { 'attr' : {'class' : 'red' }} ) }}</small>
+                </fieldset>           
+            </div>     
+              <div class="col-md-6">                    
+                <fieldset class="form-group">
+                    {{ form_label(document.document.tempFile, "Fichier joint (format accepté : PNG , JEPG , JPG ,  GIF,  Word , PDF ) ", {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(document.document.tempFile , { 'attr' : {'placeholder' : 'Fichier joint',  'class' : 'form-control'  }} ) }}
+                    <small class="help-block">{{ form_errors(document.document.tempFile , { 'attr' : {'class' : 'red' }} ) }}</small>
+                </fieldset>           
+            </div> 
+            <div class="col-md-2">
+                 {% if image_path != null %}
+                <fieldset class="form-group">
+                    <label class="form-label"> Fichier </label>
+                    <a target="_blank" href="{{asset(image_path)}}">{{title}}</a>
+                    </fieldset> 
+                
+                
+             {% endif %} 
+            </div>  
+         
+        </div>                        
+    {% endmacro %}
+
+    <section class="card">
+        <div class="card-block">
+            <h4 class="with-border">Modifier le bien immobilier : <span style="color:green"> {{immobilier.nom}} </span>  </h4>
+            <span class="erreur"></span>
+            <div class="row">    
+                <!-- FRMULAIRE BIEN -->
+                <div class="col-lg-6">
+                    <fieldset class="form-group">
+                        {{ form_label(edit_form.vente, "Ce bien est-il destiné à la vente ? ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(edit_form.vente , { 'attr' : {'placeholder' : 'Ce bien est-il destiné à la vente (oui ou non) ?',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(edit_form.vente , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>                        
+                    <fieldset class="form-group">
+                        {{ form_label(edit_form.type, "Type ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(edit_form.type , { 'attr' : {'placeholder' : 'Type',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(edit_form.type , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {{ form_label(edit_form.nom, "Nom ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(edit_form.nom , { 'attr' : {'placeholder' : 'Nom',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(edit_form.nom , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {{ form_label(edit_form.commune, "Commune ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(edit_form.commune , { 'attr' : {'placeholder' : 'Commune',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(edit_form.commune , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {{ form_label(edit_form.commission, "Commission ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(edit_form.commission , { 'attr' : {'placeholder' : 'Commission',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(edit_form.commission , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                     <fieldset class="form-group">
+                        {{ form_label(edit_form.geographique, "Situation Geographique ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(edit_form.geographique , { 'attr' : {'placeholder' : 'Situation Geographique',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(edit_form.geographique , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                     <fieldset class="form-group">
+                        {{ form_label(edit_form.superficie, "Superficie", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(edit_form.superficie , { 'attr' : {'placeholder' : 'Superficie',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(edit_form.superficie , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                </div>
+
+                <div class="col-lg-6">
+                    <fieldset class="form-group">
+                        {{ form_label(edit_form.lot, "Lot ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(edit_form.lot , { 'attr' : {'placeholder' : 'Lot',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(edit_form.lot , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>  
+                     <fieldset class="form-group">
+                        {{ form_label(edit_form.ilot, "Ilot ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(edit_form.ilot , { 'attr' : {'placeholder' : 'Ilot',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(edit_form.ilot , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>  
+                     <fieldset class="form-group">
+                        {{ form_label(edit_form.titreFoncier, "Titre Foncier ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(edit_form.titreFoncier , { 'attr' : {'placeholder' : 'Titre Foncier',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(edit_form.titreFoncier , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>                        
+                    <fieldset class="form-group">
+                        {{ form_label(edit_form.montant, "Valeur du bien ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(edit_form.montant , { 'attr' : {'placeholder' : 'Valeur du bien',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(edit_form.montant , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {{ form_label(edit_form.quartier, "Quartier ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(edit_form.quartier , { 'attr' : {'placeholder' : 'Quartier',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(edit_form.quartier , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                    
+                    <fieldset class="form-group">
+                        {{ form_label(edit_form.description, "Description ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(edit_form.description , { 'attr' : {'placeholder' : 'Description',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(edit_form.description , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                </div> 
+                <div class="col-md-12">
+
+            <div class="collection" id="facture_optionFacture" data-prototype="{{ _self.information_prototype(edit_form.justificatif.vars.prototype)|e }}">
+              
+                {% for document in edit_form.justificatif %}
+                     {{ _self.information_prototype(document , document.vars.value.document.webPath , document.vars.value.title ) }}
+                {% endfor %}
+                <span style="display:none;">  {{ form_widget( edit_form.justificatif ) }}  </span>
+            </div>
+            <h4 class="with-border">Ajouter des documents justificatif <span class="bt"></span>  </h4>
+             <div id="ajout"  >
+            </div>
+
+
+         </div>       
+            </div>
+            
+            <h5 class="with-border"></h5>
+            <div class="form-group">
+
+                <div class="chargement">
+                     <button class="btn btn-inline btn-info ladda-button" data-style="zoom-out"><span class="ladda-label"><i class="fa fa-edit"></i> {{ 'Edit'|trans({}, 'admin') }}</span><span class="ladda-spinner"></span></button>                     
+                </div>
+
+                 <div class="chargement1" style="display:none">
+               
+                    <div><img src="{{ asset('theme/ring.svg') }}" style="width: auto; height: 70px;"></div>
+                </div>
+            </div>
+            
+        </div>
+     </section>
+
+       
+    {{ form_end(edit_form) }}
+
+    
+    
+<script type="text/javascript">
+
+
+
+$(document).ready(function() {
+
+                      $(".FormNewImmobilier").ajaxForm({
+                               beforeSend: function(){
+                                 $('.chargement1').show(); 
+                                   $('.chargement').hide();
+                              $('.chargementFichier').show();
+                              $("#uploadProgressPercent").html("Chargement en cours");
+                              $("#uploadResult").fadeOut(200, function(){
+                                $("#uploadProgress").fadeIn();
+                              });
+                            },
+                            uploadProgress: function(event, position, total, percent){
+                                $("#uploadProgressBar > span").width(percent+'%');
+                                 $(".rogressForm").attr("value" , percent);
+                                $("#uploadProgressPercent").html(percent+'%');
+                            },
+                            success: function(resultat){
+                              if(resultat == 3){
+
+                                alertify.success('Opération reussie');
+
+                                error = '<div class="alert alert-dismissible alert-success">' + 
+                              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                             " Modification éffectué avec succès !" +
+                              '</div>';
+                              $('.erreur').html(error);
+
+
+                                
+                              }else{
+                                        error = '<div class="alert alert-dismissible alert-danger">' + 
+                                              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                                              resultat + " ! veuillez recommencer " +
+                                              '</div>';
+                                            $('.erreur').html(error);
+                              }
+                             
+
+                            },
+                            complete: function(xhr){
+                                $("#uploadResult > p").html(xhr.responseText);
+                              $("#uploadProgress").fadeOut(200, function(){
+                                $("#uploadResult").fadeIn();
+                              });
+                              $('.chargement1').hide(); 
+                              $('.chargement').show();
+                            }
+                          });
+
+
+    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+    var $container = $('div#facture_optionFacture');
+
+    // On ajoute un lien pour ajouter une nouvelle catégorie
+    var $addLink = $('<a href="#" id="add_category" class="btn btn-primary"><i class="fa fa-plus"> </a>');
+    $('.bt').html($addLink);
+
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $addLink.click(function(e) {
+      addCategory($container);
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      return false;
+    });
+
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    var index = $container.find(':input').length;
+
+    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+    if (index == 0) {
+      addCategory($container);
+
+      //$('#ajout').next('div').addClass('couleur_test');
+    } else {
+      // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+      $container.children('div').each(function() {
+        addDeleteLink($(this));
+      });
+    }
+
+    // La fonction qui ajoute un formulaire Categorie
+    function addCategory($container) {
+
+       
+
+      // Dans le contenu de l'attribut « data-prototype », on remplace :
+      // - le texte "__name__label__" qu'il contient par le label du champ
+      // - le texte "__name__" qu'il contient par le numéro du champ
+      var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Période n°' + (index+1))
+          .replace(/__name__/g, index));
+
+        //$prototype.attr('class','rows');
+        
+
+
+      // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+      addDeleteLink($prototype);
+
+      // On ajoute le prototype modifié à la fin de la balise <div>
+      $('#ajout').append($prototype);
+
+      // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+      index++;
+    }
+
+    // La fonction qui ajoute un lien de suppression d'une catégorie
+    function addDeleteLink($prototype) {
+      // Création du lien
+      $deleteLink = $('<div class="col-md-2"><div class="form-group"> <label class="control-label"></label> <br/><a href="#" class="btn btn-danger"><i class="fa fa-trash-o"></i>  </a></div></div><p>&nbsp;</p>');
+
+      // Ajout du lien
+      $prototype.append($deleteLink);
+
+      // Ajout du listener sur le clic du lien
+      $deleteLink.click(function(e) {
+        $prototype.remove();
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return false;
+      });
+    }
+
+    
+    
+  });
+
+
+
+
+
+
+
+
+</script>

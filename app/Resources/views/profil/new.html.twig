@@ -1,0 +1,108 @@
+{% extends "ESFrontBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block breadcrumb %}
+                    <ol class="breadcrumb">
+                        <li><a href="{{ path('es_front') }}">{{ 'accueil'|trans }}</a></li>
+                        <li class="active">inscription</li>
+                    </ol>
+{% endblock breadcrumb %}
+
+{% block content %}
+    <div class="box-body">
+        <table id="example2" class="table table-bordered table-hover">
+            <tbody>
+                <tr>
+                    <td style="width:200px">  
+                        <figure class="gallery"><img src="{{ asset('uploads/img/user-button.jpg') }}" alt="" class="img-responsive hovereffect">
+                        </figure><br/>
+                        <p>
+                            Connectez vous ici:
+                            <ul class="pager">
+                                <li class="previous"><a href="{{ path( 'fos_user_security_login' ) }}">Connectez vous →</a></li>
+                            </ul>
+                        </p>
+                    </td>
+                    <td>
+                        <legend style="color:#ff6600"><p><span class="glyphicon glyphicon-log-in"></span> Inscription gratuite </p></legend>
+                        <p>        
+                            {{ form_start( form, { action: path( 'profil_create' ) } ) }}
+                            <div id="user">
+                                <label class="required" style="color:#ff7900"> → <u>Infos de connexion</u></label><br/>
+                            <div>
+                            <div class="form-group">
+                                <label for="user_username" class="required">{{ 'form.username'|trans }}</label>
+                                {{ form_widget(form.username, {"attr": {"class":"form-control", "placeholder": 'form.username'|trans }}) }}
+                                {{ form_errors(form.username) }}
+                            </div> 
+                            <div class="form-group">
+                                <label for="user_email" class="required">{{ 'form.email'|trans }}</label>
+                                {{ form_widget(form.email, {"attr": {"class":"form-control", "placeholder": 'form.email'|trans }}) }}
+                                {{ form_errors(form.email) }}
+                            </div>     
+                            <div class="form-group">
+                                <label for="fos_user_change_password_form_plainPassword_first" class="required">{{ 'form.new_password'|trans }}</label>
+                                {{ form_widget(form.plainPassword.first, {"attr": {"class":"form-control", "placeholder": 'form.new_password'|trans }}) }}
+                                {{ form_errors(form.plainPassword.first) }}
+                            </div>    
+                            <div class="form-group">
+                                <label for="fos_user_change_password_form_plainPassword_second" class="required">{{ 'form.new_password_confirmation'|trans }}</label>
+                                {{ form_widget(form.plainPassword.second, {"attr": {"class":"form-control", "placeholder": 'form.new_password_confirmation'|trans }}) }}
+                                {{ form_errors(form.plainPassword.second) }}
+                            </div>
+                            <div>
+                                <label class="required" style="color:#ff7900"> → <u>Infos profil</u></label><br/>
+                            <div>
+                            <div class="form-group">
+                                <label for="user_profil_nom" class="required">{{ 'Nom'|trans }}</label>
+                                {{ form_widget(form.profil.nom, {"attr": {"class":"form-control", "placeholder": 'Nom'|trans }}) }}
+                                {{ form_errors(form.profil.nom) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="user_profil_prenom" class="required">{{ 'Prénom'|trans }}</label>
+                                {{ form_widget(form.profil.prenom, {"attr": {"class":"form-control", "placeholder": 'Prénom'|trans }}) }}
+                                {{ form_errors(form.profil.prenom) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="user_profil_dateNaissance" class="required">{{ 'Date de naissance'|trans }}</label>
+                                {{ form_widget(form.profil.dateNaissance, {"attr": {"class":"form-control datepicker" }}) }}
+                                {{ form_errors(form.profil.dateNaissance) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="user_profil_contact" class="required">{{ 'Contact'|trans }}</label>
+                                {{ form_widget(form.profil.contact, {"attr": {"class":"form-control", "placeholder": 'Contact'|trans }}) }}
+                                {{ form_errors(form.profil.contact) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="user_profil_civilite" class="required">{{ 'Civilité'|trans }}</label>
+                                {{ form_widget(form.profil.civilite, {"attr": {"class":"form-control", "placeholder": 'Civilité'|trans }}) }}
+                                {{ form_errors(form.profil.civilite) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="user_profil_enfant" class="required">{{ 'Nombre d\'enfants'|trans }}</label>
+                                {{ form_widget(form.profil.enfant, {"attr": {"class":"form-control", "placeholder": 'Nombre d\'enfants'|trans }}) }}
+                                {{ form_errors(form.profil.enfant) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="user_profil_enfant" class="required">{{ 'Situation matrimoniale'|trans }}</label>
+                                {{ form_widget(form.profil.situation, {"attr": {"class":"form-control", "placeholder": 'Situation matrimoniale'|trans }}) }}
+                                {{ form_errors(form.profil.situation) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="user_profil_enfant" class="required">{{ 'Photo'|trans }}</label>
+                                {{ form_widget(form.file, {"attr": {"class":"form-control"}}) }}
+                                {{ form_errors(form.file) }}
+                            </div>
+                            {{ form_widget( form ) }}
+                            <p>
+                                <button type="submit"><i class="fa fa-plus"></i> {{ 'Create'|trans({}, 'admin') }}</button>
+                            </p>
+                            {{ form_end(form) }}
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

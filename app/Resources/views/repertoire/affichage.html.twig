@@ -1,0 +1,197 @@
+
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Message'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+           <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="{{ path('repertoire_all', {type: message.type}) }}"  > Historique </a> </li>
+                                <li> <a href="#" class="active" > Message envoyé </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+<!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Message détail </h3>
+                                    </div>
+                                    <!-- BASIC FORM ELEMENTS -->
+                                    <!--===================================================-->
+                                    
+                                        {% for message in app.session.flashbag.get('notice') %}
+        <div class="alert alert-dismissible alert-success">
+  <button type="button" class="close" data-dismiss="alert">X</button>
+ <span style="color:red; font-weight: bold;"> {{ message }} </span>
+</div>
+      {% endfor %}
+                                <table class="table table-hover record_properties">
+                                <tbody>
+                                    
+                                    <tr>
+                                        <th scope="row">Titre </th>
+                                        <td>{{ message.titre }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Message</th>
+                                        <td>{{ message.message|raw }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Type</th>
+                                        <td>{{ message.type }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Statut</th>
+                                        <td>
+                                {% if message.statut == 0 %} <span class="label label-primary">En Cour</span> {% endif %}
+                                {% if message.statut == 1 %} <span class="label label-info">Terminer</span> {% endif %}
+                                {% if message.statut == 2 %} <span class="label label-warning">Annuler</span> {% endif %}
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+
+                                        <th scope="row">Contact </th>
+                                        <td>
+                                            {% set info = null %}
+
+                                            {% if message.type == "mail" %}
+                                                {% set info = message.mail %}
+                                            {% else  %}
+                                            {% set info = message.tel %}
+                                            {% endif %}
+
+
+                                              <table class="table table-hover record_properties">
+                                                <tbody>
+                                                    {% for key,contact in  message.name  %}
+                                                    <tr>
+                                                        <th scope="row">{{contact}} </th>
+                                                        <td>{{ info[key] }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">Date d'envoie </th>
+                                        <td>{{ message.dateEnvoie|localizeddate('full', 'short') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Date de soumission </th>
+                                        <td>{{ message.created|localizeddate('full', 'short') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Date de Modification</th>
+                                        <td>{{ message.modified|localizeddate('full', 'short') }}</td>
+                                    </tr>
+                                   
+                                </tbody>
+                            </table>
+                           
+
+        <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('repertoire_all', {type: message.type}) }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+            
+            {% if message.statut == 0  %}
+        {% if  minutes >= 30 %}    
+            <a class="btn btn-primary" href="{{ path('repertoire_edit_edit', {id: message.id}) }}">
+                <i class="fa fa-edit"></i> Modifier le Message
+            </a>
+
+        {% endif %}
+
+            <button type="button" data-toggle="modal" data-target="#delete_confirm" class="btn btn-danger" type="submit"><i class="fa fa-trash-o"></i> annuler l'envoie </button>
+
+    <div id="delete_confirm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>Confirmation </h3>
+                </div>
+                <div class="modal-body">
+                    <p>Voulez-vous vraiment annuler l'envoie de ce message ,  cette procédure est irréversible..</p>
+                    <p>Voulez-vous poursuivre?</p> 
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-danger" href="{{ path('pro_message_annuler', {id: message.id}) }}">{{ 'Yes'|trans({}, 'admin') }}</a>
+                    <button class="btn btn-default" data-dismiss="modal">{{ 'No'|trans({}, 'admin') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if  minutes <= 5 %}
+     <script type="text/javascript"> setTimeout(function () { location.reload(1); }, 20000); </script>  
+     {% endif %}
+{% endif %}
+
+        </div>
+
+
+<style type="text/css">
+.ff{
+    color: green;
+    font-weight: bold;
+}
+</style>
+                      
+
+                            </div>
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+
+
+
+    
+     
+        
+       
+   
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

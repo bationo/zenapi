@@ -1,0 +1,82 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Contrat'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+{% block route %}
+
+         <header class="section-header">
+            <div class="tbl">
+                <div class="tbl-row">
+                    <div class="tbl-cell">
+                        <h3></h3>
+                        <ol class="breadcrumb breadcrumb-simple pull-left">
+                            <li><a href="{{ path('homepage') }}">Accueil</a></li>
+                            <li><a href="{{ path('proprietaire') }}">Liste des propriétaires</a></li>
+                            <li><a href="{{ path('locataire', {id: locataire.proprietaire.id}) }}">Liste des locataires</a></li>
+                            <li class="active">Liste des contrats </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+    {% endblock %}
+
+
+{% block body %}
+
+
+    <section class="card">
+        <header class="card-header card-header-lg">
+            Liste des contrats 
+            <a class="btn btn-info pull-right" href="{{ path('contrat_new' , {id : locataire.id}) }}">
+                <i class="fa fa-plus"></i> {{ 'Create a new entry'|trans({}, 'admin') }}
+            </a> 
+           
+        </header>
+        <div class="card-block">  
+            <section class="card">
+                <div class="card-block">
+                    <table  class="display table table-bordered datatable" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Identification</th>
+                            <th>Type de contrat</th>
+                            <th>Date début</th>
+                            <th>Date fin</th>
+                            <th>{{ 'Actions'|trans({}, 'admin') }}</th>
+                        </tr>
+                        </thead>
+                      
+                        <tbody>
+                            {% for contrat in entities %}
+                        <tr>
+                            <td><a href="{{ path('contrat_show', {id: contrat.id}) }}">CONT-{{ contrat.id }}</a></td>
+                            <td> {{ contrat.type }} </td>
+                            <td>{{ contrat.dateDebut|localizeddate('full', 'short') }}</td>
+                            <td>{{ contrat.dateFin|localizeddate('full', 'short') }} </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-inline btn-success btn-sm" href="{{ path('contrat_show', {id: contrat.id}) }}">
+                                        <i class="fa fa-file-o"></i> {{ 'show'|trans({}, 'admin') }}
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}                       
+                       
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </section> 
+             <a class="btn btn-secondary pull-left" href="{{ path('locataire', {id: locataire.proprietaire.id}) }}">
+                <i class="fa fa-arrow-circle-left"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>                   
+        </div>
+</section>
+
+{% endblock %}

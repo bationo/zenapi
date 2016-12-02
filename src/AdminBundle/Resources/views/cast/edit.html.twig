@@ -1,0 +1,138 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ '%entity% edit'|trans({'%entity%': 'Cast'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+{% block stylesheet %}
+    <style type="text/css">
+        .slideThree {
+            display: inline-block;
+            margin: 0;
+        }
+
+        .slideThree:after {
+            content: 'NON';
+            color: #ff0000;
+        }
+
+        .slideThree:before {
+            content: 'OUI';
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="row">
+            {{ form_start(edit_form) }}
+            <div class="col-md-8">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">{{ '%entity% creation'|trans({'%entity%': 'Cast'}, 'admin') }}</h1>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="cast_title">Nom</label>
+                            {{ form_widget( edit_form.name, { "attr": { "class": "form-control", "placeholder": "Nom" }}) }}
+                            {{ form_errors(edit_form.name) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="cast_title">Caste</label>
+                            {{ form_widget( edit_form.function, { "attr": { "class": "form-control", "placeholder": "Caste" }}) }}
+                            {{ form_errors(edit_form.function) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label( edit_form.staring ) }}
+                            <div class="slideThree">
+                                {{ form_widget( edit_form.staring, { 'attr': { 'class': '' } } ) }}
+                                {{ form_label( edit_form.staring, null, {
+                                    'label': ' '
+                                } ) }}
+                            </div>
+                            {{ form_errors( edit_form.staring ) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="cast_description">Présentation</label>
+                            {{ form_widget( edit_form.presentation, { "attr": { "class": "form-control" }}) }}
+                            {{ form_errors(edit_form.presentation) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">Publier</h1>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="celebrite_state">État</label>
+                            {{ form_widget( edit_form.state, { "attr": { "class": "form-control" }}) }}
+                            {{ form_errors(edit_form.state) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="celebrite_state">Publié le</label>
+                            <div class='input-group date datetimepicker'>
+                                {{ form_widget( edit_form.publishedAt, { "attr": { "class": "form-control" }} ) }}
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="corbeille-link"><a href="javascript:void(0)" title="Déplacer dans la corbeille">Déplacer dans la corbeille</a></div>
+                        <button class="btn btn-primary pull-right" type="submit"><i class="fa fa-edit"></i> {#{ 'Edit'|trans({}, 'admin') }#}Mettre à jour</button>
+                    </div>
+                </div>
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">Image à la une</h1>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div style="margin-bottom: 5px"><img src="{{ asset( cast.ImageWebPath ) }}" alt="{{ cast.name }}" style="max-height:250px"></div>
+                        {{ form_widget( edit_form.image.tempFile, { "attr": { "class": "form-control" }}) }}
+                        {{ form_errors(edit_form.image.tempFile) }}
+                    </div>
+                </div>
+            </div>
+            {{ form_widget(edit_form) }}
+            {{ form_end(edit_form) }}
+
+            {{ form_start(disapprove_form) }}
+            {{ form_widget(disapprove_form) }}
+            <div class="btn-group record_actions hidden">
+                <a class="btn btn-info" href="{{ path('admin_distribution') }}">
+                    <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+                </a>
+                <button class="btn btn-danger" type="submit"><i class="fa fa-trash-o"></i> {{ 'Delete'|trans({}, 'admin') }}</button>
+            </div>
+            <input name="modal" type="hidden" value="0">
+            {{ form_end(disapprove_form) }}
+        </div>
+    </section>
+
+    <div id="delete_confirm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>{{ 'Confirm delete'|trans({}, 'admin') }}</h3>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'You are about to delete an item'|trans({}, 'admin') }}, {{ 'this procedure is irreversible'|trans({}, 'admin') }}.</p>
+                    <p>{{ 'Do you want to proceed?'|trans({}, 'admin') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger">{{ 'Yes'|trans({}, 'admin') }}</button>
+                    <button class="btn btn-default" data-dismiss="modal">{{ 'No'|trans({}, 'admin') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

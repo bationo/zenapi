@@ -1,0 +1,162 @@
+{% extends "ESbase.html.twig" %}
+
+{% block title %}Profil - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="box box-primary">
+                    <div class="box-body box-profile">
+                        <img class="profile-user-img img-responsive img-circle" src="{{ asset( user.webPath ) }}" alt="{{ user.username }}">
+                        <h3 class="profile-username text-center">{{ [user.profil.nom, user.profil.prenom]|join(' ') }}</h3>
+                        <p class="text-muted text-center"> <!--Software Engineer--></p>
+
+                      <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+                        </li>
+                        <li class="list-group-item">
+                            {{ user.profil.contact }}
+                        </li>
+                        <li class="list-group-item">
+                            Né le : {{ user.profil.dateNaissance|date('d/m/Y') }}
+                        </li>
+                        <li class="list-group-item">
+                            {{ user.profil.situation }}
+                        </li>
+                        <li class="list-group-item">
+                            {% if user.profil.enfant <= 0 %}
+                                sans enfant
+                            {% else %}
+                                {{ user.profil.enfant }}
+                                enfant{% if user.profil.enfant > 1 %}s{% endif %}
+                            {% endif %}
+                        </li>
+                      </ul>
+                      <p>Dernière connexion: </p>
+                      <button class="btn btn-primary btn-block">{{ user.lastLogin|date('d/m/Y à H:i:s', timezone="Africa/Abidjan") }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#experience" data-toggle="tab">Expérience</a></li>
+                        <li><a href="#competence" data-toggle="tab">Compétences</a></li>
+                        <li><a href="#formation" data-toggle="tab">Formation</a></li>
+                        <li><a href="#langue" data-toggle="tab">Langues</a></li>
+                        <li><a href="#interet" data-toggle="tab">Centre d'intérêt</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="experience">
+                            {% for experience in user.profil.experiences %}
+                            <strong>{{ experience.fonction }}</strong>
+                            <p class="text-muted">
+                                {{ experience.entreprise }}<br>
+                                {{ experience.debut.date|localizeddate('none', 'none', null, null, 'MMMM Y') }} - {% if experience.isCurrent == false %}
+                                    {{ experience.fin.date|localizeddate('none', 'none', null, null, 'MMMM Y') }}
+                                {% else %}
+                                    Aujourd'hui
+                                {% endif %} 
+                                ({% if experience.isCurrent == false %}
+                                    {{time_diff(experience.fin.date, experience.debut.date)[5:]}}
+                                {% else %}
+                                    {{time_diff("now", experience.debut.date)[5:]}}
+                                {% endif %}){% if experience.lieu is not empty %} | {% endif %}{{ experience.lieu }}
+                                {% if experience.tache is not empty %} <br> {% endif %}
+                                {{ experience.tache }}
+                            </p>
+                            {% if loop.index < user.profil.experiences|length %}
+                            <hr>
+                            {% endif %}
+                            {% else %}
+                            <p class="text-muted">
+                                Aucune expérience pour le moment.
+                            </p>
+                            {% endfor %}
+                        </div>
+
+                        <div class="tab-pane" id="competence">
+                            <ul class="pager-cv">
+                                {% for competence in user.profil.competences %}
+                                <li class="item">
+                                    <span class="body"><span class="value">{{ competence.libelle }}</span></span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div class="tab-pane" id="formation">
+                            {% for formation in user.profil.formations %}
+                            <strong>{{ formation.etablissement }}</strong>
+                            <p class="text-muted">
+                                {{ formation.diplome.libelle }}{% if formation.discipline is not empty %}, {% endif %}
+                                {{ formation.discipline }}<br>
+                                {{ formation.debut|date('Y') }} - {{ formation.fin|date('Y') }}
+                            </p>
+                            {% if loop.index < user.profil.experiences|length %}
+                            <hr>
+                            {% endif %}
+                            {% else %}
+                            <p class="text-muted">
+                                Aucune formation pour le moment.
+                            </p>
+                            {% endfor %}
+                        </div>
+
+                        <div class="tab-pane" id="langue">
+                            <div class="row">
+                                {% for langue in user.profil.langues %}
+                                <div class="col-sm-6" {% if loop.index > 1 %}style="margin-top:10px"{% endif %}>
+                                    <strong>{{ langue.libelle }}</strong><br>
+                                    <span class="text-muted">{{ langue.niveau.libelle }}</span>
+                                </div>
+                                {% else %}
+                                <p class="text-muted">
+                                    Aucune langue pour le moment.
+                                </p>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="interet">
+                            <ul class="pager-cv">
+                                {% for interet in user.profil.interets %}
+                                <li class="item">
+                                    <span class="body"><span class="value">{{ interet.libelle }}</span></span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+              </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Candidatures</h3>
+                    </div>
+                    <div class="box-body">
+                        {% for offre in user.profil.offres %}
+                        <strong><i class="fa fa-book margin-r-5"></i>  {{ offre.intitule }}</strong>
+                        <p class="text-muted">
+                            {{ offre.secteur.nom }} | {{ offre.contrat.sigle }} | {{ offre.direction.nom }} | {{ offre.niveau.libelle }}
+                        </p>
+                        {% if loop.index < user.profil.offres|length %}
+                            <hr>
+                        {% endif %}
+                        {% else %}
+                        <p class="text-muted">
+                            Aucune candidature pour le moment.
+                        </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

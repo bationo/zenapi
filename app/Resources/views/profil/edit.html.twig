@@ -1,0 +1,111 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Profil - {{ parent() }}{% endblock %}
+
+{% block stylesheet %}{% endblock %}
+
+{% block breadcumb %}
+            <header class="main-header">
+                <div class="container">
+                    <h1 class="page-title">Mon compte</h1>
+
+                    <ol class="breadcrumb pull-right">
+                        <li><a href="{{ path( 'es_front' ) }}">Accueil</a></li>
+                        <li class="active">Mon compte</li>
+                    </ol>
+                </div>
+            </header>
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <section>
+                <img src="{{ asset( app.user.webPath ) }}" alt="avatar" class="img-responsive imageborder" width="180" height="180">
+            </section><hr>
+            <section>
+                    <a href="{{ path('profil') }}" type="submit" class="btn btn-ar btn-success btn-block">Retour au profil</a>
+            </section>
+        </div>
+        <div class="col-md-8">
+        <section>
+            <div class="panel panel-primary">
+                <div class="panel-heading"><i class="fa fa-user"></i> Modifier mon compte</div>
+
+                 <div class="panel-body">
+                   {{ form_start(edit_form) }} 
+                        <div class="form-group">
+                            <label for="user_username" class="required">Username<sup>*</sup></label>
+                            {{ form_widget(edit_form.username, {"attr": {"class":"form-control" }}) }}
+                            {{ form_errors(edit_form.username) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="user_username" class="required">Username<sup>*</sup></label>
+                            {{ form_widget(edit_form.email, {"attr": {"class":"form-control" }}) }}
+                            {{ form_errors(edit_form.email) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="user_username" class="required">Avatar</label>
+                            {{ form_widget(edit_form.file, {"attr": {"class":"form-control" }}) }}
+                            {{ form_errors(edit_form.file) }}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="user_username" class="required">Mot de passe actuel<sup>*</sup></label>
+                                    {{ form_widget(edit_form.current_password, {"attr": {"class":"form-control" }}) }}
+                                    {{ form_errors(edit_form.current_password) }}
+                                </div>
+                            </div>
+                        </div> <hr>
+                        <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="user_username" class="required">Nom</label>
+                                {{ form_widget(edit_form.profil.nom, {"attr": {"class":"form-control" }}) }}
+                                {{ form_errors(edit_form.profil.nom) }}
+                            </div>
+                        <div class="form-group">
+                            <label for="user_username" class="required">Telephone</label>
+                            {{ form_widget(edit_form.profil.telephone, {"attr": {"class":"form-control" }}) }}
+                            {{ form_errors(edit_form.profil.telephone) }}
+                        </div>
+                        </div>
+                        </div> <br>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button type="submit" id="_submit" name="_submit" class="btn btn-ar btn-primary pull-left">Mettre a jour</button>
+                            </div>
+                        </div>
+                    {{ form_end(edit_form) }}
+        </div>
+
+    <div id="delete_confirm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>{{ 'Confirm delete'|trans({}, 'admin') }}</h3>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'You are about to delete an item'|trans({}, 'admin') }}, {{ 'this procedure is irreversible'|trans({}, 'admin') }}.</p>
+                    <p>{{ 'Do you want to proceed?'|trans({}, 'admin') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger">{{ 'Yes'|trans({}, 'admin') }}</button>
+                    <button class="btn btn-default" data-dismiss="modal">{{ 'No'|trans({}, 'admin') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div> <!-- container  --> 
+
+{% endblock %}
+
+{% block javascript %}{% endblock %}

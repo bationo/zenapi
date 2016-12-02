@@ -1,0 +1,259 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }}{% endblock %}
+{% block content %}
+<div style="background: #00944A!important; height:10px!important;">          
+
+</div>
+
+<section class="tunnel-form__wrapper  row">
+  <div class="woocommerce">
+  <header class="tunnel-form__header">
+    <div class="container">
+      <h2>Modifier votre rendez-vous
+      </h2>
+   
+      <h3 class="form__steps__current-step-title">Choisir un motif de consultation
+      </h3>
+    </div>
+  </header>
+  {% if rdv.docteur.image != null  %} {% set img = rdv.docteur.image.webpath %} {% else %} {% set img = "uploads/avatars/avatar.png" %}   {% endif %}
+  <div class="tunnel-form__content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-push-6">
+          <div class="tunnel-box tunnel-box--white tunnel-box--praticien has-bubble has-bubble--always">
+            <div class="praticien__sticker">
+              <div class="praticien__img">
+                <img src="{{ asset(img) }}" class="praticien__img__profil" >
+              </div>
+              <div class="praticien__fn">
+                <a href="{{ path( 'professionel_name' ,{ id:rdv.docteur.professionnel.id , name:rdv.docteur.professionnel.nom|replace(" ", "-") } ) }}" target="_blank">
+                  <span class="praticien__name">{{ rdv.docteur.titre.libele }} {{ rdv.docteur.nom }} - {{rdv.docteur.professionnel.nom}}
+                  </span>
+                </a>
+                <span class="praticien__speciality">{% for specialite in rdv.docteur.ListeSpecialite %}
+                  {{specialite.libele}} 
+                  {% endfor %}
+                </span>
+              </div>
+              <div class="praticien__infos">
+                <p class="praticien__adress">{{ rdv.docteur.professionnel.localisation }}
+                  <br>{{ rdv.docteur.professionnel.ville }} {{ rdv.docteur.professionnel.user.pays.nom }}
+                  <br>({{ rdv.docteur.professionnel.user.pays.indicatif }}) {{ rdv.docteur.professionnel.fixe }} / {{ rdv.docteur.professionnel.tel }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="tunnel-box tunnel-box--white app-not-yet-conf" style="color:#787878">
+            <div class="form-group tunnel-form__cal" >
+              <div class="control-label">
+              </div>
+              <div class="form-group__field" >
+                <span class="glyphicon glyphicon-calendar tunnel-form__cal__toggle" aria-hidden="true">
+                </span>
+                <span > Date de votre rendez-vous&nbsp;: 
+                  <span style="color:#00944A" class="dateRDV" data-date="{{rdv.dateRdv|date("Y-m-d")}}"> {{rdv.dateRdv|localizeddate('full', 'short')}} 
+                  </span>.
+                </span>
+                <a href="#" style="color:#3f51b5"  class="tunnel-form__cal__link agendaRDV">
+                  Modifier
+                </a>
+                <div class="contEtape1">
+                </div>
+                <div class="agenda">
+                </div>
+              </div>
+              <div id="step1-span_choose_rdv" class="form-group__field hide">
+                <span>
+                  Sélectionnez votre heure de rendez-vous.
+                </span>
+              </div>
+            </div>
+          </div>
+          <div id="actInformation_container">
+          </div>
+        </div>
+        <div class="tunel-col col-md-6 col-md-pull-6">
+            <form  name="bookingForm" method="POST" class="f-user-signup f-user form-horizontal   tunnel-box etape1Form" action="#" >
+              <span class="error2"></span>
+              
+              <div class="form-group">
+                <label class="control-label" for="spp">Mautif Consultation
+                </label>
+                <select class="form-control" id="spp" required>
+                  <option value="">Choix
+                  </option>
+                  {% for specialite in rdv.docteur.ListeSpecialite %}
+                  <option value="{{specialite.libele}}">{{specialite.libele}}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              
+            <div class="disponible" style="display:none">
+              <div class="form-group">
+                <label class="control-label" for="domicile">Rendez-vous à votre domicile ?
+                </label>
+                <select class="form-control" id="domicile" >
+                  <option value="NON">NON
+                  </option>
+                  <option value="OUI">OUI
+                  </option>
+                </select>
+              </div>
+            </div>
+
+
+              <input type="hidden" value="{{rdv.disponible}}" class="possible" />
+              <div class="form-group">
+                <label class="control-label" for="com">Quelle est la raison de votre visite ?
+                </label>
+                <textarea class="form-control" rows="3" id="com" required></textarea>
+              </div>
+              <div id="step1-actions" class="form__actions">
+                <span class="Valide">
+                <input style="background-color:#00944A!important; color:white" type="submit" class="btn btn-validate btn-form" value="Valider"> </span> <span style="display:none" class="Valide1"> Chargement...</span>
+              </div>
+            </form>
+        
+      
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</section>
+<script type="text/javascript">
+  
+$(function() {
+
+
+
+
+{% if rdv.disponible == 1 %}
+
+etat = "{{rdv.domicile}}";
+    if(etat == 1){
+      $('#domicile option[value=OUI]').attr('selected','selected');
+    }else{
+      $('#domicile option[value=NON]').attr('selected','selected');
+    }
+
+$('.disponible').show();
+$('#domicile').attr("required" , "required");
+
+{% endif %}
+
+
+$('#spp option[value={{rdv.specialite.libele}}]').attr('selected','selected');
+$('#com').text("{{rdv.commentaire}}");
+
+ });
+
+    
+
+     $('.agendaRDV').click(function(){
+       $('.agenda').show();
+        $('.agenda').html('<div style="text-align:center" > <img src="{{ asset("theme2/images/gears.gif") }}"></div>');
+        var now = new Date();
+        d =  now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+        ident = 0;
+        formdata = {
+          docteur: {{rdv.docteur.id}}
+          , semaine : d , id:ident  };
+                            $('.rdvDocteur').html('<div style="text-align:center" > <img src="{{ asset("theme2/images/gears.gif") }}"></div>');
+      $.ajax({
+        url : "{{ path( 'agenda_recherche_edit') }}",
+        type : 'post',
+        data : formdata  ,
+        success : function( statut){
+          $('.agenda').html(statut);
+        }
+        ,
+        error : function(resultat, statut, erreur){
+          if(statut){
+            error = '<div class="alert alert-dismissible alert-danger">' + 
+              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+              erreur + " ! veuillez recommencer " +
+              '</div>';
+            $('.agenda').html(error);
+          }
+        }
+      }
+            );
+      return false;
+    }
+    );
+
+
+
+$('.etape1Form').submit(function(){
+
+
+    specialite = $("#spp").val();
+    com = $('#com').val();
+    possible = $('.possible').val();  
+    rdv =  $('.dateRDV').data("date");
+    if(possible == 1){
+      dom = $('#domicile').val();
+    }
+    else{
+      dom = 0;
+    }
+
+    if(specialite != "" && com != "" && possible != "" && rdv != "" ){
+      $('.Valide').hide();
+      $('.Valide1').show();
+      formdata = {
+       specialite:specialite , commentaire:com , disponible:possible , domicile:dom , rdv:rdv };
+      $.ajax({
+        url : "{{ path( 'rdv_valide_edit' , {id:rdv.id}) }}",
+        type : 'post',
+        data : formdata  ,
+        success : function( statut){
+          if(statut){
+            if(statut == 1){
+              error = '<div class="alert alert-dismissible alert-danger">' + 
+                '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                "impossible d'identifier ce rendez-vous, veuillez recommencer" +
+                '</div>';
+              $('.error2').html(error);
+            }
+            
+            if(statut == 5){
+              url = "{{ path( 'rdv_confirmer' , {id: rdv.id  } )    }}";
+              location.href = url;
+            }
+            $('.Valide').show();
+            $('.Valide1').hide();
+          }
+        }
+        ,
+        error : function(resultat, statut, erreur){
+          if(statut){
+            error = '<div class="alert alert-dismissible alert-danger">' + 
+              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+              erreur + " ! veuillez recommencer " +
+              '</div>';
+            $('.error2').html(error);
+            $('.Valide').show();
+            $('.Valide1').hide();
+          }
+        }
+      }
+            );
+}else{
+  alert("Tous les champs sont obligatoires!");
+}
+
+
+return false;
+
+});
+
+
+
+</script>
+{% endblock %}

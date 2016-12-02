@@ -1,0 +1,317 @@
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Docteur'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+        <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="{{ path('pro_mon_profil') }}"  > Mon Profil </a> </li>
+                                <li> <a href="#" class="active" > Modifier Profil </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+<!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Modifier mon  Profil </h3>
+                                    </div>
+                                    <!-- BASIC FORM ELEMENTS -->
+                                    <!--===================================================-->
+                                        {{ form_start(form, {"attr":{ "class":"panel-body form-horizontal erreur"}}) }}
+
+                                         {% for flashMessage in app.session.flashbag.get('notice') %}
+     
+                                                        <ul class="woocommerce-error">
+                                                          <li style="color:red"><strong></strong> {{ flashMessage }}</li>
+                                                      </ul>
+                                                  {% endfor %}
+                                       
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.tempFile, "Image de Profil", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.tempFile , { 'attr' : {'placeholder' : '',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.tempFile , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                          <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.email, "Adresse e-mail *", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.email , { 'attr' : {'placeholder' : 'Adresse e-mail',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.email , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+                                                                      
+                                        <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.professionnel.nom, " Nom du centre de santé  *", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.professionnel.nom , { 'attr' : {'placeholder' : 'Nom du centre de santé',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.professionnel.nom , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.professionnel.ville, "Ville d\'implantation *", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.professionnel.ville , { 'attr' : {'placeholder' : 'Ville d\'implantation',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.professionnel.ville , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.pays, "Pays *", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.pays , { 'attr' : {'placeholder' : 'Pays',  'class' : 'form-control indicatiff'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.pays , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.professionnel.localisation, "Localisation (nom de quartier, rue, etc ) * " , {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                 {{ form_widget(form.professionnel.localisation , { 'attr' : {'placeholder' : 'Localisation (nom de quartier, rue, etc )',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.professionnel.localisation , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.professionnel.presentation, "Présentation de votre activité * " , {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                 {{ form_widget(form.professionnel.presentation , { 'attr' : {'placeholder' : 'Présentation de votre activité',  'class' : 'form-control indicatiff ckeditor'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.professionnel.presentation , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                          <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.professionnel.url, " Lien Site web * " , {'label_attr': {'class': 'col-md-3 control-label '}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.professionnel.url , { 'attr' : {'placeholder' : 'Lien Site web',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.professionnel.url , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                       
+
+                                          <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.professionnel.tarif, "Prix minimum d\'une consultation ", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.professionnel.tarif , { 'attr' : {'placeholder' : 'Prix minimum d\'une consultation ',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.professionnel.tarif , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.professionnel.tel, "Numéro de Téléphone Mobile *", {'label_attr': {'class': 'col-md-3 control-label indicatif1'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.professionnel.tel , { 'attr' : {'placeholder' : 'Numéro de Téléphone Mobile',  'class' : 'form-control choix assure'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.professionnel.tel , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.professionnel.fixe, "Numéro de Téléphone Fixe ", {'label_attr': {'class': 'col-md-3 control-label indicatif2'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.professionnel.fixe , { 'attr' : {'placeholder' : 'Numéro de Téléphone Fixe',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.professionnel.fixe , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.professionnel.langue, "les langues parlées ", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.professionnel.langue , { 'attr' : {'placeholder' : 'les langues parlées',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.professionnel.langue , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.professionnel.dure, "Durée moyenne de vos consultations", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.professionnel.dure , { 'attr' : {'placeholder' : 'Durée moyenne de vos consultations',  'class' : 'form-control' , 'rows' : '8' }} ) }}
+                                                <small class="help-block">{{ form_errors(form.professionnel.dure , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                     
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.professionnel.jour, "Jour de Travail ", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.professionnel.jour , { 'attr' : {'placeholder' : 'Jour de Travail',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.professionnel.jour , { 'attr' : {'class' : 'red'  }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                          <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.professionnel.ouverture, "Heure d\'ouverture ", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.professionnel.ouverture , { 'attr' : {'placeholder' : 'Heure d\'ouverture',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.professionnel.ouverture , { 'attr' : {'class' : 'red'  }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                          <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.professionnel.fermeture, "Heure de fermeture ", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.professionnel.fermeture , { 'attr' : {'placeholder' : 'Jour de Travail',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.professionnel.fermeture , { 'attr' : {'class' : 'red'  }} ) }}</small>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('pro_mon_profil') }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+
+
+
+
+        </div>
+        <div style="float:right">
+            <button type="submit"   class="btn btn-pink">Modifier</button>
+        </div>
+                                </div>
+                               
+                               
+                               
+
+                               
+                               
+                              {{ form_end(form) }}
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+
+
+    <script type="text/javascript">
+
+
+
+
+
+    
+
+$(function() {
+
+      var person = new Object();
+
+    {% for pays in liste %}
+
+    person[{{pays.id}}] = "{{pays.indicatif}}";
+
+    {%  endfor %}
+
+
+indice =   $('.indicatiff').val();
+
+
+   $('.indicatif1').text( "Numéro de Téléphone Mobile * " + person[indice]); 
+   $('.indicatif2').text( "Numéro de Téléphone Fixe * " + person[indice]);   
+
+
+ choix = $( '.assure' ).val();
+
+          if(choix == "1"){
+
+            $( ".showw" ).show();
+          }
+           if(choix == "0"){
+
+            $( ".showw" ).hide();
+          }
+
+
+
+          $('.assure').change(function(){
+
+
+          choix = $( this ).val();
+
+          if(choix == "1"){
+
+            $( ".showw" ).show();
+          }
+           if(choix == "0"){
+
+            $( ".showw" ).hide();
+          }
+
+
+
+
+
+        } );
+
+
+    $( ".indicatiff" ).change(function() {
+ 
+   indice =   $(this).val(); 
+
+   $('.indicatif1').text( "Numéro de Téléphone Mobile * " + person[indice]);
+   $('.indicatif2').text( "Numéro de Téléphone Fixe * " + person[indice]);  
+
+
+});
+
+});
+
+    </script>
+       <style type="text/css">
+    .erreur   ul li {
+        color: red;
+        font-weight: bold;
+         background: none!important;
+    }
+
+
+</style>
+        
+       
+   
+    
+{% endblock %}

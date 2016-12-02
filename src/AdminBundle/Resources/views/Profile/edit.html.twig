@@ -1,0 +1,60 @@
+{% extends "base.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block title %}{{ '%entity% edit'|trans({'%entity%': user.admin.name }, 'admin') }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">{{ '%entity% edit'|trans({'%entity%': user.admin.name}, 'admin') }}</h1>
+                    </div>
+                    <div class="box-body">
+
+                        {{ form_start(edit_form) }}
+                        <div class="form-group">
+                            <label for="user_username" class="required">{{ 'form.username'|trans }}</label>
+                            {{ form_widget(edit_form.username, {"attr": {"class":"form-control" }}) }}
+                            {{ form_errors(edit_form.username) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="user_email" class="required">Email</label>
+                            {{ form_widget(edit_form.email, {"attr": {"class":"form-control", "placeholder": 'form.email'|trans }}) }}
+                            {{ form_errors(edit_form.email) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="fos_user_change_password_form_current_password" class="required">{{ 'form.current_password'|trans }}</label>
+                            {{ form_widget(edit_form.current_password, {"attr": {"class":"form-control", "placeholder": 'form.current_password'|trans }}) }}
+                            {{ form_errors(edit_form.current_password) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="user_admin_nom" class="required">Nom</label>
+                            {{ form_widget(edit_form.admin.name, {"attr": {"class":"form-control", "placeholder": 'Nom' }}) }}
+                            {{ form_errors(edit_form.admin.name) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="user_admin_function" class="required">Fonction</label>
+                            {{ form_widget(edit_form.admin.function, {"attr": {"class":"form-control", "placeholder": 'Fonction' }}) }}
+                            {{ form_errors(edit_form.admin.function) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="user_admin_phone" class="required">Téléphone</label>
+                            {{ form_widget(edit_form.admin.phone, {"attr": {"class":"form-control", "placeholder": 'Téléphone' }}) }}
+                            {{ form_errors(edit_form.admin.phone) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="user_avatar" class="required">Avatar</label>
+                            {{ form_widget(edit_form.tempFile, {"attr": {"class":"form-control" }}) }}
+                            {{ form_errors(edit_form.tempFile) }}
+                        </div>
+                        <button class="btn btn-primary pull-left" type="submit"><i class="fa fa-edit"></i> {{ 'Edit'|trans({}, 'admin') }}</button>
+                        {{ form_end(edit_form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

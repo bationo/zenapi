@@ -1,0 +1,374 @@
+        {% if user.proprietaire.entreprise != null  %}
+        <div class="col-md-12">
+          <section class="card">
+            <header class="card-header card-header-lg">
+              Fiche proprietaire {{user.proprietaire.entreprise.raisonSocial}} 
+            </header>
+            <div class="card-block">
+              <div class="col-md-6">
+                <table class="table table-hover record_properties">
+                  <tbody>
+                    <tr>
+                      <th scope="row">
+                      </th>
+                      <td> 
+                        <img src="{{ asset(user.webpath) }} " style="height:120px;"> 
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Code :
+                      </th>
+                      <td>PRO-{{ user.id }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Raison sociale :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.raisonSocial }} 
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"> Forme juridique:
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.formeJuridique }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"> Régistre de commerce:
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.registreCommerce }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Nom & Prénoms gérant :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.gerantNom }} {{ user.proprietaire.entreprise.gerantPrenom }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Né(e) le :
+                      </th>
+                      <td>   {{ user.proprietaire.entreprise.gerantDateNaissance|localizeddate('full', 'none') }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lieu de naissance :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.gerantLieuNaissance }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Nature de la pièce :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.gerantNaturePiece }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Date de délivrance :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.gerantDateDelivrance|localizeddate('full', 'none') }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lieu de délivrance :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.gerantLieuDelivrance }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lieu de résidence  :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.gerantLieuHabitation }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="table table-hover record_properties">
+                  <tbody>
+                    <tr>
+                      <th scope="row">Tel :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.gerantTelephone }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Cel :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.gerantCellulaire }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">N° Compte contribuable :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.compteContribuable }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Adresse postale :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.adressePostale }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Profession :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.gerantProfession }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Siège :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.siege }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">E-mail :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.gerantMail }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Tel du bureau :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.telBureau }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Fax :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.fax }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Personne à contacter en cas d'urgence :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.nomContactUrgence }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lien d'affinité :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.affiniteContactUrgence }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Contact d'urgence :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.telContactUrgence }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Document joint 
+                      </th>
+                      <td>
+                        <ul>
+                        {% for document in user.document %}
+                            <li><a target="_blank" href="{{asset(document.document.webpath)}}">{{document.title}}</a></li>
+                            
+
+                      {% endfor %}
+                      </ul>
+                        
+                      </td>
+                    </tr>
+                    
+                    <tr>
+                      <th scope="row">Date d'enregistrement :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.created|localizeddate('full', 'short') }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Dernière modification :
+                      </th>
+                      <td>{{ user.proprietaire.entreprise.modified|localizeddate('full', 'short') }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+        {% else %}
+        <div class="col-md-12">
+          <section class="card">
+            <header class="card-header card-header-lg">
+              Fiche proprietaire {{user.proprietaire.particulier.nom}} {{user.proprietaire.particulier.prenom}}
+            </header>
+            <div class="card-block">
+              <div class="col-md-6">
+                <table class="table table-hover record_properties">
+                  <tbody>
+                    <tr>
+                      <th scope="row">
+                      </th>
+                      <td> 
+                        <img src="{{ asset(user.webpath) }} " style="height:120px;"> 
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Code :
+                      </th>
+                      <td>PRO-{{ user.id }}
+                      </td>
+                    </tr>                                    
+                    <tr>
+                      <th scope="row">Nom & Prénoms gérant :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.nom }} {{ user.proprietaire.particulier.prenom }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Né(e) le :
+                      </th>
+                      <td>   {{ user.proprietaire.particulier.DateNaissance|localizeddate('full', 'none') }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lieu de naissance :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.LieuNaissance }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Nature de la pièce :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.NaturePiece }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Date de délivrance :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.DateDelivrance|localizeddate('full', 'none') }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lieu de délivrance :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.LieuDelivrance }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lieu de résidence  :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.LieuHabitation }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Tel :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.Telephone }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="table table-hover record_properties">
+                  <tbody>
+                    <tr>
+                      <th scope="row">Cel :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.Cellulaire }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">N° Compte contribuable :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.numeroContribuable }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Adresse postale :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.adressePostale }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Profession :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.Profession }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">E-mail :
+                      </th>
+                      <td>{{ user.email }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Tel du bureau :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.telBureau }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Personne à contacter en cas d'urgence :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.nomContactUrgence }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lien d'affinité :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.affiniteContactUrgence }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Contact d'urgence :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.telContactUrgence }}
+                      </td>
+                    </tr>
+                     <tr>
+                      <th scope="row">Document joint 
+                      </th>
+                      <td>
+                        <ul>
+                        {% for document in user.document %}
+                            <li><a target="_blank" href="{{asset(document.document.webpath)}}">{{document.title}}</a></li>
+                            
+
+                      {% endfor %}
+                      </ul>
+                        
+                      </td>
+                    </tr>
+                     
+                    <tr>
+                      <th scope="row">Date d'enregistrement :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.created|localizeddate('full', 'short') }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Dernière modification :
+                      </th>
+                      <td>{{ user.proprietaire.particulier.modified|localizeddate('full', 'short') }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+        {% endif %}
+
+        <div class="btn-group record_actions">
+          <a class="btn btn-info" href="{{ path('proprietaire') }}">
+            <i class="fa fa-list">
+            </i> {{ 'Back to the list'|trans({}, 'admin') }}
+          </a>
+          <a class="btn btn-primary" href="{{ path('proprietaire_edit', {id: user.id  }) }}">
+            <i class="fa fa-edit">
+            </i> {{ 'Edit'|trans({}, 'admin') }}
+          </a>
+          <button class="btn btn-danger" type="submit">
+            <i class="fa fa-trash-o">
+            </i> {{ 'Delete'|trans({}, 'admin') }}
+          </button>
+        </div>

@@ -1,0 +1,49 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: bcrypt
+
+    role_hierarchy:
+        ROLE_PRO:   ROLE_USER
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            pattern: ^/
+            anonymous:    true
+            form_login:
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+                success_handler: redirect.after.login
+            logout:
+                path: fos_user_security_logout
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/profil/new, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/profil/create, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/profil, role: ROLE_USER }
+        - { path: ^/, role: ROLE_USER }
+        - { path: ^/admin/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/request, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/send-email, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/check-email, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/reset, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/register, role: ROLE_ADMIN }
+        - { path: ^/admin/resetting, role: ROLE_ADMIN }
+        - { path: ^/admin, role: ROLE_ADMIN }
+        - { path: ^/admin/efconnect, role: ROLE_ADMIN }
+        - { path: ^/admin/elfinder, role: ROLE_ADMIN }

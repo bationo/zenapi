@@ -1,0 +1,176 @@
+
+{% extends "docteur.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Docteur'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+      <h3><i class="fa fa-home"></i> Interface Spécialiste </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('docteur_pro_connecter') }}"  > Accueil </a> </li>
+                                <li> <a href="#"  class="active" > Mon Profil </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+<!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Mon Profil </h3>
+                                    </div>
+                                    <!-- BASIC FORM ELEMENTS -->
+                                    <!--===================================================-->
+
+                                     {% for message in app.session.flashbag.get('notice') %}
+        <div class="alert alert-dismissible alert-success">
+  <button type="button" class="close" data-dismiss="alert">X</button>
+ <span style="color:red; font-weight: bold;"> {{ message }} </span>
+</div>
+      {% endfor %}
+                                       
+                                <table class="table table-hover record_properties">
+                                            <tbody>
+
+                                                    {% if docteur.image != null  %}
+                                                 <tr>
+                                                    <th scope="row"></th>
+                                                    <td> <img src="{{ asset(docteur.image.webpath) }} " style="height:120px;"> </td>
+                                                </tr>
+                                            {% endif %}
+                                              
+                                                <tr>
+                                                    <th scope="row">Titre</th>
+                                                    <td>{{ docteur.titre.libele }}</td>
+                                                </tr>
+                                               
+                                                <tr>
+                                                    <th scope="row">Nom</th>
+                                                    <td>{{ docteur.nom }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Mail</th>
+                                                    <td>{{ docteur.mail }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Tel</th>
+                                                    <td>{{ docteur.professionnel.user.pays.indicatif }} {{ docteur.tel }}</td>
+                                                </tr>
+
+                                                 <tr>
+                                                    <th scope="row">Spécialité</th>
+                                                    <td>
+                                                        <ul>
+                                                        {% for specialite in docteur.ListeSpecialite %}
+                                                            <li>  <span class="ff">{{specialite.libele}}</span>   </li>
+                                                        {% endfor %}
+                                                        </ul>
+
+                                                    </td>
+                                                </tr>
+
+                                                  <tr>
+                                                    <th scope="row">Disponibilité</th>
+                                                    <td>
+                                                        
+                                                        {% for disponible in docteur.disponible %}
+
+                                                            <ul>
+                                                            <li> Le <span class="ff">{{disponible.jour.libele}}</span>     De <span class="ff">{{disponible.heure|date('H:i')}}</span> A <span class="ff">{{disponible.heureFin|date('H:i')}}</span> </li> 
+                                                             <li> Intervalle de temps : <span class="ff">{{disponible.creno}}</span> Minutes </li>
+                                                             <li> Consultation à domicile : <span class="ff"> {% if disponible.domicile == true %} OUI {% else  %} NON {% endif %} </span>  </li>
+                                                            </ul>
+
+                                                        {% endfor %}
+                                                        
+
+                                                    </td>
+                                                </tr>
+                                                 <tr>
+                                                    <th scope="row">Compte</th> 
+                                                    <td>
+                                                        <ul>
+                                                            <li> ID : <span class="ff">{{docteur.compte.id}}</span>  | Pass : <span class="ff">{{docteur.compte.pass}}</span> <a class="btn btn-purple btn-rounded" href="{{ path('specialite_initialise_docteur') }}">Initialiser</a> </li>
+                                                        </ul>
+
+                                                    </td>
+                                                </tr>
+
+                                                
+
+                                                    <th scope="row">Date de creation </th>
+                                                        <td>{{ docteur.created|localizeddate('full', 'short') }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Date de modification</th>
+                                                        <td>{{ docteur.modified|localizeddate('full', 'short') }}</td>
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+
+<style type="text/css">
+.ff{
+    color: green;
+    font-weight: bold;
+}
+</style>
+                               
+  <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('docteur_pro_connecter') }}">
+                <i class="fa fa-list"></i> Retour
+            </a>
+            
+            <a class="btn btn-primary" href="{{ path('pro_docteur_update') }}">
+                <i class="fa fa-edit"></i> {{ 'Edit'|trans({}, 'admin') }}
+            </a>
+
+        </div>
+                          
+      
+                            </div>
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+
+
+
+    
+     
+        
+       
+   
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

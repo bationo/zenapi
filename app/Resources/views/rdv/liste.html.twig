@@ -1,0 +1,113 @@
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Docteur'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+           <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="{{ path('pro_rdv_liste') }}"  > Mes Rendez-vous </a> </li>
+                                <li> <a href="#" class="active" > Liste Rendez-vous </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+
+ <!--===================================================-->
+                        <!-- End Row selection (single row) -->
+                        <!-- Row selection and deletion (multiple rows) -->
+                        <!--===================================================-->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Mes Rendez-vous <span style="color:green" > du {{start|localizeddate('full', 'none')}} Au {{end|localizeddate('full', 'none')}}</span> </h3>
+                            </div>
+                            <div id="demo-custom-toolbar" class="table-toolbar-left">
+                                 <a class="btn btn-info" href="{{ path('pro_rdv_new') }}">
+                                    <i class="fa fa-plus"></i> {{ 'Create a new entry'|trans({}, 'admin') }}
+                                </a>
+                            </div>
+                            <div class="panel-body">
+                                <table id="demo-dt-delete" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Spécialité</th>
+                                            <th>Statut</th>
+                                            <th>Date du rendez-vous</th>
+                                            <th>Patient</th>
+                                            <th>Docteur</th>
+                                            <th>Date de prise du rendez-vous</th>
+                                            
+                                            <th scope="col">{{ 'Actions'|trans({}, 'admin') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                         {% for rdv in rdvs %}
+                                            <tr>
+                                                <td>{{ rdv.id }}</td>
+                                                <td>{{ rdv.specialite.libele }}</td>
+                                                <td>
+                                {% if rdv.statut == 0 %} <span class="label label-primary">En Cour</span> {% endif %}
+                                {% if rdv.statut == 1 %} <span class="label label-info">Terminer</span> {% endif %}
+                                {% if rdv.statut == 2 %} <span class="label label-warning">Annuler</span> {% endif %}
+                                                </td>
+                                                <td>{{rdv.dateRdv|localizeddate('full', 'short')}} </td>
+                                                <td>{{rdv.profil.nom}} {{rdv.profil.prenom}} </td>
+                                                <td>{{rdv.docteur.nom}} </td>
+                                                <td>{{rdv.created|localizeddate('full', 'short')}} </td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-default btn-sm" href="{{ path( 'pro_rdv_show' , {id: rdv.id  } )    }}">
+                                                            <i class="fa fa-file-o"></i> détail
+                                                        </a>
+                                                      
+                                                      
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                          
+                                        {% endfor %}
+                                        
+                                      
+                                    </tbody>
+                                </table>
+
+            <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('pro_rdv_liste') }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+                </div>
+          
+
+
+                            </div>
+                        </div>
+                        <!--===================================================-->
+                        <!-- End Row selection and deletion (multiple rows) -->
+                        <!-- Add Row -->
+                        <!--===================================================-->
+
+
+
+
+
+
+
+
+
+    
+   
+    
+{% endblock %}

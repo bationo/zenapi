@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.title }} - Actualité - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    <style type="text/css">
+        /*.page-wrapper {
+            background-image: url('{{ asset("images/background03.jpg") }}');
+        }*/
+        /*.blog-post {
+            -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+            transition-delay: 0s;
+            visibility: visible;
+            opacity: 1;
+        }
+        .blog-post .content {
+            -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+            transition-delay: .5s;
+            opacity: 1;
+        }*/
+    </style>
+{% endblock %}
+
+{% block open_graph %}
+    <meta property="og:url"           content="{{ app.request.uri }}" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="{{ post.title }}" />
+    <meta property="og:description"   content="{% if post.content|length > 150 %}{{ [post.content|striptags|trim|convert_encoding('UTF-8', 'HTML-ENTITIES')|slice(0,150),'...']|join('') }}{% else %}{{ post.content|striptags|trim|convert_encoding('UTF-8', 'HTML-ENTITIES') }}{% endif %}" />
+    <meta property="og:image"         content="{{ absolute_url(asset( post.imageWebPath )) }}" />
+    <meta property="og:image:url"     content="{{ absolute_url(asset( post.imageWebPath )) }}" />
+{% endblock %}
+
+{% macro commentItem(comment, nested) %}
+    {% spaceless %}
+        {% set isNested = nested|default(false) %}
+        {% if comment.comment %}
+            {% set isAnswer = true %}
+        {% else %}
+            {% set isAnswer = false %}
+        {% endif %}
+
+        <div class="comment clearfix">
+            <div class="comment-header clearfix">
+                <img alt="64x64" data-src="holder.js/64x64" class="media-object" style="width: 64px; height: 64px;" src="{{ asset( 'uploads/avatars/avatar.jpe' ) }}" alt="comment avatar">
+                <div class="title">
+                    <h5 class="comment-pseudo">{{ comment.pseudo }}</h5>
+                    <div class="comment-date">{{ comment.updatedAt|localizeddate('full', 'none') }}</div>
+                </div> <!-- end .title -->
+                <a href="javascript:void(0)" class="reply" data-comment="{{ comment.id }}">Répondre<i class="fa fa-share"></i></a>
+            </div>
+            <p>{{ comment.content }}</p>
+            {% if comment.replies|length > 0 %}
+                {% if isAnswer %}{% set nested = false %}{% else %}{% set nested = true %}{% endif %}
+                {% for comment in comment.replies %}
+                    {{ _self.commentItem(comment, nested) }}
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endspaceless %}
+{% endmacro %}
+
+{% block page_body %}
+  <div class="page-full">
+      <div class="blog-post open" style="background-image: url({{ asset(post.imageWebPath) }});">
+        <div class="content">
+          <a href="#" class="toggle"><i class="pe-7s-angle-down"></i></a>
+          <h5 class="date">{{ post.publishedAt|localizeddate('full', 'none') }}{#{ post.publishedAt|localizeddate('none', 'none', null, null, 'D MMMM Y') }#}</h5>
+          <h4 class="title">{{ post.title }}</h4>
+          <div class="blog-scroll">
+            {{ post.content|raw }}
+            <div class="container-fluid">
+              <div class="comments">
+                <div class="blog-share">Partage: <a href="#" class="hb-fb" data-href="{{ absolute_url(path('post_show', { 'slug':post.slug, 'id':post.id })) }}"><i class="pe-so-facebook"></i></a></div>
+                {#% for flashMessage in app.session.flashbag.get('comment') %}
+                  <div class="col-sm-16">
+                    <div class="alert alert-dismissible alert-success">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        {{ flashMessage }}
+                    </div>
+                  </div>
+                {% endfor %#}
+                {% if comments|length > 0 %}
+                <h4>{% if comments|length == 1 %}Commentaire{% else %}Commentaires{% endif %}</h4>
+                  {% for comment in comments %}
+                    {{ _self.commentItem(comment) }}
+                  {% endfor %}
+                {% endif %}
+              </div> <!-- end .comments -->
+              <div id="new_comment">
+                  <h4 class="main-title">laisser un commentaire</h4>
+                  {{ form_start(form, { "attr": { "class": "comment-form" }}) }}
+                    {{ form_widget( form.comment) }}
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_widget( form.pseudo, { "attr": { "class": "form-control" }}) }}
+                            <label for="{#{ form.pseudo.id }#}">Nom</label>
+                            {{ form_errors(form.pseudo) }}
+                        </div> <!-- end .form-group -->
+                      </div> <!-- end .col-sm-6 -->
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                            {{ form_widget( form.email, { "attr": { "class": "form-control" }}) }}
+                            <label for="{#{ form.email.id }#}">Email</label>
+                            {{ form_errors(form.email) }}
+                        </div> <!-- end .form-group -->
+                      </div> <!-- end .col-sm-6 -->
+                    </div> <!-- end .row -->
+                    <div class="form-group textarea">
+                        {{ form_widget( form.content, { "attr": { "class": "contact-message", "rows": "3" }}) }}
+                        <label for="{#{ form.content.id }#}">Laisser votre message ici</label>
+                        {{ form_errors(form.content) }}
+                    </div> <!-- end .form-group -->
+                    <button type="submit" class="button white large">Envoyer</button>
+                     {{ form_widget(form) }}
+                  {{ form_end(form) }}
+              </div>
+            </div>
+          </div>
+        </div> <!-- end .content -->
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $('.reply').click(function(){
+            var $container = $(this).parent().parent();
+            var $pseudo = $container.find('.title .comment-pseudo:first').text();
+            var $comment = $(this).data('comment');
+            console.log($pseudo + ' ' + $comment);
+            var $form = $('#new_comment').detach();
+            $form.find('.main-title').text('répondre à ' + $pseudo);
+            $container.append($form);
+            $('#comment_comment').val($comment);
+            $('#comment_pseudo').focus();
+        });
+    </script>
+{% endblock %}

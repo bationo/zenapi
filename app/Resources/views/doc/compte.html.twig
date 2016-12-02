@@ -1,0 +1,16 @@
+
+{% extends "docteur.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Accueil'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+           <h3><i class="fa fa-home"></i> Interface Spécialiste </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="#" class="active" > Accueil </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}

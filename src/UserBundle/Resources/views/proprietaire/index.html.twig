@@ -1,0 +1,200 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Proprietaire'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+
+    {% block route %}
+
+         <header class="section-header">
+            <div class="tbl">
+                <div class="tbl-row">
+                    <div class="tbl-cell">
+                        <h3></h3>
+                        <ol class="breadcrumb breadcrumb-simple pull-left">
+                            <li><a href="{{ path('homepage') }}">Accueil</a></li>
+                            <li class="active">Liste Proprietaire</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+    {% endblock %}
+
+
+
+{% block body %}
+
+
+<section class="tabs-section">
+                <div class="tabs-section-nav tabs-section-nav-inline">
+                    <ul class="nav" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tabs-4-tab-1" role="tab" data-toggle="tab">
+                                Proprietaire
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link locataireIndex" href="#tabs-4-tab-2" role="tab" data-toggle="tab">
+                                Locataire
+                            </a>
+                        </li>
+                       
+                    </ul>
+                </div><!--.tabs-section-nav-->
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="tabs-4-tab-1">
+
+                        <section class="card">
+                <header class="card-header card-header-lg">
+                    Liste des proprietaires 
+                      <a data-toggle="modal" data-target="#new" class="btn btn-info pull-right" href="{{ path('docteur_new') }}">
+                                    <i class="fa fa-plus"></i> {{ 'Create a new entry'|trans({}, 'admin') }}
+                                </a>
+                </header>
+                <div class="card-block">
+
+
+                 
+         
+            <section class="card">
+                <div class="card-block">
+                    <table  class="display table table-bordered datatable" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Identification</th>
+                            <th>Type</th>
+                            <th>Nom</th>
+                            <th>Contact</th>
+                            <th>{{ 'Actions'|trans({}, 'admin') }}</th>
+                        </tr>
+                        </thead>
+                      
+                        <tbody>
+                            {% for user in entities %}
+                                {% if user.proprietaire != null %} 
+
+                    {% if user.proprietaire.entreprise != null %} 
+                        <tr>
+                            <td>PROD-{{user.id}}</td>
+                            <td> <span class="label label-warning">Entreprise</span></td>
+                            <td>{{user.proprietaire.entreprise.raisonSocial}} </td>
+                            <td>{{user.proprietaire.entreprise.telBureau}}</td>
+                            <td>
+                                  <div class="btn-group">
+                            <a class="btn btn-inline btn-success btn-sm" href="{{ path('proprietaire_show', {id: user.id}) }}">
+                                <i class="fa fa-file-o"></i> {{ 'show'|trans({}, 'admin') }}
+                            </a> 
+                           
+                        </div>
+                            </td>
+                        </tr>
+
+                    {% else %}
+
+                            <td>PROD-{{user.id}}</td>
+                            <td> <span class="label label-secondary">Particluier</span> </td>
+                            <td>  {{user.proprietaire.particulier.nom}} {{user.proprietaire.particulier.prenom}} </td>
+                            <td>{{user.proprietaire.particulier.telephone}}</td>
+                            <td>
+                                  <div class="btn-group"> 
+                            <a class="btn btn-inline btn-success btn-sm" href="{{ path('proprietaire_show', {id: user.id}) }}">
+                                <i class="fa fa-file-o"></i> {{ 'show'|trans({}, 'admin') }}
+                            </a> 
+                           
+                        </div>
+                            </td>
+                        </tr>
+
+
+
+
+                    {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                       
+                       
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+    
+
+      
+                    
+                </div>
+</section>
+
+<div id="new" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>Ajouter un nouveau proprietaire</h3>
+                </div>
+                <div class="modal-body" style="text-align:center">
+
+                    <a class="btn btn-rounded btn-inline" href="{{ path('proprietaire_new', {type: "entreprise" } ) }}">
+                                 Personne Morale
+                    </a>
+                     <a class="btn btn-rounded btn-inline" href="{{ path('proprietaire_new', {type: "particulier" } ) }}">
+                                 Personne Physique
+                    </a>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+
+
+                    </div><!--.tab-pane-->
+                    <div role="tabpanel" class="tab-pane fade locataireCOnt" id="tabs-4-tab-2">
+
+                    </div><!--.tab-pane-->
+                   
+                </div><!--.tab-content-->
+            </section>
+      
+
+
+<script type="text/javascript">
+$('.locataireIndex').click(function(){
+
+
+
+formdata = { id:"1" };
+ $('.locataireCOnt').html("<div style=\"text-align:center\"><img src=\"{{ asset('theme/ripple.svg') }}\"></div>");
+       $.ajax({
+                    url : "{{ path( 'locataire'  ) }}",
+                    type : 'post',
+                    data : formdata  ,
+                    success : function( statut){
+                      if(statut){
+                        $('.locataireCOnt').html(statut);
+                      }
+                    }
+                    ,
+                    error : function(resultat, statut, erreur){
+                      if(statut){
+                        error = '<div class="alert alert-dismissible alert-danger">' + 
+                          '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                          erreur + " ! veuillez recommencer " +
+                          '</div>';
+                        $('.locataireCOnt').html(error);
+                      }
+                    }
+                  }
+              );
+
+});
+
+</script>
+
+
+
+
+
+    
+{% endblock %}

@@ -1,0 +1,123 @@
+    {{ form_start(form, {"attr":{ "class":"FormNewJusticatif "}, "action":path('document_justificatif' , {id : id })}) }}
+
+
+            {% macro information_prototype(document) %}
+      
+        <div class="row">    
+        <!-- FRMULAIRE BIEN -->
+            <div class="col-md-4">                    
+                <fieldset class="form-group">
+                    {{ form_label(document.title, "Nom du document ", {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(document.title , { 'attr' : {'placeholder' : 'Nom du document',  'class' : 'form-control'  }} ) }}
+                    <small class="help-block">{{ form_errors(document.title , { 'attr' : {'class' : 'red' }} ) }}</small>
+                </fieldset>           
+            </div>     
+              <div class="col-md-6">                    
+                <fieldset class="form-group">
+                    {{ form_label(document.document.tempFile, "Fichier joint (format accepté : PNG , JEPG , JPG ,  GIF,  Word , PDF ) ", {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(document.document.tempFile , { 'attr' : {'placeholder' : 'Fichier joint',  'class' : 'form-control'  }} ) }}
+                    <small class="help-block">{{ form_errors(document.document.tempFile , { 'attr' : {'class' : 'red' }} ) }}</small>
+                </fieldset>           
+            </div>   
+         
+        </div>                        
+    {% endmacro %}
+
+      <div class="col-md-12">
+
+            <div class="collection" id="facture_optionFacture" data-prototype="{{ _self.information_prototype(form.justificatif.vars.prototype)|e }}">
+              
+                {% for document in form.justificatif %}
+                    {{ _self.information_prototype(document) }}
+                {% endfor %}
+                <span style="display:none;">  {{ form_widget( form.justificatif ) }}  </span>
+            </div>
+            <h4 class="with-border">Ajouter des documents justificatif <span class="bt"></span>  </h4>
+             <div id="ajout"  >
+            </div>
+
+
+         </div>     
+
+ <script type="text/javascript">
+
+
+                           
+
+$(document).ready(function() {
+
+    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+    var $container = $('div#facture_optionFacture');
+
+    // On ajoute un lien pour ajouter une nouvelle catégorie
+    var $addLink = $('<a href="#" id="add_category" class="btn btn-primary"><i class="fa fa-plus"> </a>');
+    $('.bt').html($addLink);
+
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $addLink.click(function(e) {
+      addCategory($container);
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      return false;
+    });
+
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    var index = $container.find(':input').length;
+
+    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+    if (index == 0) {
+      addCategory($container);
+
+      //$('#ajout').next('div').addClass('couleur_test');
+    } else {
+      // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+      $container.children('div').each(function() {
+        addDeleteLink($(this));
+      });
+    }
+
+    // La fonction qui ajoute un formulaire Categorie
+    function addCategory($container) {
+
+       
+
+      // Dans le contenu de l'attribut « data-prototype », on remplace :
+      // - le texte "__name__label__" qu'il contient par le label du champ
+      // - le texte "__name__" qu'il contient par le numéro du champ
+      var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Période n°' + (index+1))
+          .replace(/__name__/g, index));
+
+        //$prototype.attr('class','rows');
+        
+
+
+      // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+      addDeleteLink($prototype);
+
+      // On ajoute le prototype modifié à la fin de la balise <div>
+      $('#ajout').append($prototype);
+
+      // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+      index++;
+    }
+
+    // La fonction qui ajoute un lien de suppression d'une catégorie
+    function addDeleteLink($prototype) {
+      // Création du lien
+      $deleteLink = $('<div class="col-md-2"><div class="form-group"> <label class="control-label"></label> <br/><a href="#" class="btn btn-danger"><i class="fa fa-trash-o"></i>  </a></div></div><p>&nbsp;</p>');
+
+      // Ajout du lien
+      $prototype.append($deleteLink);
+
+      // Ajout du listener sur le clic du lien
+      $deleteLink.click(function(e) {
+        $prototype.remove();
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return false;
+      });
+    }
+
+    
+    
+  });
+
+ </script>

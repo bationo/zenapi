@@ -1,0 +1,224 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ '%entity% creation'|trans({'%entity%': 'Facture'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+
+{% block route %}
+
+         <header class="section-header">
+            <div class="tbl">
+                <div class="tbl-row">
+                    <div class="tbl-cell">
+                        <h3></h3>
+                        <ol class="breadcrumb breadcrumb-simple pull-left">
+                            <li><a href="{{ path('homepage') }}">Accueil</a></li>
+                            <li><a href="{{ path('proprietaire') }}">Liste des propriétaires</a></li>
+                            <li><a href="{{ path('locataire', {id: locataire.proprietaire.id}) }}">Liste des locataires</a></li>
+                            <li class="active">Ajout d'une facture</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+    {% endblock %}
+
+
+{% block body %}
+
+    {{ form_start(form, {action: path('facture_create' ,{id:locataire.id} )}) }}
+
+
+    {% macro information_prototype(optionFacture) %}
+      
+        <div class="row">    
+        <!-- FRMULAIRE BIEN -->
+            <div class="col-md-3">                    
+                <fieldset class="form-group">
+                    {{ form_label(optionFacture.libele, "Designation ", {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(optionFacture.libele , { 'attr' : {'placeholder' : 'Designation',  'class' : 'form-control'  }} ) }}
+                    <small class="help-block">{{ form_errors(optionFacture.libele , { 'attr' : {'class' : 'red' }} ) }}</small>
+                </fieldset>           
+            </div>     
+              <div class="col-md-2">                    
+                <fieldset class="form-group">
+                    {{ form_label(optionFacture.valeur, "Montant ", {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(optionFacture.valeur , { 'attr' : {'placeholder' : 'Montant',  'class' : 'form-control'  }} ) }}
+                    <small class="help-block">{{ form_errors(optionFacture.valeur , { 'attr' : {'class' : 'red' }} ) }}</small>
+                </fieldset>           
+            </div>   
+            <div class="col-md-2">                    
+                <fieldset class="form-group">
+                    {{ form_label(optionFacture.qte, "Mois", {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(optionFacture.qte , { 'attr' : {'placeholder' : 'Mois',  'class' : 'form-control'  }} ) }}
+                    <small class="help-block">{{ form_errors(optionFacture.qte , { 'attr' : {'class' : 'red' }} ) }}</small>
+                </fieldset>           
+            </div>       
+            <div class="col-md-3">                    
+                <fieldset class="form-group">
+                    {{ form_label(optionFacture.type, "Type ", {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(optionFacture.type , { 'attr' : {'placeholder' : 'Type',  'class' : 'form-control'  }} ) }}
+                    <small class="help-block">{{ form_errors(optionFacture.type , { 'attr' : {'class' : 'red' }} ) }}</small>
+                </fieldset>           
+            </div>     
+        </div>                        
+    {% endmacro %}
+
+
+
+
+
+    <section class="card">
+      <h1 class="pull-right"> Montant</h1>
+        <div class="card-block">
+            <h4 class="with-border">Ajouter une nouvelle facture <span class="bt"></span> <span style="color:green"></span>  </h4>
+
+               <div class="row">    
+                <!-- FRMULAIRE BIEN -->
+                <div class="col-lg-12">   
+                   <fieldset class="form-group">
+                        <label class="form-label required" for="contrat_locative">Locative</label>
+                        <select id="contrat_locative" name="locative" placeholder="Locative" class="form-control"> 
+                        {% for item in  locative %}       
+                            <option value="{{item.id}}">{{item.type}} - {{item.immobilier.nom}}</option>        
+                        {% endfor %}
+                        </select>
+                        <small class="help-block"></small>
+                    </fieldset>
+                  </div>
+                </div>
+            
+
+            <div id="ajout"  >
+            </div>
+            
+            
+            <div class="collection" id="facture_optionFacture" data-prototype="{{ _self.information_prototype(form.optionFacture.vars.prototype)|e }}">
+              
+                {% for optionFacture in form.optionFacture %}
+                    {{ _self.information_prototype(optionFacture) }}
+                {% endfor %}
+                <span style="display:none;">  {{ form_widget( form.optionFacture ) }}  </span>
+            </div>
+
+           
+
+            <div class="row">    
+                <!-- FRMULAIRE BIEN -->
+                <div class="col-lg-3">                    
+                    <fieldset class="form-group">
+                        {{ form_label(form.tva, "TVA ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.tva , { 'attr' : {'placeholder' : 'TVA',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.tva , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>           
+                </div>     
+                
+            </div>
+            
+            <h5 class="with-border"></h5>
+            <div class="form-group">
+                <a href="{{ path('facture' , {id : locataire.id}) }}" class="btn btn-inline btn-danger ladda-button" data-style="zoom-in"><span class="ladda-label"><i class="fa fa-list"></i> Retour</span><span class="ladda-spinner"></span></a>
+
+                <button class="btn btn-inline btn-info ladda-button" data-style="zoom-out"><span class="ladda-label"><i class="glyphicon glyphicon-floppy-saved"></i> Enregister</span><span class="ladda-spinner"></span></button>
+            </div>
+            
+        </div>
+    </section>
+
+ 
+
+
+
+
+
+        {{ form_widget(form) }}
+        
+    {{ form_end(form) }}
+
+
+{% endblock %}
+
+  {% block js %}
+
+
+{# Voici le script en question : #}
+<script type="text/javascript">
+  $(document).ready(function() {
+    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+    var $container = $('div#facture_optionFacture');
+
+    // On ajoute un lien pour ajouter une nouvelle catégorie
+    var $addLink = $('<a href="#" id="add_category" class="btn btn-primary"><i class="fa fa-plus"> </a>');
+    $('.bt').html($addLink);
+
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $addLink.click(function(e) {
+      addCategory($container);
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      return false;
+    });
+
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    var index = $container.find(':input').length;
+
+    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+    if (index == 0) {
+      addCategory($container);
+
+      //$('#ajout').next('div').addClass('couleur_test');
+    } else {
+      // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+      $container.children('div').each(function() {
+        addDeleteLink($(this));
+      });
+    }
+
+    // La fonction qui ajoute un formulaire Categorie
+    function addCategory($container) {
+
+       
+
+      // Dans le contenu de l'attribut « data-prototype », on remplace :
+      // - le texte "__name__label__" qu'il contient par le label du champ
+      // - le texte "__name__" qu'il contient par le numéro du champ
+      var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Période n°' + (index+1))
+          .replace(/__name__/g, index));
+
+        //$prototype.attr('class','rows');
+        
+
+
+      // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+      addDeleteLink($prototype);
+
+      // On ajoute le prototype modifié à la fin de la balise <div>
+      $('#ajout').append($prototype);
+
+      // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+      index++;
+    }
+
+    // La fonction qui ajoute un lien de suppression d'une catégorie
+    function addDeleteLink($prototype) {
+      // Création du lien
+      $deleteLink = $('<div class="col-md-2"><div class="form-group"> <label class="control-label"></label> <br/><a href="#" class="btn btn-danger"><i class="fa fa-trash-o"></i>  </a></div></div><p>&nbsp;</p>');
+
+      // Ajout du lien
+      $prototype.append($deleteLink);
+
+      // Ajout du listener sur le clic du lien
+      $deleteLink.click(function(e) {
+        $prototype.remove();
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return false;
+      });
+    }
+
+    
+    
+  });
+
+
+</script>
+    {% endblock %}

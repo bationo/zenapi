@@ -1,0 +1,391 @@
+
+{{ form_start(form, {"attr":{ "class":"FormNewContrat "}, "action":path('contrat_create' , {id : locataire.id })}) }}
+
+        {% macro information_prototype(optionFacture) %}
+      
+        <div class="row" class="options">    
+        <!-- FRMULAIRE BIEN -->
+            <div class="col-md-3">                    
+                <fieldset class="form-group">
+                    {{ form_label(optionFacture.libele, "Libele ", {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(optionFacture.libele , { 'attr' : {'placeholder' : 'Libele',  'class' : 'form-control'  }} ) }}
+                    <small class="help-block">{{ form_errors(optionFacture.libele , { 'attr' : {'class' : 'red' }} ) }}</small>
+                </fieldset>           
+            </div>     
+              <div class="col-md-2">                    
+                <fieldset class="form-group">
+                    {{ form_label(optionFacture.valeur, "Prix Unitaire en TTC ", {'label_attr': {'class': 'form-label '}}) }}
+                    {{ form_widget(optionFacture.valeur , { 'attr' : {'placeholder' : 'Prix Unitaire',  'class' : 'form-control prixO' , 'value' : '0'  }} ) }}
+                    <small class="help-block">{{ form_errors(optionFacture.valeur , { 'attr' : {'class' : 'red' }} ) }}</small>
+                </fieldset>           
+            </div>   
+            <div class="col-md-2">                    
+                <fieldset class="form-group">
+                    {{ form_label(optionFacture.qte, "Qte", {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(optionFacture.qte , { 'attr' : {'placeholder' : 'Qte',  'class' : 'form-control qte' , 'value' : '0' }} ) }}
+                    <small class="help-block">{{ form_errors(optionFacture.qte , { 'attr' : {'class' : 'red' }} ) }}</small>
+                </fieldset>           
+            </div>       
+            <div class="col-md-3">                    
+               <fieldset class="form-group">
+                    <label class="form-label required" >Total </label>
+                    <input type="text"   required="required" maxlength="255" placeholder="Total" disabled="disabled" class="form-control">
+                </fieldset>          
+            </div>     
+        </div>                        
+    {% endmacro %}
+    <span class="erreur"></span>
+
+    <section class="card">
+        <div class="card-block">
+            <h4 class="with-border">Ajouter un nouveau contrat <span style="color:green"></span>  </h4>
+
+            <div class="row">    
+                <!-- FRMULAIRE BIEN -->
+                <div class="col-lg-6"> 
+
+                    <fieldset class="form-group">
+                        <label class="form-label required " for="contrat_proprietaire">Proprietaire</label>
+                        <select id="contrat_proprietaire" name="proprietaire" placeholder="Proprietaire" class="form-control proprietaire" required="required"> 
+                            <option value="">Faite un choix</option>
+                        {% for item in  locative %}       
+                            <option value="{{item.id}}">
+                                         {% if item.entreprise != null %}
+                                                {{item.entreprise.raisonSocial}}
+                                        {% else %}
+                                            {{item.particulier.nom}} {{item.particulier.prenom}}
+
+                                        {% endif %}
+                                
+                            </option>        
+                        {% endfor %}
+                        </select>
+                        <small class="help-block"></small>
+                    </fieldset>
+
+                <fieldset class="form-group immobillier">
+                        <label class="form-label required " for="contrat_immobilier">Bien Immobilier</label>
+                        <select id="contrat_immobilier" name="immobilier" placeholder="immobilier" class="form-control immobilier" required="required"> 
+                      
+                        </select>
+                        <small class="help-block"></small>
+                    </fieldset>
+
+                   
+
+                     <fieldset class="form-group locative">
+                        <label class="form-label required locative" for="contrat_locative">Locative</label>
+                        <select id="contrat_locative" name="locative" placeholder="Locative" class="form-control" required="required"> 
+                        </select>
+                        <small class="help-block"></small>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        {{ form_label(form.type, "Type de contrat", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.type , { 'attr' : {'placeholder' : 'Type de contrat',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.type , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {{ form_label(form.dateDebut, "Date début", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.dateDebut , { 'attr' : {'placeholder' : 'Date début',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.dateDebut , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>  
+                     <fieldset class="form-group">
+                        {{ form_label(form.dateSignature, "Date de signature", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.dateSignature , { 'attr' : {'placeholder' : 'Date de signature',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.dateSignature , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>        
+                </div>
+                <div class="col-lg-6"> 
+                   
+                    <fieldset class="form-group">
+                        {{ form_label(form.dateFin, "Date fin", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.dateFin , { 'attr' : {'placeholder' : 'Date fin',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.dateFin , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset> 
+
+                    <fieldset class="form-group">
+                        {{ form_label(form.penalite, "Pénalité en cas de non paiement a temps", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.penalite , { 'attr' : {'placeholder' : 'Pénalité en cas de non paiement a temps',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.penalite , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {{ form_label(form.limite, "Jour limite de paiement ", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.limite , { 'attr' : {'placeholder' : 'Date fin',  'class' : 'form-control'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.limite , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset> 
+                    <fieldset class="form-group">
+                        {{ form_label(form.contrat.montant, "Coût du loyer", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.contrat.montant , { 'attr' : {'placeholder' : 'Coût du loyer',  'class' : 'form-control montantL' , "disabled" : "disabled"  }} ) }}
+                        <small class="help-block">{{ form_errors(form.contrat.montant , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset> 
+                    
+                    <fieldset class="form-group">
+                        {{ form_label(form.contrat.caution, "Caution", {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.contrat.caution , { 'attr' : {'placeholder' : 'Caution',  'class' : 'form-control caution calcul' , "value" : '0'  }} ) }}
+                        <small class="help-block">{{ form_errors(form.contrat.caution , { 'attr' : {'class' : 'red' }} ) }}</small>
+                    </fieldset>
+                               
+                </div>   
+                <div class="col-md-12">
+
+            <div class="collection" id="facture_optionFacture" data-prototype="{{ _self.information_prototype(form.contrat.facture.optionFacture.vars.prototype)|e }}">
+              
+                {% for optionFacture in form.contrat.facture.optionFacture %}
+                    {{ _self.information_prototype(optionFacture) }}
+                {% endfor %}
+                <span style="display:none;">  {{ form_widget( form.contrat.facture.optionFacture ) }}  </span>
+            </div>
+            <h4 class="with-border">Ajouter des options sur cette facture <span class="bt"></span>  </h4>
+             <div id="ajout"  >
+            </div>
+
+              <h3>  Total A PAYER : <span class="totalG" style="color:green">  </span> </h3>
+                </div>   
+            </div>
+            
+            <h5 class="with-border"></h5>
+             <div class="chargement">
+                     <button class="btn btn-inline btn-info ladda-button" data-style="zoom-out"><span class="ladda-label"><i class="glyphicon glyphicon-floppy-saved"></i> Enregister</span><span class="ladda-spinner"></span><div class="ladda-progress" style="width: 0px;"></div></button>
+                </div>
+
+                 <div class="chargement1" style="display:none">
+               
+                    <div><img src="{{ asset('theme/ring.svg') }}" style="width: auto; height: 70px;"></div>
+                </div>
+
+            
+        </div>
+    </section>
+
+        {{ form_widget(form) }}
+
+    {{ form_end(form) }}
+
+   
+
+   <script type="text/javascript">
+
+$(document).ready(function() {
+
+                           // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+    var $container = $('div#facture_optionFacture');
+
+    // On ajoute un lien pour ajouter une nouvelle catégorie
+    var $addLink = $('<a href="#" id="add_category" class="btn btn-primary"><i class="fa fa-plus"> </a>');
+    $('.bt').html($addLink);
+
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $addLink.click(function(e) {
+      addCategory($container);
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      return false;
+    });
+
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    var index = $container.find(':input').length;
+
+    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+    if (index == 0) {
+      addCategory($container);
+
+      //$('#ajout').next('div').addClass('couleur_test');
+    } else {
+      // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+      $container.children('div').each(function() {
+        addDeleteLink($(this));
+      });
+    }
+
+    // La fonction qui ajoute un formulaire Categorie
+    function addCategory($container) {
+
+       
+
+      // Dans le contenu de l'attribut « data-prototype », on remplace :
+      // - le texte "__name__label__" qu'il contient par le label du champ
+      // - le texte "__name__" qu'il contient par le numéro du champ
+      var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Période n°' + (index+1))
+          .replace(/__name__/g, index));
+
+        //$prototype.attr('class','rows');
+        
+
+
+      // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+      addDeleteLink($prototype);
+
+      // On ajoute le prototype modifié à la fin de la balise <div>
+      $('#ajout').append($prototype);
+
+      // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+      index++;
+    }
+
+    // La fonction qui ajoute un lien de suppression d'une catégorie
+    function addDeleteLink($prototype) {
+      // Création du lien
+      $deleteLink = $('<div class="col-md-2"><div class="form-group"> <label class="control-label"></label> <br/><a href="#" class="btn btn-danger"><i class="fa fa-trash-o"></i>  </a></div></div><p>&nbsp;</p>');
+
+      // Ajout du lien
+      $prototype.append($deleteLink);
+
+      // Ajout du listener sur le clic du lien
+      $deleteLink.click(function(e) {
+        $prototype.remove();
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return false;
+      });
+    }
+
+
+});
+
+
+
+
+
+ function calcul(){
+
+        loyer = $('.locativeC option:selected').data('montant');
+        caution = $('.caution').val();
+        $('.montantL').val(loyer);
+        total = (parseInt(loyer) * parseInt(caution) + loyer );
+
+        $('.totalG').text(total);
+
+}
+ $('.options').focusout(function(){
+        prix =  $(this).val();
+        qte = $(this).next();
+        console.log(qte);
+  
+     });
+
+  
+   $('.proprietaire').change(function(){
+
+        val = $(this).val();
+        if(val != ""){
+         formdata = { id:val };
+             $.ajax({
+                    url : "{{ path( 'proprietaire_ajax') }}",
+                    type : 'post',
+                    data : formdata  ,
+                    success : function( statut){
+                      if(statut){
+                        $('.immobillier').html(statut);
+
+                         $('.immobilier').change(function(){
+
+                                val = $(this).val();
+                                if(val != ""){
+                                 formdata = { id:val };
+                                     $.ajax({
+                                            url : "{{ path( 'locative_ajax') }}",
+                                            type : 'post',
+                                            data : formdata  ,
+                                            success : function(statut){
+                                              if(statut){
+                                                $('.locative').html(statut);
+
+                                                  $('.calcul').focusout(function(){
+                                                    
+                                                    calcul(); });
+                                                 
+                                              }
+                                            }
+                                            ,
+                                            error : function(resultat, statut, erreur){
+                                              if(statut){
+                                                error = '<div class="alert alert-dismissible alert-danger">' + 
+                                                  '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                                                  erreur + " ! veuillez recommencer " +
+                                                  '</div>';
+                                                $('.locative').html(error);
+                                              }
+                                            }
+                                          }
+                                      );
+                                }
+
+
+
+                           });
+
+                      }
+                    }
+                    ,
+                    error : function(resultat, statut, erreur){
+                      if(statut){
+                        error = '<div class="alert alert-dismissible alert-danger">' + 
+                          '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                          erreur + " ! veuillez recommencer " +
+                          '</div>';
+                        $('.immobillier').html(error);
+                      }
+                    }
+                  }
+              );
+        }
+
+
+
+   });
+
+
+
+
+$('.FormNewContrat').submit(function(){
+
+
+    var data = $('.FormNewContrat').serializeArray().reduce(function(obj, item) {
+    obj[item.name] = item.value;
+    return obj;
+}, {});
+
+         $('.chargement1').show(); 
+        $('.chargement').hide();
+       $.ajax({
+                    url : "{{ path('contrat_create' , {id : locataire.id }) }}",
+                    type : 'post',
+                    data: data ,
+
+                    success : function( statut){
+                      if(statut){
+
+                        if(statut==3){
+                             $('.modal-backdrop').removeClass('modal-backdrop');
+                            $('.NewContrat').modal('hide');
+                           
+                                alert('Ajout reussie');
+
+                        }else{
+                            $('.erreur').html(statut);
+                        }
+                          $('.chargement1').hide(); 
+                          $('.chargement').show();
+                        
+                      }
+                    }
+                    ,
+                    error : function(resultat, statut, erreur){
+                      if(statut){
+                        error = '<div class="alert alert-dismissible alert-danger">' + 
+                          '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                          erreur + " ! veuillez recommencer " +
+                          '</div>';
+                        $('.erreur').html(error);
+                         $('.chargement1').hide(); 
+                          $('.chargement').show();
+                      }
+                    }
+                  }
+              );
+
+return false;
+} );
+
+  
+
+   </script>    

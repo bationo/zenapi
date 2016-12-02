@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Compte Patient - {{ parent() }}{% endblock %}
+
+
+{% block content %}
+<div style="background: #00944A!important; height:10px!important;">
+               
+        </div>
+<div style=""> 
+ <div class="container">
+
+<div id="main" class="site-main">
+
+            <div class="container active-sidebar">
+                <div id="primary" class="content-area">
+                    <div id="content" class="site-content" role="main">
+                        <div id="post-378" class="entry post-378 page type-page status-publish hentry">
+                            <div class="entry-content">
+                                <div class="vc_row wpb_row vc_row-fluid">
+                                    <div class="row">
+                                        <div class="h-padding-0 wpb_column vc_column_container vc_col-sm-12">
+                                            <div class="wpb_wrapper">
+                                                <div class="wpb_text_column wpb_content_element  woocommerce">
+                                                    <div class="wpb_wrapper">
+                                                        
+
+                                                        <hr>
+                                                        <h3>Mes rendez-vous</h3>
+
+                                                    
+                                                        <table class="datatable table table-condensed table-vendor-sales-report">
+                                                            <thead>
+                                                                <tr>
+                                                                    
+                                                                     <th>Code</th>
+                                                                    <th>Spécialité</th>
+                                                                    <th>Statut</th>
+                                                                    <th>Date du rdv</th>
+                                                                    <th>Docteur</th>
+                                                                    <th></th>
+                                                                    
+                                                                    
+                                                            </thead>
+                                                            <tbody>
+
+                                                                {% for rdv in app.user.profil.rdv %}
+
+                                                                    <tr>
+                                                <td>{{ rdv.id }}</td>
+                                                <td>{{ rdv.specialite.libele }}</td> 
+                                                <td>
+                                {% if rdv.statut == 0 %} <span class="label label-primary">En Cour</span> {% endif %}
+                                {% if rdv.statut == 1 %} <span class="label label-info">Terminer</span> {% endif %}
+                                {% if rdv.statut == 2 %} <span class="label label-warning">Annuler</span> {% endif %}
+                                                </td>
+                                                <td>{{rdv.dateRdv|localizeddate('full', 'short')}} </td>
+                                                <td>{{rdv.docteur.nom}} </td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a class="" href="{{ path( 'rdv_detail' , {id: rdv.id  } )    }}">
+                                                            <i class="fa fa-file-o"></i> 
+                                                        </a>
+                                                      
+                                                      
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+
+                                  
+                                {% endfor %}
+
+                                                          
+                                                               
+
+
+                                                            </tbody>
+                                                        </table>
+                                                     
+
+                                                
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- .entry-content -->
+                        </div>
+                        <!-- #post -->
+                    </div>
+                    <!-- #content -->
+                </div>
+                <!-- #primary -->
+                <div id="tertiary" class="sidebar-container shop" role="complementary">
+                    <div class="sidebar-inner">
+                        <div class="widget-area clearfix">
+                            <div id="vc_widget-18" class="widget-9 widget-odd widget widget_vc_widget">
+                                <div class="scoped-style">
+                                    <style type="text/css" data-type="vc_shortcodes-custom-css" scoped>
+                                        .vc_custom_1456310629405 {
+                                            margin-bottom: 0px !important;
+                                        }
+                                    </style>
+                                    <div class="vc_row wpb_row vc_row-fluid vc_custom_1456310629405">
+                                        <div class="row">
+                                          {% include 'default/menu.html.twig' %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                         
+                        </div>
+                        <!-- .widget-area -->
+                    </div>
+                    <!-- .sidebar-inner -->
+                </div>
+                <!-- #tertiary -->
+            </div>
+
+        </div>
+
+</div>
+</div>
+{% endblock %}

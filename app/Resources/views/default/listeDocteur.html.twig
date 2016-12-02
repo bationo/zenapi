@@ -1,0 +1,22 @@
+
+ <div class="form-group f-blue-select">
+          <label  for="acts">Choisissez votre praticien
+
+          </label>
+          <br/>
+              <select   class="search__doc-speciality elem docteur docteurrdv" data-tags="false" data-placeholder="Choisissez votre praticien" required="" tabindex="-1" >
+                                <option value=""></option>
+                             {% for docteur in  docteurs %}
+                                                        <option value="{{docteur.id}}">{{docteur.nom}}</option>
+                                                {% endfor %}
+                                       
+                </select>
+
+
+           
+        
+        </div>
+         <div class="agenda">
+
+
+          </div>

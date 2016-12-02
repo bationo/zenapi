@@ -1,0 +1,97 @@
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Docteur'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+        <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="#" class="active" > Mes Spécialistes </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+
+ <!--===================================================-->
+                        <!-- End Row selection (single row) -->
+                        <!-- Row selection and deletion (multiple rows) -->
+                        <!--===================================================-->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Mes Spécialistes </h3>
+                            </div>
+                            <div id="demo-custom-toolbar" class="table-toolbar-left">
+                                 <a class="btn btn-info" href="{{ path('docteur_new') }}">
+                                    <i class="fa fa-plus"></i> {{ 'Create a new entry'|trans({}, 'admin') }}
+                                </a>
+                            </div>
+                            <div class="panel-body">
+                                <table id="demo-dt-delete" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Titre</th>
+                                            <th>Nom</th>
+                                            <th>Mail</th>
+                                            <th>Tel</th>
+                                            
+                                            <th scope="col">{{ 'Actions'|trans({}, 'admin') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                         {% for docteur in entities %}
+                                            <tr>
+                                                <td>{{ docteur.titre.libele }}</td>
+                                                <td>{{ docteur.nom }} </td>
+                                                <td>{{ docteur.mail }} </td>
+                                                <td>{{ app.user.pays.indicatif }} {{ docteur.tel }} </td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-default btn-sm" href="{{ path('docteur_show', {id: docteur.id}) }}">
+                                                            <i class="fa fa-file-o"></i> {{ 'show'|trans({}, 'admin') }}
+                                                        </a>
+                                                        <a class="btn btn-default btn-sm" href="{{ path('docteur_edit', {id: docteur.id}) }}">
+                                                            <i class="fa fa-edit"></i> {{ 'edit'|trans({}, 'admin') }}
+                                                        </a>
+                                                         <a class="btn btn-default btn-sm" href="{{ path('docteur_disponible', {id: docteur.id}) }}" >
+                                                            <i class="fa fa-calendar-plus-o"></i> {{ 'Disponiblite'|trans({}, 'admin') }} 
+                                                        </a>
+                                                      
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                          
+                                        {% endfor %}
+                                        
+                                      
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--===================================================-->
+                        <!-- End Row selection and deletion (multiple rows) -->
+                        <!-- Add Row -->
+                        <!--===================================================-->
+
+
+
+
+
+
+
+
+
+    
+   
+    
+{% endblock %}

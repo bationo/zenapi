@@ -1,0 +1,391 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ '%entity% edit'|trans({'%entity%': 'Locataire'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+
+{% block route %}
+
+     <header class="section-header">
+        <div class="tbl">
+            <div class="tbl-row">
+                <div class="tbl-cell">
+                    <h3></h3>
+                    <ol class="breadcrumb breadcrumb-simple pull-left">
+                        <li><a href="{{ path('homepage') }}">Accueil</a></li>
+                        <li><a href="{{ path('proprietaire') }}">Propriétaire</a></li>
+                        <li><a href="{{ path('locataire' , {id:locataire.locataire.proprietaire.id}) }}">Locataire</a></li>
+                        <li class="active">Modifier locataire</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    {% endblock %}
+
+
+{% block body %}
+
+<section class="card">
+                <div class="card-block">
+                    <h4 class="with-border">Modification - {{ '%entity% '|trans({'%entity%': 'Locataire'}, 'admin') }}</h4>
+                    {{ form_start(edit_form) }}
+                    <div class="row">                      
+                                    
+                        {% if locataire.locataire.entreprise != null  %}
+                            <!-- ENTREPRISE -->
+                            <div class="col-lg-4">                                
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.email, "E-mail ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.email , { 'attr' : {'placeholder' : 'E-mail',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.email , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                              
+                         
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.raisonSocial, "Raison social ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.raisonSocial , { 'attr' : {'placeholder' : 'Raison social',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.raisonSocial , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.formeJuridique, "Forme juridque ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.formeJuridique , { 'attr' : {'placeholder' : 'Forme juridque',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.formeJuridique , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.siege, "Siège ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.siege , { 'attr' : {'placeholder' : 'Siège',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.siege , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.compteContribuable, "Compte contribuable ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.compteContribuable , { 'attr' : {'placeholder' : 'Compte contribuable',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.compteContribuable , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.nationalite, "Nationalité ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.nationalite , { 'attr' : {'placeholder' : 'Nationalité',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.nationalite , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.situationMatrimonial, "Situation matrimoniale ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.situationMatrimonial , { 'attr' : {'placeholder' : 'Situation matrimoniale',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.situationMatrimonial , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.pays.nom, "Pays ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.pays.nom , { 'attr' : {'placeholder' : 'Pays',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.pays.nom , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.nombreEnfant, "Nombre d\'enfant ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.nombreEnfant , { 'attr' : {'placeholder' : 'Nombre d\'enfant',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.nombreEnfant , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.activite, "Activité ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.activite , { 'attr' : {'placeholder' : 'Activité',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.activite , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>                              
+                            </div>
+
+
+                            <div class="col-lg-4">                                
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.registreCommerce, "Régistre de commerce ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.registreCommerce , { 'attr' : {'placeholder' : 'Régistre de commerce',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.registreCommerce , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.telBureau, "Tel bureau", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.telBureau , { 'attr' : {'placeholder' : 'Tel bureau',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.telBureau , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.fax, "Fax ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.fax , { 'attr' : {'placeholder' : 'Fax',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.fax , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.gerantCivilite, "Civilité ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.gerantCivilite , { 'attr' : {'placeholder' : 'Civilité',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.gerantCivilite , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.gerantNom, "Nom du gerant ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.gerantNom , { 'attr' : {'placeholder' : 'Nom du gerant',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.gerantNom , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.gerantPrenom, "Prénoms du gerant ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.gerantPrenom , { 'attr' : {'placeholder' : 'Prénoms du gerant',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.gerantPrenom , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.gerantDateNaissance, "Date de naissance ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.gerantDateNaissance , { 'attr' : {'placeholder' : 'Date de naissance',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.gerantDateNaissance , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.affiniteContactUrgence, "Affinité ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.affiniteContactUrgence , { 'attr' : {'placeholder' : 'Affinité',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.affiniteContactUrgence , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.telContactUrgence, "Contact en cas d\'urgence ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.telContactUrgence , { 'attr' : {'placeholder' : 'Contact en cas d\'urgence',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.telContactUrgence , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.nomContactUrgence, "Personne à contacter en cas d\'urgence ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.nomContactUrgence , { 'attr' : {'placeholder' : 'Personne à contacter en cas d\'urgence',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.nomContactUrgence , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>                                                     
+                            </div>
+
+
+                            <div class="col-lg-4">                                
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.gerantLieuNaissance, "Lieu de naissance ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.gerantLieuNaissance , { 'attr' : {'placeholder' : 'Lieu de naissance',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.gerantLieuNaissance , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.gerantNaturePiece, "Nature de la pièce", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.gerantNaturePiece , { 'attr' : {'placeholder' : 'Nature de la pièce',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.gerantNaturePiece , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.gerantNumeroPiece, "Numéro de pièce ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.gerantNumeroPiece , { 'attr' : {'placeholder' : 'Numéro de pièce',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.gerantNumeroPiece , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.gerantDateDelivrance, "Date de délivrance ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.gerantDateDelivrance , { 'attr' : {'placeholder' : 'Date de délivrance',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.gerantDateDelivrance , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.gerantLieuDelivrance, "Lieu de délivrance ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.gerantLieuDelivrance , { 'attr' : {'placeholder' : 'Lieu de délivrance',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.gerantLieuDelivrance , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.gerantTelephone, "Tel. ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.gerantTelephone , { 'attr' : {'placeholder' : 'Tel.',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.gerantTelephone , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.gerantCellulaire, "Cel. ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.gerantCellulaire , { 'attr' : {'placeholder' : 'Cel.',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.gerantCellulaire , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.gerantProfession, "Profession ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.gerantProfession , { 'attr' : {'placeholder' : 'Profession',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.gerantProfession , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.entreprise.gerantMail, "E-mail. ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.entreprise.gerantMail , { 'attr' : {'placeholder' : 'E-mail.',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.entreprise.gerantMail , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.tempFile, "Photo ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.tempFile , { 'attr' : {'placeholder' : 'Photo',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.tempFile , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>                                                              
+                            </div>
+
+
+                        {% else %}
+                            <!-- PARTICULIER -->
+                            <div class="col-lg-4">                                
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.email, "E-mail ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.email , { 'attr' : {'placeholder' : 'E-mail',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.email , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.plainPassword.first, "Mot de passe ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.plainPassword.first , { 'attr' : {'placeholder' : 'Mot de passe',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.plainPassword.first , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.plainPassword.second, "Vérification ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.plainPassword.second , { 'attr' : {'placeholder' : 'Vérification',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.plainPassword.second , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.numeroContribuable, "Compte contribuable ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.numeroContribuable , { 'attr' : {'placeholder' : 'Compte contribuable',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.numeroContribuable , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.nationalite, "Nationalité ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.nationalite , { 'attr' : {'placeholder' : 'Nationalité',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.nationalite , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.situationMatrimonial, "Situation matrimoniale ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.situationMatrimonial , { 'attr' : {'placeholder' : 'Situation matrimoniale',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.situationMatrimonial , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.pays.nom, "Pays ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.pays.nom , { 'attr' : {'placeholder' : 'Pays',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.pays.nom , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.nombreEnfant, "Nombre d\'enfant ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.nombreEnfant , { 'attr' : {'placeholder' : 'Nombre d\'enfant',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.nombreEnfant , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>                              
+                            </div>
+
+
+                            <div class="col-lg-4">                                
+                                
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.telBureau, "Tel bureau", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.telBureau , { 'attr' : {'placeholder' : 'Tel bureau',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.telBureau , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.civilite, "Civilité ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.civilite , { 'attr' : {'placeholder' : 'Civilité',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.civilite , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.nom, "Nom ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.nom , { 'attr' : {'placeholder' : 'Nom du gerant',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.nom , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.prenom, "Prénoms ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.prenom , { 'attr' : {'placeholder' : 'Prénoms ',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.prenom , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.dateNaissance, "Date de naissance ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.dateNaissance , { 'attr' : {'placeholder' : 'Date de naissance',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.dateNaissance , { 'attr' : {'class' : 'red' }} ) }}</small>particulier
+                                </fieldset>particulier
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.affiniteContactUrgence, "Affinité ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.affiniteContactUrgence , { 'attr' : {'placeholder' : 'Affinité',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.affiniteContactUrgence , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.telContactUrgence, "Contact en cas d\'urgence ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.telContactUrgence , { 'attr' : {'placeholder' : 'Contact en cas d\'urgence',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.telContactUrgence , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.tempFile, "Photo ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.tempFile , { 'attr' : {'placeholder' : 'Photo',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.tempFile , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>                              
+                            </div>
+
+
+                            <div class="col-lg-4">                                
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.lieuNaissance, "Lieu de naissance ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.lieuNaissance , { 'attr' : {'placeholder' : 'Lieu de naissance',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.lieuNaissance , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.naturePiece, "Nature de la pièce", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.naturePiece , { 'attr' : {'placeholder' : 'Nature de la pièce',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.naturePiece , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.numeroPiece, "Numéro de pièce ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.numeroPiece , { 'attr' : {'placeholder' : 'Numéro de pièce',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.numeroPiece , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.dateDelivrance, "Date de délivrance ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.dateDelivrance , { 'attr' : {'placeholder' : 'Date de délivrance',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.dateDelivrance , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.lieuDelivrance, "Lieu de délivrance ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.lieuDelivrance , { 'attr' : {'placeholder' : 'Lieu de délivrance',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.lieuDelivrance , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.telephone, "Tel. ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.telephone , { 'attr' : {'placeholder' : 'Tel.',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.telephone , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.cellulaire, "Cel. ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.cellulaire , { 'attr' : {'placeholder' : 'Cel.',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.cellulaire , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.profession, "Profession ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.profession , { 'attr' : {'placeholder' : 'Profession',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.profession , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.email, "E-mail. ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.email , { 'attr' : {'placeholder' : 'E-mail.',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.email , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    {{ form_label(edit_form.locataire.particulier.nomContactUrgence, "Personne à contacter en cas d\'urgence ", {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(edit_form.locataire.particulier.nomContactUrgence , { 'attr' : {'placeholder' : 'Personne à contacter en cas d\'urgence',  'class' : 'form-control'  }} ) }}
+                                    <small class="help-block">{{ form_errors(edit_form.locataire.particulier.nomContactUrgence , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                </fieldset>                              
+                            </div>
+
+                        {% endif %}
+                    </div>
+                    <h5 class="with-border"></h5>
+                    <div class="form-group">
+                        <a href="{{ path('locataire' , {id:locataire.locataire.proprietaire.id}) }}" class="btn btn-inline btn-danger ladda-button" data-style="zoom-in"><span class="ladda-label"><i class="fa fa-list"></i> Retour</span><span class="ladda-spinner"></span></a>
+
+                        <button class="btn btn-inline btn-info ladda-button" data-style="zoom-out"><span class="ladda-label"><i class="fa fa-edit"></i> {{ 'Edit'|trans({}, 'admin') }}</span><span class="ladda-spinner"></span></button>
+
+                        <button class="btn btn-danger pull-right" type="submit"><i class="fa fa-trash-o"></i> {{ 'Delete'|trans({}, 'admin') }}</button>
+                    </div>
+                    
+                </div>
+    </section>
+
+        
+    {{ form_end(edit_form) }}
+
+    {{ form_start(delete_form) }}
+        {{ form_widget(delete_form) }}
+
+
+        <input name="modal" type="hidden" value="0">
+    {{ form_end(delete_form) }}
+
+    <div id="delete_confirm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>{{ 'Confirm delete'|trans({}, 'admin') }}</h3>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'You are about to delete an item'|trans({}, 'admin') }}, {{ 'this procedure is irreversible'|trans({}, 'admin') }}.</p>
+                    <p>{{ 'Do you want to proceed?'|trans({}, 'admin') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger">{{ 'Yes'|trans({}, 'admin') }}</button>
+                    <button class="btn btn-default" data-dismiss="modal">{{ 'No'|trans({}, 'admin') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

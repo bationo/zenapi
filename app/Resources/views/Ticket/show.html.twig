@@ -1,0 +1,228 @@
+
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Ticket'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+        <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="{{ path('ticket_pro') }}"  > Support Client </a> </li>
+                                <li> <a href="#" class="active" > file de discussion </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+ {% if ticket.statut == true   %}
+                                                                {% set statut = "<span class='label label-success'>Ouvert</span>" %}
+                                                                        {% else %}
+                                                                {% set statut = "<span class='label label-warning'>Fermer</span>" %}
+
+                                                                    {% endif %}
+
+
+<!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="panel">
+                                    <!--Panel heading-->
+                                    <div class="panel-heading ui-sortable-handle">
+                                        <h3 class="panel-title">file de discussion</h3>
+                                    </div>
+                                    <!--Panel body-->
+                                    <div class="panel-body">
+
+                                <div class="panel">
+                                    <!--Panel heading-->
+                                    <div class="panel-heading ui-sortable-handle">
+                                        <h3 class="panel-title">{{ticket.titre}}</h3>
+                                    </div>
+                                    <!--Panel body-->
+                                    <div class="panel-body">
+
+                                        <div class="row text-center">
+                                <div class="col-md-3">
+                                    <div class="well well-sm">
+                                        <span class="lead">Soumis</span>
+                                        <div>{{ticket.created|localizeddate('full', 'short')}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="well well-sm">
+                                        <span class="lead">Service</span>
+                                        <div>{{ticket.service}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="well well-sm">
+                                        <span class="lead">Priorité</span>
+                                        <div>{{ticket.priorite}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="well well-sm">
+                                        <span class="lead">État</span>
+                                        <div><span style="color:#888888">{{statut|raw}}</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                             {% for  message in ticket.message %}
+                            <div class="panel panel-bordered panel-dark">
+                                    <div class="panel-heading ui-sortable-handle">
+                                        <div class="panel-control">
+
+                                           {% if message.user.professionnel is not null   %}
+                            <td> {{ message.user.professionnel.nom }}  <span class="label label-info">Client</span> </td>
+                                                {% else %}
+                                 <td> {{ message.user.admin.nom }} <span class="label label-danger"> Staff </span> </td>
+
+                                             {% endif %}
+
+                                        </div>
+                                        <h3 class="panel-title">{{message.created|localizeddate('full', 'short')}}</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        {{message.contenu|raw}}
+                                    </div>
+
+                                    {% if message.image is not null   %}
+                                <div class="panel">
+                                    <!--Panel heading-->
+                                    <div class="panel-heading ui-sortable-handle">
+                                        <h3 class="panel-title">Fichier joint</h3>
+                                    </div>
+                                    <!--Panel body-->
+                                    <div class="panel-body">
+                                        <p> <a style="color:red" TARGET='_blank' href="{{ asset('uploads/img/'  ~ message.image.id  ~ '.'  ~  message.image.url ) }}">  {{message.image.alt}}  </a></p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                           
+
+                                </div>
+                                {% endfor %}
+
+                            
+                                <div class="panel">
+                                    <!--Panel heading-->
+                                    <div class="panel-heading ui-sortable-handle">
+                                        <h3 class="panel-title">Réponse</h3>
+                                    </div>
+                                    <!--Panel body-->
+                                    <div class="panel-body">
+                                         {{ form_start(form, {"attr":{ "class":"panel-body form-horizontal envoie"}}) }}
+                                        {{ form_errors(form) }}
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.contenu, "Message", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.contenu , { 'attr' : {'placeholder' : 'Message',  'class' : 'form-control ckeditor'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.contenu , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.image.tempFile, "Pièce jointe (Extensions permises: .jpg, .jpeg, .png, .pdf)  ", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.image.tempFile , { 'attr' : {'placeholder' : 'Pièce jointe (Extensions permises: .jpg, .jpeg, .png, .pdf)  ',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.image.tempFile , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+
+                                         <div style="float:right">
+                                            <button type="submit"   class="btn btn-pink">Valider</button>
+                                        </div>
+                                         <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('ticket_pro') }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+
+
+
+
+        </div>
+
+                                        {{ form_end(form) }}
+                                    </div>
+                                </div>
+
+
+                                       
+                                    </div>
+                                </div>
+                                       
+
+
+                                    </div>
+                                </div>
+                               
+
+                             
+
+                                       
+
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+
+
+
+    
+     
+        <script type="text/javascript">
+
+
+$('.envoie').submit(function() {
+
+    cont =  CKEDITOR.instances['messagee_contenu'].getData();
+
+    if(cont != "" ){
+
+        return true;
+    }else{
+
+        alert("veuillez renseigner votre message");
+
+        return false;
+    }
+
+
+});
+
+        </script>
+       
+   
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

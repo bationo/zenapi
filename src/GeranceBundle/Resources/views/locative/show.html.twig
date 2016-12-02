@@ -1,0 +1,143 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Locative - {{ parent() }}{% endblock %}
+
+
+
+{% block route %}
+
+    <header class="section-header">
+        <div class="tbl">
+            <div class="tbl-row">
+                <div class="tbl-cell">
+                    <h3></h3>
+                    <ol class="breadcrumb breadcrumb-simple pull-left">
+                        <li><a href="{{ path('homepage') }}">Accueil</a></li>
+                        <li><a href="{{ path('proprietaire') }}">Liste des propriétaires</a></li>
+                        <li><a href="{{ path('locative' , {id:locative.immobilier.id}) }}">Liste des biens immobiliers</a></li>
+                        <li><a href="{{ path('locative' , {id:locative.immobilier.id}) }}">Liste des locatives</a></li>
+                        <li class="active">Détail locative</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </header>
+
+{% endblock %}
+
+
+{% block body %}
+
+    <section class="card">
+        <header class="card-header card-header-lg">
+             Fiche de la locative {{locative.type}}
+        </header>
+            <div class="card-block">
+
+                <div class="col-md-6">
+             <table class="table table-hover record_properties">
+                <tbody>
+                    <tr>
+                        <th scope="row">Identifiant</th>
+                        <td>LOCT-{{ locative.id }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Type de locative</th>
+                        <td>{{ locative.type }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Code</th>
+                        <td>{{ locative.code }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Numéro de porte</th>
+                        <td>{{ locative.porte }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Montant du loyer</th>
+                        <td>{{ locative.loyer }}</td>
+                    </tr>
+                 
+                </tbody>
+            </table>
+                    
+
+                </div>
+                 <div class="col-md-6">
+             <table class="table table-hover record_properties">
+                <tbody>
+                   
+                     <tr>
+                        <th scope="row">Charge sur le loyer</th>
+                        <td>{{ locative.charge }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Nombre de pièce</th>
+                        <td>{{ locative.piece }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Superficie</th>
+                        <td>{{ locative.supercie }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Commentaire</th>
+                        <td>{{ locative.commentaire }}</td>
+                    </tr>                  
+                    <tr>
+                        <th scope="row">Date d'enregistrement :</th>
+                        <td>{{ locative.created|date('Y-m-d H:i:s') }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Dernière modification :</th>
+                        <td>{{ locative.modified|date('Y-m-d H:i:s') }}</td>
+                    </tr>
+                    </tbody>
+                </tbody>
+            </table>
+                    
+
+                </div>
+              
+
+        </div>
+    </section>
+
+
+    {{ form_start(delete_form) }}
+        {{ form_widget(delete_form) }}
+
+        <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('locative' , {id:locative.immobilier.id}) }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+
+            <a class="btn btn-primary" href="{{ path('locative_edit', {id: locative.id}) }}">
+                <i class="fa fa-edit"></i> {{ 'Edit'|trans({}, 'admin') }}
+            </a>
+            <button class="btn btn-danger" type="submit"><i class="fa fa-trash-o"></i> {{ 'Delete'|trans({}, 'admin') }}</button>
+
+        </div>
+
+        <input name="modal" type="hidden" value="0">
+    {{ form_end(delete_form) }}
+
+    <div id="delete_confirm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>{{ 'Confirm delete'|trans({}, 'admin') }}</h3>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'You are about to delete an item'|trans({}, 'admin') }}, {{ 'this procedure is irreversible'|trans({}, 'admin') }}.</p>
+                    <p>{{ 'Do you want to proceed?'|trans({}, 'admin') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger">{{ 'Yes'|trans({}, 'admin') }}</button>
+                    <button class="btn btn-default" data-dismiss="modal">{{ 'No'|trans({}, 'admin') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

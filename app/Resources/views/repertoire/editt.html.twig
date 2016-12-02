@@ -1,0 +1,479 @@
+
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Message'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+           <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="{{ path('repertoire_all', {type: message.type}) }}"  > Historique </a> </li>
+                                <li> <a href="#" class="active" > Editer Message  </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+     {{ render(controller('AdminBundle:Repertoire:compte')) }}
+
+<!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Editer un Message</h3>
+                                    </div>
+                                    <!-- BASIC FORM ELEMENTS -->
+                                    <!--===================================================-->
+                                       {% set info = null %}
+
+                                            {% if message.type == "mail" %}
+                                                {% set info = message.mail %}
+                                            {% else  %}
+                                            {% set info = message.tel %}
+                                            {% endif %}
+
+                                       <form class="contact messageTexto" action="#" method="post" > 
+                                        <div class="err" ></div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="conct">Contact</label>
+                                            <div class="col-md-9">
+                                                <textarea id="conct" rows="9" class="form-control" disabled>{% for key,contact in  message.name  %}{{contact }} ({{info[key]}}) {% endfor %}</textarea>
+                                            </div>
+                                        </div>
+
+                                         <p>&nbsp;</p>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="titre">Le Titre de Votre Message</label>
+                                            <div class="col-md-9">
+                                                <input id="titre" value="{{message.titre}}" rows="3" name="titre" required placeholder="Le Titre de Votre Message" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <p>&nbsp;</p>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="msg">Votre Message</label>
+                                            <div class="col-md-9">
+                                                <textarea id="msg" required rows="3" name="msg" placeholder="Votre Message" class="form-control" >
+                                                    {{message.message}}
+                                                </textarea>
+                                            </div>
+                                        </div>
+                                         <p>&nbsp;</p>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="option">Option</label>
+                                            <div class="col-md-9">
+                                                <select class="form-control" id="option" name="option">
+
+                                                        <option value="1">envoie programmé </option>
+                                                        <option value="0">envoi immédiat </option>
+                                                        
+                                                        
+                                                        
+                                                    </select>
+                                               
+                                            </div>
+                                        </div>
+
+
+                                         
+                            <div  class="hideEnvoie">
+                                        <p>&nbsp;</p>    
+                                     <div class="form-group">
+                                         <label class="col-md-3 control-label" for="date">Date d'envoie</label>
+                                        <div class="dp-range col-md-9" >
+                                            <div class="input-daterange input-group" id="datepicker"  >
+                                                <input  type="text" class="form-control date" id="date" name="date" />
+                                                <span class="input-group-addon">A</span>
+
+<div id="dateEnvoie" placeholder="" class="form-control ">
+
+    <select id="heureEnvoie" name="heureEnvoie"> 
+               <option value="0">00</option> 
+              <option value="1">01</option>     
+              <option value="2">02</option>
+              <option value="3">03</option>   
+              <option value="4">04</option> 
+             <option value="5">05</option>
+             <option value="6">06</option>            
+             <option value="7">07</option>            
+             <option value="8">08</option>            
+             <option value="9">09</option>            
+             <option value="10">10</option>            
+             <option value="11">11</option>            
+             <option value="12">12</option>            
+             <option value="13">13</option>            
+             <option value="14">14</option>            
+             <option value="15">15</option>            
+             <option value="16">16</option>            
+             <option value="17">17</option>            
+             <option value="18">18</option>            
+             <option value="19">19</option>            
+             <option value="20">20</option>            
+             <option value="21">21</option>            
+             <option value="22">22</option>            
+             <option value="23">23</option>
+    </select>
+
+             :
+    <select id="minuteEnvoie" name="minuteEnvoie">            
+      <option value="0">00</option>            
+      <option value="1">01</option>            
+      <option value="2">02</option>            
+      <option value="3">03</option>            
+      <option value="4">04</option>            
+      <option value="5">05</option>            
+      <option value="6">06</option>            
+      <option value="7">07</option>            
+      <option value="8">08</option>            
+      <option value="9">09</option>            
+      <option value="10">10</option>            
+      <option value="11">11</option>            
+      <option value="12">12</option>            
+      <option value="13">13</option>            
+      <option value="14">14</option>            
+      <option value="15">15</option>            
+      <option value="16">16</option>            
+      <option value="17">17</option>            
+      <option value="18">18</option>            
+      <option value="19">19</option>            
+      <option value="20">20</option>            
+      <option value="21">21</option>            
+      <option value="22">22</option>            
+      <option value="23">23</option>            
+      <option value="24">24</option>            
+      <option value="25">25</option>            
+      <option value="26">26</option>            
+      <option value="27">27</option>            
+      <option value="28">28</option>            
+      <option value="29">29</option>            
+      <option value="30">30</option>            
+      <option value="31">31</option>            
+      <option value="32">32</option>            
+      <option value="33">33</option>            
+      <option value="34">34</option>            
+      <option value="35">35</option>            
+      <option value="36">36</option>            
+      <option value="37">37</option>            
+      <option value="38">38</option>            
+      <option value="39">39</option>            
+      <option value="40">40</option>            
+      <option value="41">41</option>            
+      <option value="42">42</option>            
+      <option value="43">43</option>            
+      <option value="44">44</option>            
+      <option value="45">45</option>            
+      <option value="46">46</option>            
+      <option value="47">47</option>            
+      <option value="48">48</option>            
+      <option value="49">49</option>            
+      <option value="50">50</option>            
+      <option value="51">51</option>            
+      <option value="52">52</option>            
+      <option value="53">53</option>            
+      <option value="54">54</option>            
+      <option value="55">55</option>            
+      <option value="56">56</option>            
+      <option value="57">57</option>            
+      <option value="58">58</option>            
+      <option value="59">59</option>
+    </select> 
+</div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        
+
+                                           
+<p>&nbsp;</p>
+                                       
+                                        
+                                        
+                                       
+
+
+
+                                        <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('repertoire_all', {type: message.type}) }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+
+
+
+
+        </div>
+      
+        <div style="float:right; "  class="btnConf">
+            <button type="submit"   class="btn btn-pink btnvalid">Envoyé </button>
+        </div>
+        <div style="float:right; display:none"  class="btnChargement">
+            <p>Chargement...</p>
+        </div>
+                                </div>
+                               
+                               
+          </form>                      
+
+                               
+                               
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+    
+     <script type="text/javascript">
+
+$(".messageTexto").submit(function(){
+
+         
+
+    {% if message.type == "sms" %}
+           titre =  $('#titre').val();
+           msg =  $('#msg').val();
+           option =  $('#option').val();
+           heure =  $('#heureEnvoie').val(); 
+           minute =  $('#minuteEnvoie').val();
+           date =  $('#date').val();
+
+            etat = true;
+
+                if(option == 1){
+
+                    if(date != "" && heure != "" && minute != "" && titre != "" && msg != ""  ){
+                            etat = true;
+                    }else{
+                       etat = false;
+                    }
+
+                }else{
+                     if( titre != "" && msg != "" ){
+                         etat = true;
+                     }else{
+                         etat = false;
+                     }
+
+                }
+
+                if(etat){
+                    $('.btnConf').hide(); 
+                    $('.btnChargement').show(); 
+                         formdata = {type: "sms" , titre : titre  , msg:msg  , option:option , heure:heure , minute:minute , date: date   };
+                     $.ajax({
+                       url : "{{ path('repertoire_edit_edit', {id: message.id}) }}",
+                       type : 'post',
+                       data : formdata  ,
+                       success : function( statut){
+
+                        if(statut){
+                            $('.btnConf').show(); 
+                        $('.btnChargement').hide();
+
+                                 url = "{{ path( 'repertoire_affichage' , {id: message.id  } )    }}";
+                                location.href = url;
+                        
+                        }
+
+
+                              },
+
+                       error : function(resultat, statut, erreur){
+
+                        if(statut){
+
+                             error = '<div class="alert alert-dismissible alert-danger">' + 
+                                      '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                                       erreur + " ! veuillez recommencer " +
+                                    '</div>';
+                         $(".err").html(error);
+                         $('.btnConf').show(); 
+                        $('.btnChargement').hide();
+                        }
+                         
+                       }
+
+                      
+
+                    });
+
+
+
+
+
+
+                }else{
+                    alert('veuillez completer correctement les informations du formulaire!');
+                }
+
+        {% endif %}
+
+    {% if message.type == "mail" %}
+           titre =  $('#titre').val();
+           msg =  CKEDITOR.instances['msg'].getData();
+           option =  $('#option').val();
+           heure =  $('#heureEnvoie').val(); 
+           minute =  $('#minuteEnvoie').val();
+           date =  $('#date').val();
+         
+
+            etat = true;
+
+                if(option == 1){
+
+                    if(date != "" && heure != "" && minute != "" && titre != "" && msg != "" ){
+                            etat = true;
+                    }else{
+                       etat = false;
+                    }
+
+                }else{
+                     if( titre != "" && msg != "" ){
+                         etat = true;
+                     }else{
+                         etat = false;
+                     }
+
+                }
+
+                if(etat){
+                    $('.btnConf').hide(); 
+                    $('.btnChargement').show(); 
+                         formdata = {type: "mail" , titre : titre  , msg:msg  , option:option , heure:heure , minute:minute , date: date   };
+                     $.ajax({
+                       url : "{{ path('repertoire_edit_edit', {id: message.id}) }}",
+                       type : 'post',
+                       data : formdata  ,
+                       success : function( statut){
+
+                        if(statut){
+                            $('.btnConf').show(); 
+                        $('.btnChargement').hide();
+
+                                 url = "{{ path( 'repertoire_affichage' , {id: message.id  } )    }}";
+                                location.href = url;
+                        
+                        }
+
+
+                              },
+
+                       error : function(resultat, statut, erreur){
+
+                        if(statut){
+
+                             error = '<div class="alert alert-dismissible alert-danger">' + 
+                                      '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                                       erreur + " ! veuillez recommencer " +
+                                    '</div>';
+                         $(".err").html(error);
+                         $('.btnConf').show(); 
+                        $('.btnChargement').hide();
+                        }
+                         
+                       }
+
+                      
+
+                    });
+
+
+
+
+
+
+                }else{
+                    alert('veuillez completer correctement les informations du formulaire!');
+                }
+
+        {% endif %}
+
+
+        return false;
+    } );
+
+
+
+
+
+
+
+
+
+
+$(function() {
+
+$('#heureEnvoie option[value={{message.dateEnvoie|date("H")}}]').attr('selected','selected');
+$('#minuteEnvoie option[value={{message.dateEnvoie|date("i")}}]').attr('selected','selected');
+
+
+
+ $('#option').change(function(){
+
+if($(this).val() == 0){
+    $(".hideEnvoie").hide();
+}else{
+    $(".hideEnvoie").show();
+}
+
+
+
+ });
+
+
+
+    {% if message.type == "mail" %}
+    
+
+        $( "#msg" ).addClass( "ckeditor" );
+    {% endif %}
+  $(".dp-range .input-daterange .date").datepicker({
+        format: "MM dd, yyyy",
+        todayBtn: "linked",
+        autoclose: !0,
+        todayHighlight: !0
+    });
+  
+$("#date").val("{{message.dateEnvoie|date('F m, Y')}}");
+
+
+
+
+});
+
+
+     </script>
+        
+       
+   
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,201 @@
+
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Docteur'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+        <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="#" class="active"  > Mon Profil </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+<!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Fiche Professionnel </h3>
+                                    </div>
+                                    <!-- BASIC FORM ELEMENTS -->
+                                    <!--===================================================-->
+
+                                    
+                                       
+                                            <table class="table table-hover record_properties">
+                                            <tbody>
+
+                                                 <tr>
+                                                    <th scope="row"></th>
+                                                    <td> <img src="{{ asset(app.user.webpath) }} " style="height:120px;"> </td>
+                                                </tr>
+                                              
+                                                <tr>
+                                                    <th scope="row">Nom</th>
+                                                    <td>{{ app.user.professionnel.nom }}</td>
+                                                </tr>
+                                               
+                                               
+                                               
+                                                <tr>
+                                                    <th scope="row">Ville d'implantation</th>
+                                                    <td>{{ app.user.professionnel.ville }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Pays </th>
+                                                    <td>{{ app.user.pays.nom }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Localisation (nom de quartier, rue, etc )</th>
+                                                    <td>{{ app.user.professionnel.localisation }}  </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Présentation</th>
+                                                    <td>{{ app.user.professionnel.presentation|raw }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Lien Site web</th>
+                                                    <td>{{ app.user.professionnel.url }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Prix minimum d'une consultation </th>
+                                                    <td>{{ app.user.professionnel.tarif }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Numéro de Téléphone Mobile  </th>
+                                                    <td> {{ app.user.pays.indicatif }} {{ app.user.professionnel.tel  }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Numéro de Téléphone Fixe </th>
+                                                    <td>{{ app.user.pays.indicatif }} {{ app.user.professionnel.fixe }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">les langues parlées </th>
+                                                    <td>{{ app.user.professionnel.langue }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Durée moyenne de vos consultations </th>
+                                                    <td>{{ app.user.professionnel.dure }} minutes  </td>
+                                                </tr>
+                                                 <tr>
+                                                    <th scope="row">Les Spécialités </th>
+                                                    <td>
+
+                                                        
+                                                        {% for specialite in app.user.professionnel.specialite %}
+                                                            <ul>
+                                                            <li> Libele:   <span class="ff">{{specialite.libele.libele}}</span>   </li>
+                                                            <li> Tarif:   <span class="ff">{{specialite.prix}}</span> FCFA   </li>
+                                                            </ul>
+                                                        {% endfor %}
+                                                        
+
+                                                       </td>
+                                                </tr>
+                                                 <tr>
+                                                    <th scope="row">Jour de Travail </th>
+                                                    <td>{{ app.user.professionnel.jour }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Heure d'ouverture </th>
+                                                    <td>{{ app.user.professionnel.ouverture|date('H:i') }}  </td>
+                                                </tr>
+                                                 <tr>
+                                                    <th scope="row">Heure de fermeture </th>
+                                                    <td>{{ app.user.professionnel.fermeture|date('H:i') }}  </td>
+                                                </tr>
+
+                                               
+
+                                                
+
+                                                
+
+                                                    <th scope="row">Date d'inscription </th>
+                                                        <td>{{app.user.professionnel.created|localizeddate('full', 'short') }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Date de modification</th>
+                                                        <td>{{ app.user.professionnel.modified|localizeddate('full', 'short') }}</td>
+                                                    </tr>
+
+                                                     
+                                            </tbody>
+                                        </table>
+
+<style type="text/css">
+.ff{
+    color: green;
+    font-weight: bold;
+}
+</style>
+
+        <div class="btn-group record_actions">
+
+             <a class="btn btn-primary" href="{{ path('pro_mon_profil_edit') }}">
+                <i class="fa fa-edit"></i> {{ 'Edit'|trans({}, 'admin') }} 
+            </a>
+            
+          
+
+
+        </div>
+
+   
+
+    
+
+                          
+      
+                            </div>
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+
+
+
+    
+     
+        
+       
+   
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

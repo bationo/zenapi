@@ -1,0 +1,102 @@
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Messages'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+        <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="{{ path('contact_pro') }}" > Mes Messages </a> </li>
+                                <li> <a href="#" class="active" > Détail Message </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+
+<!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Détail Message </h3>
+                                    </div>
+                                    <!-- BASIC FORM ELEMENTS -->
+                                    <!--===================================================-->
+                                       
+                                <table class="table table-hover record_properties">
+                                            <tbody>
+
+                                                 
+                                              
+                                                <tr>
+                                                    <th scope="row">Nom</th>
+                                                    <td>{{ contact.nom }}</td>
+                                                </tr>
+                                               
+                                                <tr>
+                                                    <th scope="row">Mail</th>
+                                                    <td>{{ contact.mail }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Tel</th>
+                                                    <td>{{ contact.tel }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Sujet</th>
+                                                    <td>{{ contact.sujet }} </td>
+                                                </tr>
+                                                  <tr>
+                                                    <th scope="row">Message</th>
+                                                    <td>{{ contact.message }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Date d'envoie </th>
+                                                        <td>{{ contact.created|localizeddate('full', 'short') }}</td>
+                                                </tr>
+                                                    
+                                            </tbody>
+                                        </table>
+
+                                          <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('contact_pro') }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+        
+
+        </div>
+
+                            </div>
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+
+
+
+    
+     
+
+
+    
+   
+    
+{% endblock %}

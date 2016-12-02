@@ -1,0 +1,378 @@
+                               
+                              
+                                
+                                <div class="form-group">
+<div class="agenda agenda-react">
+    <p>&nbsp;</p>
+    <div>
+        <div>
+            <div class="prev"><i class="dicon-left-arrow active"></i></div>
+            <div class="table-wrapper">
+                <table>
+                    <thead> 
+                        <tr>
+                    {% set values = [] %} 
+                    {% set jour = [ 'Lundi' , 'Mardi' , "Mercredi" , "Jeudi" , "Vendredi" , "Samedi" , "Dimanche" ] %}
+
+                       {% for key,periode in periodes %}
+                        {% set values = values|merge([key]) %}
+
+                       {% endfor  %}
+
+
+
+                            
+                            {% for j in jour %}
+
+                                {% if j in values %}
+
+            <th><span class="day_of_week">{{j}}</span><br>  {{ periodes[j][0]|localizeddate('none', 'none', null, null, 'd MMMM') }}</th>
+                                {% else %}
+                                    <th class="disabled"><span class="day_of_week">{{j}}</span><br></th>
+
+                                {% endif %}
+
+
+                            {% endfor %}
+                            
+                                 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+
+
+                    {% for j in jour %}
+
+                        {% if j in values %}
+
+            
+                            <td class="disabled">
+                                <div class="slots"> 
+
+                                {% for key,heure in  periodes[j] %} 
+                                    <div class="slot"><a class="heurerdv" data-domicile="{{domicile[j][key]}}" data-dateaff="{{heure|localizeddate('full', 'short')}}" data-datetime="{{heure|date('Y-m-d H:i')}}" href="#">{{heure|localizeddate('none', 'short')}}</a></div>
+                                {% endfor %}
+
+
+                                </div>
+                            </td>
+
+                        {% else %}
+                            <td class="disabled">
+                                <div class="slots"></div>
+                            </td>
+
+                                {% endif %}
+
+
+                    {% endfor %}
+
+
+
+                           
+                           
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+           
+            <div class="row">
+                {% if "now"|date('Ymd')  != semaine|date('Ymd') %}
+                 <div class="warning pull-left text-left" style="margin-left: 70px; margin-top: 10px">
+                    <div class="panel-body page-icons">
+                                        <span style="cursor:pointer" data-date="{{ semaine|date_modify("-1 week")|date("Y-m-d") }}" class="glyphicon glyphicon-chevron-left prevAgenda"></span>
+                                    </div>
+
+                </div>
+            {% endif %}
+
+                <div class="warning pull-right text-right" style="margin-right: 70px; margin-top: 10px">
+                    <div class="panel-body page-icons">
+                                        <span style="cursor:pointer" data-date="{{ semaine|date_modify("+1 week")|date("Y-m-d") }}" class="glyphicon glyphicon-chevron-right nextAgenda"></span>
+                                    </div>
+
+                </div>
+            </div>
+           
+            
+        </div>
+    </div>
+</div>
+                                        </div>
+                                    <div class="dateRdv" style="display:none">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Date du rendez-vous</label>
+                                            <div class="col-md-9">
+                                                <p class="form-control-static"> <span data-val="" class="dateRdvConfirmer"></span>  <a href="#" class="dateRdvEditer"> Modifier</a> </p>
+                                            </div>
+                                        </div>
+
+                                         
+
+
+
+                                        <div class="form-group">
+                                            <label for="com" class="col-md-3 control-label">Commentaire pour le Docteur</label>
+                                            <div class="col-md-9">
+                                                <textarea placeholder="Commentaire pour le Docteur" id="com" rows="5" class="form-control comRdv"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group rdvDomicile" style="display:none">
+                                            <p>&nbsp;</p>
+                                            <label for="Consultation" class="col-md-3 control-label">Consultation au domicile du patient ?</label>
+                                            <div class="col-md-9">
+                                                  <select class="form-control selectpicker domicileRdv" id="Consultation">
+                                                        <option value="0">NON</option>
+                                                        <option value="1">OUI</option>
+                                                        
+                                                        
+                                                    </select>
+                                            </div>
+                                        </div>
+                                         <div  style="display:none" >
+                                            <input type="hidden" class="domicileStatut" >
+                                        </div>
+
+
+
+                                         <p>&nbsp;</p>
+                                    </div> 
+
+
+
+<script type="text/javascript">
+
+$('.nextAgenda').click(function(){
+
+
+{% if ident != 0 %} ident = "{{edit.id}}"; {% else %} ident = "0"; {% endif %}
+
+   var now = new Date($('.nextAgenda').data("date"));
+    d =  now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+
+                                        formdata = {docteur: $('.docteur').val() , semaine : d , id:ident  };
+
+                
+                $('.agendaM').html('<div style="text-align:center" > <img src="{{ asset("pro/img/load.gif") }}"></div>');
+
+            $.ajax({
+               url : "{{ path( 'pro_rdv_agenda') }}",
+               type : 'post',
+               data : formdata  ,
+               success : function( statut){
+
+                        $('.agendaM').html(statut);
+
+                      },
+
+               error : function(resultat, statut, erreur){
+
+                if(statut){
+
+                     error = '<div class="alert alert-dismissible alert-danger">' + 
+                              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                               erreur + " ! veuillez recommencer " +
+                            '</div>';
+                 $('.error').html(error);
+                }
+                 
+               }
+
+              
+
+            });
+
+
+
+
+
+});
+
+$('.prevAgenda').click(function(){
+{% if ident != 0 %} ident = "{{edit.id}}"; {% else %} ident = "0"; {% endif %}
+   var now = new Date($('.prevAgenda').data("date"));
+    d =  now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+
+                                        formdata = {docteur: $('.docteur').val() , semaine : d  , id:ident };
+
+                $('.agendaM').html('<div style="text-align:center" > <img src="{{ asset("pro/img/load.gif") }}"></div>');
+
+            $.ajax({
+               url : "{{ path( 'pro_rdv_agenda') }}",
+               type : 'post',
+               data : formdata  ,
+               success : function( statut){
+
+                        $('.agendaM').html(statut);
+
+                      },
+
+               error : function(resultat, statut, erreur){
+
+                if(statut){
+
+                     error = '<div class="alert alert-dismissible alert-danger">' + 
+                              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                               erreur + " ! veuillez recommencer " +
+                            '</div>';
+                 $('.error').html(error);
+                }
+                 
+               }
+
+              
+
+            });
+
+
+
+
+
+});
+
+
+$('.heurerdv').click(function(){
+{% if ident != 0 %} com =  "{{edit.commentaire}}"; {% else %} com = ""; {% endif %}
+$('.comRdv').text(com);
+
+  time =   $(this).data('datetime'); 
+  $('.dateRdvConfirmer').attr("data-val", time);
+  aff =   $(this).data('dateaff');
+  domicile = $(this).data('domicile'); 
+  if(domicile==1){
+$('.rdvDomicile').show(); 
+$('.domicileStatut').val(1);
+  }else{
+  $('.rdvDomicile').hide();  
+  $('.domicileStatut').val(0); 
+  }
+
+ $('.dateRdvConfirmer').text(aff);
+
+$('.agenda-react').hide(); 
+$('.dateRdv').show();
+$('.btnConf').show();
+
+
+return false;
+});
+
+$('.dateRdvEditer').click(function(){
+
+  
+
+$('.agenda-react').show(); 
+$('.dateRdv').hide();
+$('.btnConf').hide();
+
+
+return false;
+});
+
+
+</script>
+
+
+
+
+                                        <style type="text/css">
+.agenda-react {
+    min-height: 191px;
+}
+
+.agenda {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: relative;
+}
+
+.agenda .prev, .agenda .next {
+    padding-top: 10px;
+    text-align: center;
+}
+.agenda .prev {
+    float: left;
+}
+.agenda .prev, .agenda .next {
+    padding-top: 10px;
+    text-align: center;
+}
+.agenda .next {
+    float: right;
+}
+.agenda a {
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+a {
+    -webkit-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+}
+a {
+    color: #0596de;
+    -webkit-transition: all .3s linear;
+    transition: all .3s linear;
+}
+a {
+    color: #428bca;
+    text-decoration: none;
+}
+a {
+    background: transparent;
+}
+
+.dicon-left-arrow.active {
+    background-position: 0px -1003px;
+}
+
+.agenda .table-wrapper {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.agenda table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 3px 0;
+    table-layout: fixed;
+}
+table {
+    max-width: 100%;
+    background-color: transparent;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.agenda table th.disabled {
+    background-color: #EEEEEE;
+    color: #8D8D8D;
+}
+.agenda table th {
+    padding: 5px;
+    background-color: #435f71;
+    color: white;
+    font-weight: 400;
+}
+.agenda table td, .agenda table th {
+    text-align: center;
+}
+.agenda table td.disabled {
+    border-color: #EEEEEE;
+}
+.agenda table td {
+    background-color: white;
+    border: 1px solid #435f71;
+    padding: 0px;
+    vertical-align: top;
+}
+.agenda table td, .agenda table th {
+    text-align: center;
+}
+</style>

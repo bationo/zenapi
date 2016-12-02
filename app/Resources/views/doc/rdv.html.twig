@@ -1,0 +1,222 @@
+
+{% extends "docteur.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Mes Rendez-vous'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+      <h3><i class="fa fa-home"></i> Interface Spécialiste </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('docteur_pro_connecter') }}"  > Accueil </a> </li>
+                                 <li> <a href="#"  class="active"  > Mes Rendez-vous </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+                    <div class="row">
+                            <div class="col-md-4 col-lg-4">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Mes Rendez-vous</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <!-- Draggable Events --> 
+                                        <!-- ============================================ -->
+                                      
+                                       
+                                        <div class="callend">
+                                            <div></div>
+                                        </div>
+
+                                        <!-- ============================================ --> 
+                                    </div>
+                                </div>
+
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Rechercher un rendez-vous</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <!-- Draggable Events --> 
+                                        <!-- ============================================ -->
+                                       <form action="{{ path('pro_rdv_liste_doc') }}" method="post">
+                                        {% for message in app.session.flashbag.get('notice') %}
+        <div class="alert alert-dismissible alert-success">
+  <button type="button" class="close" data-dismiss="alert">X</button>
+ <span style="color:red; font-weight: bold;"> {{ message }} </span>
+</div>
+      {% endfor %}
+                                    <div class="form-group">
+                                            <label class="col-md-12 control-label" for="rdv">Rechercher un rendez-vous à partir de son identifiant </label>
+                                            <div class="col-md-12">
+                                                <input required type="text" id="rdv" name="rdv" class="form-control" placeholder="Exemple : 123456789">
+                                                <small class="help-block" style="color:red" >Exemple : 123456789 </small>
+                                            </div>
+                                        </div>
+        <div style="float:right">
+            <button type="submit"   class="btn btn-pink envoie">Rechercher</button>
+        </div>
+        </form>
+                                       
+                                        <!-- ============================================ --> 
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-8 col-lg-8">
+                                <div class="panel">
+                                    <div class="panel-body">
+                                        <!-- Calendar placeholder--> 
+                                        <!-- ============================================ -->
+                                        <div id='demo-calendar'></div>
+                                        <!-- ============================================ --> 
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Rechercher des rendez-vous à partir  d'un intervalle de date </h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <!-- Draggable Events --> 
+                                        <!-- ============================================ -->
+                                       <form action="{{ path('pro_rdv_liste_doc') }}" method="post">
+                                        {% for message in app.session.flashbag.get('notice') %}
+        <div class="alert alert-dismissible alert-success">
+  <button type="button" class="close" data-dismiss="alert">X</button>
+ <span style="color:red; font-weight: bold;"> {{ message }} </span>
+</div>
+      {% endfor %}
+
+                                        <div class="dp-range">
+                                            <div class="input-daterange input-group" id="datepicker">
+                                                <input required type="text" class="form-control" name="start" />
+                                                <span class="input-group-addon">A</span>
+                                                <input required type="text" class="form-control" name="end" />
+                                            </div>
+                                        </div>
+                                  <br/>
+        <div style="float:right">
+            <button type="submit"   class="btn btn-pink envoie">Rechercher</button>
+        </div>
+        </form>
+                                       
+                                        <!-- ============================================ --> 
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                      
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+{% block javascripts %}
+
+      <script src="{{ asset( 'pro/plugins/fullcalendar/lib/moment.min.js' ) }} "></script> 
+        <script src="{{ asset( 'pro/plugins/fullcalendar/lib/jquery-ui.custom.min.js' ) }} "></script> 
+        <script src="{{ asset( 'pro/plugins/fullcalendar/fullcalendar.min.js' ) }} "></script> 
+        <script src="{{ asset( 'pro/plugins/fullcalendar/fr.js' ) }} "></script> 
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+ 
+
+
+    
+     $("#demo-calendar").fullCalendar({
+        header: {
+            left: "prev,next today",
+            center: "title",
+            right: "month,agendaWeek,agendaDay"
+        },
+        lang: 'fr',
+        editable: !1,
+        droppable: !1,
+        drop: function() {
+            $("#drop-remove").is(":checked") && $(this).remove()
+        },
+        selectable: !1,
+        selectHelper: !0,
+        select: function(a, b) {
+            var d, c = prompt("Event Title:");
+            c && (d = {
+                title: c,
+                start: a,
+                end: b
+            }, $("#demo-calendar").fullCalendar("renderEvent", d, !0)), $("#demo-calendars").fullCalendar("unselect")
+        },
+        eventLimit: !0,
+        events: [
+        {% for rdv in rdvs %}
+
+        {% if rdv.statut == 0 %} {% set color = "success" %} {% endif %}
+                                 {% if rdv.statut == 1 %} {% set color = "purple" %} {% endif %}
+                                    {% if rdv.statut == 2 %} {% set color = "warning" %} {% endif %}
+
+            {
+                id:"{{rdv.id}}",
+                title: "{{rdv.specialite.libele}} à {{rdv.dateRdv|date('H:i')}}",
+                url: "{{ path( 'pro_rdv_show_pro' , {id: rdv.id  } )    }}",
+                start: "{{rdv.dateRdv|date('Y-m-d')}}",
+                className: "{{color}}"
+            },
+        {% endfor %}
+       ]
+    });
+
+ $(".callend div").datepicker({
+        format: "MM dd, yyyy",
+        todayBtn: "linked",
+        autoclose: !0,
+        todayHighlight: !0,
+        
+    });
+$(".dp-range .input-daterange").datepicker({
+        format: "MM dd, yyyy",
+        todayBtn: "linked",
+        autoclose: !0,
+        todayHighlight: !0
+    });
+
+
+
+});
+
+ 
+
+</script>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+

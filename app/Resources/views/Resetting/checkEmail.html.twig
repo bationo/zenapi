@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mot de passe oublié - {{ parent() }}{% endblock %}
+{% block content %}
+
+<br/><br/><br/>
+            <div id="main" class="site-main">
+
+            <div class="container active-sidebar">
+                <div id="primary" class="content-area">
+                    <div id="content" class="site-content" role="main">
+                        <div id="post-62" class="entry post-62 page type-page status-publish hentry">
+                            <div class="entry-content">
+                                <div class="vc_row wpb_row vc_row-fluid vc_custom_1456310629405">
+                                    <div class="row">
+                                        <div class="h-padding-0 wpb_column vc_column_container vc_col-sm-12">
+                                            <div class="wpb_wrapper">
+                                                <div class="woocommerce">
+
+                                                 
+                                                
+
+                                                    <div class="col2-set" id="customer_login">
+
+                                                        <div class="col-3">
+                                                        	{% trans_default_domain 'FOSUserBundle' %}
+
+                                                           <p>
+																{{ 'resetting.check_email'|trans({'%email%': email}) }}
+															</p>
+
+                                                           
+
+
+                                                        </div>
+
+                                                     
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- .entry-content -->
+                        </div>
+                        <!-- #post -->
+                    </div>
+                    <!-- #content -->
+                </div>
+            
+            </div>
+
+        </div>
+<br/><br/><br/>
+{% endblock %} 
+

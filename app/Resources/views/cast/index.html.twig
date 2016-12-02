@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cast - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block page_body %}
+  <div class="page-full">
+    <div class="cast-slider owl-carousel">
+      {% for cast in casting %}
+      <div class="item" style="background-image: url({{ asset( cast.ImageWebPath ) }});">
+        <div class="overlay"></div>
+        <div class="hover">
+          <a href="#" class="expand"><i class="pe-7s-plus"></i></a>
+          <h4>{{ cast.name }}</h4>
+          <span class="title">{{ cast.function }}</span>
+          <div class="scroll">
+            {{ cast.presentation|raw }}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

@@ -1,0 +1,197 @@
+{% extends 'Layout.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+    {% block file %}
+
+        <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="#" class="active"> Accueil </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+
+{% block body %}
+
+
+                    <div class="row">
+                            <div class="col-md-4 col-lg-3">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Mes Rendez-vous</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <!-- Draggable Events --> 
+                                        <!-- ============================================ -->
+                                        <h4 class="text-thin" style="text-align:center"> <a class="btn btn-success" href="#">+ Ajouter </a> </h4>
+                                        <div id="demo-external-events">
+                                            <div class="fc-event" data-class="warning">My Event 1</div>
+                                            <div class="fc-event" data-class="success">My Event 2</div>
+                                            <div class="fc-event" data-class="mint">My Event 3</div>
+                                            <div class="fc-event" data-class="purple">My Event 4</div>
+                                            <div class="fc-event" data-class="warning">My Event 5</div>
+                                            <div class="fc-event" data-class="success">My Event 6</div>
+                                            <div class="fc-event" data-class="mint">My Event 7</div>
+                                            <div class="fc-event" data-class="purple">My Event 8</div>
+                                            <div class="fc-event">My Event 9</div>
+                                            <hr>
+                                            
+                                        </div>
+                                        <!-- ============================================ --> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-lg-9">
+                                <div class="panel">
+                                    <div class="panel-body">
+                                        <!-- Calendar placeholder--> 
+                                        <!-- ============================================ -->
+                                        <div id='demo-calendar'></div>
+                                        <!-- ============================================ --> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+{% block javascripts %}
+
+      <script src="{{ asset( 'pro/plugins/fullcalendar/lib/moment.min.js' ) }} "></script> 
+        <script src="{{ asset( 'pro/plugins/fullcalendar/lib/jquery-ui.custom.min.js' ) }} "></script> 
+        <script src="{{ asset( 'pro/plugins/fullcalendar/fullcalendar.min.js' ) }} "></script> 
+        <script src="{{ asset( 'pro/plugins/fullcalendar/fr.js' ) }} "></script> 
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+
+ 
+
+
+    
+     $("#demo-calendar").fullCalendar({
+        header: {
+            left: "prev,next today",
+            center: "title",
+            right: "month,agendaWeek,agendaDay"
+        },
+        lang: 'fr',
+        editable: !1,
+        droppable: !1,
+        drop: function() {
+            $("#drop-remove").is(":checked") && $(this).remove()
+        },
+        defaultDate: "2016-06-12",
+        selectable: !1,
+        selectHelper: !0,
+        select: function(a, b) {
+            var d, c = prompt("Event Title:");
+            c && (d = {
+                title: c,
+                start: a,
+                end: b
+            }, $("#demo-calendar").fullCalendar("renderEvent", d, !0)), $("#demo-calendars").fullCalendar("unselect")
+        },
+        eventLimit: !0,
+        events: [{
+            title: "Happy Hour",
+            start: "2016-06-05",
+            end: "2016-06-07",
+            className: "purple"
+        }, {
+            title: "Birthday Party",
+            start: "2016-06-15",
+            end: "2016-06-17",
+            className: "mint"
+        }, {
+            title: "All Day Event",
+            start: "2016-06-15",
+            className: "warning"
+        }, {
+            title: "Meeting",
+            start: "2016-06-20T10:30:00",
+            end: "2016-06-20T12:30:00",
+            className: "danger"
+        }, {
+            title: "All Day Event",
+            start: "2016-07-01",
+            className: "warning"
+        }, {
+            title: "Long Event",
+            start: "2016-07-07",
+            end: "2016-07-10",
+            className: "purple"
+        }, {
+            id: 999,
+            title: "Repeating Event",
+            start: "2016-07-09T16:00:00"
+        }, {
+            id: 999,
+            title: "Repeating Event",
+            start: "2016-07-16T16:00:00",
+            className: "success"
+        }, {
+            title: "Conference",
+            start: "2016-07-11",
+            end: "2016-07-13",
+            className: "dark"
+        }, {
+            title: "Meeting",
+            start: "2016-07-12T10:30:00",
+            end: "2016-07-12T12:30:00"
+        }, {
+            title: "Lunch",
+            start: "2016-07-12T12:00:00",
+            className: "pink"
+        }, {
+            title: "Meeting",
+            start: "2016-07-12T14:30:00"
+        }, {
+            title: "Happy Hour",
+            start: "2016-07-12T17:30:00"
+        }, {
+            title: "Dinner",
+            start: "2016-07-12T20:00:00"
+        }, {
+            title: "Birthday Party",
+            start: "2016-07-13T07:00:00"
+        }, {
+            title: "Click for Google",
+            url: "http://google.com/",
+            start: "2016-07-28"
+        }]
+    })
+});
+
+ 
+
+</script>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+

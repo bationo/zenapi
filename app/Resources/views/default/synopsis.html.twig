@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Synopsis - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block page_body %}
+  <div class="page-columns">
+    {{ synopsis|raw }}
+  </div>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

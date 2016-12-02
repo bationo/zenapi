@@ -1,0 +1,884 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }}{% endblock %}
+{% block content %}
+<div style="background: #00944A!important; height:10px!important;">          
+
+</div>
+
+<section class="tunnel-form__wrapper  row">
+  <div class="woocommerce">
+  <header class="tunnel-form__header">
+    <div class="container">
+      <h2>4 étapes (rapides) pour  valider votre RDV 
+      </h2>
+      <ul class="form__steps__nav ">
+        <li class="form__steps__nav__item form__steps__nav__item--current">
+          <span class="step-number">1
+          </span>
+          <span class="step-title">Choisir un motif de consultation
+          </span>
+        </li>
+        <li class="form__steps__nav__item">
+          <span class="step-number">2
+          </span>
+          <span class="step-title">S'identifier
+          </span>
+        </li>
+        <li class="form__steps__nav__item">
+          <span class="step-number">3
+          </span>
+          <span class="step-title">Valider vos informations
+          </span>
+        </li>
+        <li class="form__steps__nav__item">
+          <span class="step-number">4
+          </span>
+          <span class="step-title">Confirmer votre rdv
+          </span>
+        </li>
+      </ul>
+      <h3 class="form__steps__current-step-title">Choisir un motif de consultation
+      </h3>
+    </div>
+  </header>
+  {% if docteur.image != null  %} {% set img = docteur.image.webpath %} {% else %} {% set img = "uploads/avatars/avatar.png" %}   {% endif %}
+  <div class="tunnel-form__content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-push-6">
+          <div class="tunnel-box tunnel-box--white tunnel-box--praticien has-bubble has-bubble--always">
+            <div class="praticien__sticker">
+              <div class="praticien__img">
+                <img src="{{ asset(img) }}" class="praticien__img__profil" >
+              </div>
+              <div class="praticien__fn">
+                <a href="{{ path( 'professionel_name' ,{ id:docteur.professionnel.id , name:docteur.professionnel.nom|replace(" ", "-") } ) }}" target="_blank">
+                  <span class="praticien__name">{{ docteur.titre.libele }} {{ docteur.nom }} - {{docteur.professionnel.nom}}
+                  </span>
+                </a>
+                <span class="praticien__speciality">{% for specialite in docteur.ListeSpecialite %}
+                  {{specialite.libele}} 
+                  {% endfor %}
+                </span>
+              </div>
+              <div class="praticien__infos">
+                <p class="praticien__adress">{{ docteur.professionnel.localisation }}
+                  <br>{{ docteur.professionnel.ville }} {{ docteur.professionnel.user.pays.nom }}
+                  <br>({{ docteur.professionnel.user.pays.indicatif }}) {{ docteur.professionnel.fixe }} / {{ docteur.professionnel.tel }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="tunnel-box tunnel-box--white app-not-yet-conf" style="color:#787878">
+            <div class="form-group tunnel-form__cal" >
+              <div class="control-label">
+              </div>
+              <div class="form-group__field" >
+                <span class="glyphicon glyphicon-calendar tunnel-form__cal__toggle" aria-hidden="true">
+                </span>
+                <span > Date de votre rendez-vous&nbsp;: 
+                  <span style="color:#00944A"> {{date|localizeddate('full', 'short')}} 
+                  </span>.
+                </span>
+                <a href="#" style="color:#3f51b5"  class="tunnel-form__cal__link agendaRDV">
+                  Modifier
+                </a>
+                <div class="contEtape1">
+                </div>
+                <div class="agenda">
+                </div>
+              </div>
+              <div id="step1-span_choose_rdv" class="form-group__field hide">
+                <span>
+                  Sélectionnez votre heure de rendez-vous.
+                </span>
+              </div>
+            </div>
+          </div>
+          <div id="actInformation_container">
+          </div>
+        </div>
+        <div class="tunel-col col-md-6 col-md-pull-6">
+            <form  name="bookingForm" method="POST" class="f-user-signup f-user form-horizontal   tunnel-box etape1Form" action="#" >
+              
+              <div class="form-group">
+                <label class="control-label" for="spp">Mautif Consultation
+                </label>
+                <select class="form-control" id="spp" required>
+                  <option value="">Choix
+                  </option>
+                  {% for specialite in docteur.ListeSpecialite %}
+                  <option value="{{specialite.libele}}">{{specialite.libele}}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+              {% if domicile == 1 %}
+              <div class="form-group">
+                <label class="control-label" for="domicile">Rendez-vous à votre domicile ?
+                </label>
+                <select class="form-control" id="domicile" required>
+                  <option value="NON">NON
+                  </option>
+                  <option value="OUI">OUI
+                  </option>
+                </select>
+              </div>
+              {% endif %}
+              <input type="hidden" value="{{domicile}}" class="possible" />
+              <div class="form-group">
+                <label class="control-label" for="com">Quelle est la raison de votre visite ?
+                </label>
+                <textarea class="form-control" rows="3" id="com" required></textarea>
+              </div>
+              <div id="step1-actions" class="form__actions">
+                <input style="background-color:#00944A!important; color:white" type="submit" class="btn btn-validate btn-form" value="Étape suivante">
+              </div>
+            </form>
+          <div style="display:none; "  class="etape2Form tunnel-form  tunnel-box" >
+            <a href="#"  class="btn btn-validate compte " > J'ai déja un compte 
+            </a>
+            <div class="compteForm" style="display:none" style="text-align:left" >
+              <form name="bookingForm" method="POST"  class="connexion" action="#" >
+                <div class="error">
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-4" for="username">Adresse mail *
+                  </label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="email" required id="username" placeholder="Adresse mail *" >
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-4" for="pass">Mot de passe *
+                  </label>
+                  <div class="col-md-8">
+                    <input class="form-control" type="password" required id="pass" placeholder="Mot de passe *">
+                  </div>
+                </div>
+                <div style="text-align:center">
+                  <span class="chargement">
+                    <input type="submit" style="background-color:#00944A!important; color:white" class="btn btn-validate btn-form" value="Connexion"> 
+                  </span>
+                  <span class="chargement1" style="display:none">Chargement...
+                  </span>
+                </div>
+              </form>
+              <br/>
+              <br/>
+              <a href="#" style="text-align:left"  class="btn btn-validate  retour1" > 
+                << Précedent 
+              </a>
+            </div>
+            <a href="#"  class="btn btn-validate  new" > J'ai pas encore  de compte 
+            </a>
+            <div class="newForm" style="display:none" style="text-align:left" >
+              <div class="woocommerce">
+                <h2 style="color:#00944A" >Formulaire d'inscription
+                </h2>
+                <div class="errorr">
+                </div>
+                {{ form_start(form, {"attr":{ "class":"f-user-signup f-user form-horizontal inscription"}}) }}
+                <!--Text Input-->
+                <div class="form-group">
+                  {{ form_label(form.profil.genre, "Genre *", {'label_attr': {'class': 'col-md-4 control-label'}}) }}
+                  <div class="col-md-8">
+                    {{ form_widget(form.profil.genre , { 'attr' : {'placeholder' : 'genre',  'class' : 'form-control genreI'  }} ) }}
+                    <small class="help-block">{{ form_errors(form.profil.genre , { 'attr' : {'class' : 'red' }} ) }}
+                    </small>
+                  </div>
+                </div>
+                <!--Text Input-->
+                <div class="form-group">
+                  {{ form_label(form.email, "Adresse e-mail *", {'label_attr': {'class': 'col-md-4 control-label'}}) }}
+                  <div class="col-md-8">
+                    {{ form_widget(form.email , { 'attr' : {'placeholder' : 'Adresse e-mail',  'class' : 'form-control mailI'  }} ) }}
+                    <small class="help-block">{{ form_errors(form.email , { 'attr' : {'class' : 'red' }} ) }}
+                    </small>
+                  </div>
+                </div>
+                <!--Text Input-->
+                <div class="form-group">
+                  {{ form_label(form.plainPassword.first, "Mot de passe *", {'label_attr': {'class': 'col-md-4 control-label '}}) }}
+                  <div class="col-md-8">
+                    {{ form_widget(form.plainPassword.first , { 'attr' : {'placeholder' : 'Mot de passe',  'class' : 'form-control passI'  }} ) }}
+                    <small class="help-block">{{ form_errors(form.plainPassword.first , { 'attr' : {'class' : 'red' }} ) }}
+                    </small>
+                  </div>
+                </div>
+                <!--Text Input-->
+                <div class="form-group">
+                  {{ form_label(form.plainPassword.second, "Confirmation Mot de passe *", {'label_attr': {'class': 'col-md-4 control-label'}}) }}
+                  <div class="col-md-8">
+                    {{ form_widget(form.plainPassword.second , { 'attr' : {'placeholder' : 'Confirmation Mot de passe',  'class' : 'form-control Ipass2'  }} ) }}
+                    <small class="help-block">{{ form_errors(form.plainPassword.second , { 'attr' : {'class' : 'red' }} ) }}
+                    </small>
+                  </div>
+                </div>
+                <!--Text Input-->
+                <div class="form-group">
+                  {{ form_label(form.profil.nom, " Nom de famille *", {'label_attr': {'class': 'col-md-4 control-label'}}) }}
+                  <div class="col-md-8">
+                    {{ form_widget(form.profil.nom , { 'attr' : {'placeholder' : 'Nom de famille',  'class' : 'form-control Inom'  }} ) }}
+                    <small class="help-block">{{ form_errors(form.profil.nom , { 'attr' : {'class' : 'red' }} ) }}
+                    </small>
+                  </div>
+                </div>
+                <!--Text Input-->
+                <div class="form-group">
+                  {{ form_label(form.profil.prenom, "Prénom *", {'label_attr': {'class': 'col-md-4 control-label'}}) }}
+                  <div class="col-md-8">
+                    {{ form_widget(form.profil.prenom , { 'attr' : {'placeholder' : 'Prénom',  'class' : 'form-control Iprenom'  }} ) }}
+                    <small class="help-block">{{ form_errors(form.profil.prenom , { 'attr' : {'class' : 'red' }} ) }}
+                    </small>
+                  </div>
+                </div>
+                <!--Text Input-->
+                <div class="form-group">
+                  {{ form_label(form.profil.lieuNaissance, "Lieu de Naissance *", {'label_attr': {'class': 'col-md-4 control-label'}}) }}
+                  <div class="col-md-8">
+                    {{ form_widget(form.profil.lieuNaissance , { 'attr' : {'placeholder' : 'Lieu de Naissance',  'class' : 'form-control Ilieu'  }} ) }}
+                    <small class="help-block">{{ form_errors(form.profil.lieuNaissance , { 'attr' : {'class' : 'red' }} ) }}
+                    </small>
+                  </div>
+                </div>
+                <!--Text Input-->
+                <div class="form-group">
+                  {{ form_label(form.profil.ville, "Ville de résidence * " , {'label_attr': {'class': 'col-md-4 control-label'}}) }}
+                  <div class="col-md-8">
+                    {{ form_widget(form.profil.ville , { 'attr' : {'placeholder' : 'Ville de résidence',  'class' : 'form-control Iville'  }} ) }}
+                    <small class="help-block">{{ form_errors(form.profil.ville , { 'attr' : {'class' : 'red' }} ) }}
+                    </small>
+                  </div>
+                </div>
+                <!--Text Input-->
+                <div class="form-group">
+                  {{ form_label(form.pays, "Pays de résidence * " , {'label_attr': {'class': 'col-md-4 control-label'}}) }}
+                  <div class="col-md-8">
+                    {{ form_widget(form.pays , { 'attr' : {'placeholder' : 'Pays de résidence',  'class' : 'form-control indicatiff Ipays'  }} ) }}
+                    <small class="help-block">{{ form_errors(form.pays , { 'attr' : {'class' : 'red' }} ) }}
+                    </small>
+                  </div>
+                </div>
+                <!--Text Input-->
+                <div class="form-group">
+                  {{ form_label(form.profil.tel, " Téléphone * " , {'label_attr': {'class': 'col-md-4 control-label '}}) }}
+                  <div class="col-md-8">
+                    <div class="input-group">
+                      <span class="input-group-addon indicatif" >
+                      </span>
+                      {{ form_widget(form.profil.tel , { 'attr' : {'placeholder' : 'Téléphone',  'class' : 'form-control Itel'  }} ) }}
+                      <small class="help-block">{{ form_errors(form.profil.lieuNaissance , { 'attr' : {'class' : 'red' }} ) }}
+                      </small>
+                    </div>
+                  </div>
+                </div>
+                <!--Text Input-->
+                <div class="form-group">
+                  {{ form_label(form.profil.dateNaissance, "Date de Naissance *", {'label_attr': {'class': 'control-label col-md-4'}}) }}
+                  <div class="col-md-8">
+                    {{ form_widget(form.profil.dateNaissance , { 'attr' : {'placeholder' : 'Date de Naissance',  'class' : ''  }} ) }}
+                    <small class="help-block">{{ form_errors(form.profil.dateNaissance , { 'attr' : {'class' : 'red' }} ) }}
+                    </small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <p>
+                    En cliquant sur le bouton "S'enregistrer" ,  j'accepte les 
+                    <a href="#" target="_blank">conditions générales
+                    </a> d'utilisation du service. j'accepte aussi que certaines données de santé soient collectées pour les besoins du service proposé. Elles seront transmises uniquement à votre praticien.
+                  </p>
+                </div>
+                <div class="f__actions">
+                  <span class="chargementI">
+                    <input style="background-color:#00944A!important; color:white" type="submit" class="btn btn-form btn-validate" value="S'enregistrer"> 
+                  </span>
+                  <span class="chargement1I" style="display:none">Chargement...
+                  </span>
+                </div>
+                {{ form_end(form) }}
+              </div>
+              <br/>
+              <br/>
+              <br/>
+              <a href="#" style="text-align:left"  class="btn btn-validate  retour3" > 
+                << Précedent 
+              </a>
+            </div>
+            <br/>
+            <br/>
+            <a href="#" style="text-align:left"  class="btn btn-validate  retour" > 
+              << Précedent 
+            </a>           
+          </div>
+          <div style="display:none" class="etape3Form tunnel-form  tunnel-box" >
+            {% if app.user.groups is defined and app.user.groups.snapshot.0.name == "Profil" %}
+            <form name="bookingForm" method="POST"  class="Form2ETape" action="#" >
+              <div class="errorr">
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="username">Nom
+                </label>
+                <input class="form-control" type="text" disabled id="nomV" value="{{app.user.profil.nom}}" >
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="username">Prénom
+                </label>
+                <input class="form-control" type="text" required disabled id="prenomV" value="{{app.user.profil.prenom}}" >
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="username">Date de Naissance
+                </label>
+                <input class="form-control" type="text" required disabled id="naissanceV" value="{{app.user.profil.dateNaissance|date('d-m-Y')}}" >
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="username">lieu  de Naissance
+                </label>
+                <input class="form-control" type="text" required disabled id="lieuV" value="{{app.user.profil.lieuNaissance}}" >
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="username">Ville - commune
+                </label>
+                <input class="form-control" type="text" required id="communeV" value="{{app.user.profil.ville}}" >
+              </div>
+              <div>
+                <label class="control-label" for="username">Téléphone
+                </label>
+                <div class="input-group">
+                  <span class="input-group-addon" id="indicatifV">{{app.user.pays.indicatif}}
+                  </span>
+                  <input type="text" class="form-control" required id="telV" value="{{app.user.profil.tel}}" aria-describedby="basic-addon1">
+                </div>
+              </div>
+              <div class="form-group" style="display:none">
+                <label class="control-label" for="mailV">mail
+                </label>
+                <input class="form-control" style="background-color:#00944A!important; color:white" type="text" required id="mailV" value="{{app.user.email}}" >
+              </div>
+              <span class="chargement" style="float:right">
+                <input type="submit" style="background-color:#00944A!important; color:white" class="btn btn-validate btn-form" value="Suivant >>"> 
+              </span>
+              <span class="chargement1" style="display:none ; float:right">Chargement...
+              </span>
+              <br/>
+              <br/>
+              <a href="#" style="text-align:left"  class="btn btn-validate  retour2" > 
+                << Précedent 
+              </a>
+              <div id="connexion" style="display:none ;">connexion
+              </div>
+            </form>
+            <script type="text/javascript">
+              $('.retour2').click(function(){
+                $('.form__steps__nav__item--current').last().removeClass("form__steps__nav__item--current");
+                $('.form__steps__nav__item--current').last().removeClass("form__steps__nav__item--current");
+                $('.etape1Form').show();
+                $('.etape3Form').hide();
+                return false;
+              }
+                                 );
+              $('.Form2ETape').submit(function(){
+                $('.form__steps__nav__item--current').last().next('li').addClass("form__steps__nav__item--current");
+                $('.etape3Form').hide();
+                $('.etape4Form').show();
+                $('#telValide').val($('#telV').val());
+                $('#indicatifC').text($('#indicatifV').text());
+                return false;
+              }
+                                     );
+            </script>
+            {% else %}
+            <img src="{{ asset("theme2/images/gears.gif") }}" style="width:130px; height:auto; text-align:center"  >
+            {% endif %}
+          </div>
+          <div style="display:none" class="etape4Form tunnel-form  tunnel-box" >
+            <div class="form-group">
+              <div class="control-label">
+                Vous allez recevoir un code par SMS à ce numéro dans quelques secondes afin de valider votre prise de rendez-vous
+              </div>
+              <form action="#" class="verifTel">
+                <div class="error1">
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3" for="telValide">Téléphone
+                  </label>
+                  <div class="col-md-5">
+                    <div class="input-group">
+                      <span class="input-group-addon" id="indicatifC">
+                      </span>
+                      <input type="text" class="form-control" required type="text" required id="telValide" aria-describedby="indicatifC">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <span class="TValide">
+                      <input type="submit" style="background-color:#00944A!important; color:white" class="btn btn-validate btn-form" value="Envoyer"> 
+                    </span>
+                    <span class="TValide1" style="display:none">Chargement...
+                    </span>
+                  </div>
+                </div>
+              </form>
+              <br/>
+              <br/>
+              <a href="#" style="text-align:left"  class="btn btn-validate  retour5" > 
+                << Retour 
+              </a>
+            </div>           
+          </div>
+          <div style="display:none" class="etape5Form tunnel-form  tunnel-box" >
+            <div class="form-group">
+              <div class="control-label">
+                Nous venons de vous envoyer un code par SMS au numéro 
+                <span class="codtel">
+                </span>  et par e-mail à  
+                l'adresse  
+                <span class="codmail">
+                </span>
+              </div>
+              <form action="#" class="codeForm">
+                <div class="error2">
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-4" for="codeValide">Entrer le code 
+                  </label>
+                  <div class="col-md-5">
+                    <input class="form-control" type="text" required id="codeValide" placeholder="Entrer le code">
+                  </div>
+                  <div class="col-md-3">
+                    <span class="DValide">
+                      <input type="submit" style="background-color:#00944A!important; color:white" class="btn btn-validate btn-form" value="Envoyer"> 
+                    </span>
+                    <span class="DValide1" style="display:none">Chargement...
+                    </span>
+                  </div>
+                </div>
+                <br/>
+                <br/>
+                <a href="#" style="text-align:left"  class="btn btn-validate  retour4" > 
+                  << Retour 
+                </a>
+              </form>
+            </div>           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</section>
+<script type="text/javascript">
+  $('.codeForm').submit(function(){
+    code =  $('#codeValide').val();
+    tel = $('#indicatifV').text() + $('#telValide').val();
+    specialite = $("#spp").val();
+    com = $('#com').val();
+    possible = $('.possible').val();
+    rdv = "{{date|date('Y-m-d H:i')}}";
+    doc = "{{docteur.id}}";
+    commune = $('#communeV').val();
+    telv = $('#telV').val();
+    if(possible == 1){
+      dom = $('#domicile').val();
+    }
+    else{
+      dom = 0;
+    }
+    if(code != ""){
+      $('.DValide').hide();
+      $('.DValide1').show();
+      formdata = {
+        code:code , tel:tel , specialite:specialite , commentaire:com , disponible:possible , domicile:dom , rdv:rdv , docteur:doc , commune:commune , telv:telv};
+      $.ajax({
+        url : "{{ path( 'verif_code_ajax') }}",
+        type : 'post',
+        data : formdata  ,
+        success : function( statut){
+          if(statut){
+            if(statut == 1){
+              error = '<div class="alert alert-dismissible alert-danger">' + 
+                '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                "le code que vous Entrez est invalide, veuillez recommencer" +
+                '</div>';
+              $('.error2').html(error);
+            }
+            else{
+             url = "{{ path( 'rdv_confirmer' , {id: "id"  } )    }}";
+              url = url.replace("id", statut);
+              location.href = url; 
+            }
+            $('.DValide').show();
+            $('.DValide1').hide();
+          }
+        }
+        ,
+        error : function(resultat, statut, erreur){
+          if(statut){
+            error = '<div class="alert alert-dismissible alert-danger">' + 
+              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+              erreur + " ! veuillez recommencer " +
+              '</div>';
+            $('.error2').html(error);
+            $('.DValide').show();
+            $('.DValide1').hide();
+          }
+        }
+      }
+            );
+    }
+    else{
+      alert("Tous les champs sont obligatoires!");
+    }
+    return false;
+  }
+                       );
+  $('.verifTel').submit(function(){
+    tel = $('#indicatifV').text() + $('#telValide').val();
+    if(tel != ""){
+      $('.TValide').hide();
+      $('.TValide1').show();
+      formdata = {
+        tel:tel};
+      $.ajax({
+        url : "{{ path( 'verif_tel_ajax') }}",
+        type : 'post',
+        data : formdata  ,
+        success : function( statut){
+          if(statut){
+            if(statut == 1){
+              $('.etape4Form').hide();
+              $('.etape5Form').show();
+              $('.codtel').text(tel);
+              $('.codmail').text($('#mailV').val());
+            }
+            $('.TValide').show();
+            $('.TValide1').hide();
+          }
+        }
+        ,
+        error : function(resultat, statut, erreur){
+          if(statut){
+            error = '<div class="alert alert-dismissible alert-danger">' + 
+              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+              erreur + " ! veuillez recommencer " +
+              '</div>';
+            $('.error1').html(error);
+            $('.TValide').show();
+            $('.TValide1').hide();
+          }
+        }
+      }
+            );
+    }
+    else{
+      alert("Tous les champs sont obligatoires!");
+    }
+    return false;
+  }
+                       );
+  $('.retour5').click(function(){
+    $('.form__steps__nav__item--current').last().removeClass("form__steps__nav__item--current");
+    $('.etape4Form').hide();
+    $('.etape3Form').show();
+    return false;
+  }
+                     );
+  $('.retour4').click(function(){
+    $('.etape5Form').hide();
+    $('.etape4Form').show();
+    return false;
+  }
+                     );
+  $('.inscription').submit(function(){
+    mail = $(".mailI").val();
+    pass = $('.passI').val();
+    genre = $(".genreI").val();
+    pass2 = $('.Ipass2').val();
+    nom = $('.Inom').val();
+    prenom = $('.Iprenom').val();
+    lieu = $('.Ilieu').val();
+    ville = $('.Iville').val();
+    pays = $('.Ipays').val();
+    tel = $('.Itel').val();
+    jour = $('#fos_user_registration_profil_dateNaissance_day').val();
+    mois = $('#fos_user_registration_profil_dateNaissance_month').val();
+    anne = $('#fos_user_registration_profil_dateNaissance_year').val();
+    if(mail != "" && pass != "" && pass2 != "" && nom != "" && prenom != "" && lieu != "" && ville != "" && pays != "" && tel != "" && jour != "" && mois != "" && anne != "" , genre != ""){
+      if(pass == pass2){
+        if(pass.length >=  6){
+          $('.chargementI').hide();
+          $('.chargement1I').show();
+          formdata = {
+            mail: mail , pass : pass , pass2:pass2 , nom:nom , prenom:prenom , lieu:lieu , ville:ville , pays:pays , tel:tel , jour:jour  , mois:mois , anne:anne , genre:genre   };
+          $.ajax({
+            url : "{{ path( 'inscription_patient_ajax') }}",
+            type : 'post',
+            data : formdata  ,
+            success : function( statut){
+              if(statut){
+                if(statut == 1){
+                  error = '<div class="alert alert-dismissible alert-danger">' + 
+                    '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                    " Votre adresse mail existe déja dans notre système! " +
+                    '</div>';
+                  $('.errorr').html(error);
+                }
+                if(statut == 2){
+                  error = '<div class="alert alert-dismissible alert-danger">' + 
+                    '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                    " Votre numéro de Téléphone  existe déja dans notre système! " +
+                    '</div>';
+                  $('.errorr').html(error);
+                }
+                if(statut == 3){
+                  $('.etape2Form').hide();
+                  $('.etape3Form').show();
+                  $.ajax({
+                    url : "{{ path( 'information_user') }}",
+                    type : 'post',
+                    data : formdata  ,
+                    success : function( statut){
+                      if(statut){
+                        $('.etape3Form').html(statut);
+                        $('.form__steps__nav__item--current').last().next('li').addClass("form__steps__nav__item--current");
+                      }
+                    }
+                    ,
+                    error : function(resultat, statut, erreur){
+                      if(statut){
+                        error = '<div class="alert alert-dismissible alert-danger">' + 
+                          '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                          erreur + " ! veuillez recommencer " +
+                          '</div>';
+                        $('.etape3Form').html(error);
+                      }
+                    }
+                  }
+                        );
+                }
+                $('.chargementI').show();
+                $('.chargement1I').hide();
+              }
+            }
+            ,
+            error : function(resultat, statut, erreur){
+              if(statut){
+                error = '<div class="alert alert-dismissible alert-danger">' + 
+                  '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                  erreur + " ! veuillez recommencer " +
+                  '</div>';
+                $('.errorr').html(error);
+                $('.chargementI').show();
+                $('.chargement1I').hide();
+              }
+            }
+          }
+                );
+        }
+        else{
+          alert("le mot de passe doit contenir au moins 6 caractères!");
+        }
+      }
+      else{
+        alert("Les deux mots de passes ne correspondent pas !");
+      }
+    }
+    else{
+      alert("Tous les champs sont obligatoires!");
+    }
+    return false;
+  }
+                          );
+  $(function() {
+    var person = new Object();
+    {% for pays in liste %}
+      person[{{pays.id}}] = "{{pays.indicatif}}";
+      {%  endfor %}
+        indice =   $('.indicatiff').val();
+        $('.indicatif').text(person[indice]);
+        $( ".indicatiff" ).change(function() {
+          indice =   $(this).val();
+          $('.indicatif').text(person[indice]);
+        }
+                                 );
+      }
+      );
+      $('.retour').click(function(){
+        $('.form__steps__nav__item--current').last().removeClass("form__steps__nav__item--current");
+        $('.etape2Form').hide();
+        $('.etape1Form').show();
+        return false;
+      }
+                        );
+      $('.retour1').click(function(){
+        $('.compte').show();
+        $('.new').show();
+        $('.retour').show();
+        $('.compteForm').hide();
+        return false;
+      }
+                         );
+      $('.retour3').click(function(){
+        $('.compte').show();
+        $('.new').show();
+        $('.retour').show();
+        $('.newForm').hide();
+        return false;
+      }
+                         );
+      $('.connexion').submit(function(){
+        user =  $('#username').val();
+        pass =  $('#pass').val();
+        if(user != "" && pass != ""){
+          $('.chargement').hide();
+          $('.chargement1').show();
+          formdata = {
+            user: user , pass : pass   };
+          $.ajax({
+            url : "{{ path( 'connexion_user_ajax') }}",
+            type : 'post',
+            data : formdata  ,
+            success : function( statut){
+              if(statut){
+                if(statut == 2){
+                  error = '<div class="alert alert-dismissible alert-danger">' + 
+                    '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                    " Mot de passe ou adresse mail incorrecte " +
+                    '</div>';
+                  $('.error').html(error);
+                }
+                if(statut == 1){
+                  $('.etape2Form').hide();
+                  $('.etape3Form').show();
+                  $.ajax({
+                    url : "{{ path( 'information_user') }}",
+                    type : 'post',
+                    data : formdata  ,
+                    success : function( statut){
+                      if(statut){
+                        $('.etape3Form').html(statut);
+                        $('.form__steps__nav__item--current').last().next('li').addClass("form__steps__nav__item--current");
+                      }
+                    }
+                    ,
+                    error : function(resultat, statut, erreur){
+                      if(statut){
+                        error = '<div class="alert alert-dismissible alert-danger">' + 
+                          '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                          erreur + " ! veuillez recommencer " +
+                          '</div>';
+                        $('.etape3Form').html(error);
+                      }
+                    }
+                  }
+                        );
+                }
+                $('.chargement1').hide();
+                $('.chargement').show();
+              }
+            }
+            ,
+            error : function(resultat, statut, erreur){
+              if(statut){
+                error = '<div class="alert alert-dismissible alert-danger">' + 
+                  '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                  erreur + " ! veuillez recommencer " +
+                  '</div>';
+                $('.error').html(error);
+                $('.chargement1').hide();
+                $('.chargement').show();
+              }
+            }
+          }
+                );
+        }
+        else{
+          alert('tous les champs sont obligatoires!')
+        }
+        return false;
+      }
+                            );
+      $(".compte").click(function(){
+        $('.compteForm').show();
+        $(this).hide();
+        $('.new').hide();
+        $('.retour').hide();
+        return false;
+      }
+                        );
+      $(".new").click(function(){
+        $('.newForm').show();
+        $(this).hide();
+        $('.compte').hide();
+        $('.retour').hide();
+        return false;
+      }
+                     );
+      $('.etape1Form').submit(function(){
+        specialite = $("#spp").val();
+        com = $('#com').val();
+        possible = $('.possible').val();
+        if(specialite != "" && com != ""){
+          $('.form__steps__nav__item--current').last().next('li').addClass("form__steps__nav__item--current");
+          cont =  "<p>Mautif Consultation : <span style='color:#00944A'>"+specialite+" </span></p>";
+          if(possible == 1){
+            cont = cont + "<p>Rendez-vous à votre domicile ? : <span style='color:#00944A'>"+$('#domicile').val()+" </span></p>";
+          }
+          cont = cont +  "<p>Quelle est la raison de votre visite ? : <span style='color:#00944A'> "+com+" </span></p>";
+
+          $(".contEtape1").html(cont);
+          connexion =  $('#connexion').text();
+           {% if app.user.groups is defined and app.user.groups.snapshot.0.name == "Profil" %}
+
+            $('.form__steps__nav__item--current').last().next('li').addClass("form__steps__nav__item--current");
+            $('.etape1Form').hide();
+            $('.etape3Form').show();
+
+           {% else %}
+            $('.etape1Form').hide();
+            $('.etape2Form').show();
+
+
+           {% endif %}
+
+        
+        }
+        else{
+          alert("Tous les champs sont obligatoires!");
+        }
+        return false;
+      }
+                             )
+      $('.agendaRDV').click(function(){
+        $('.agenda').html('<div style="text-align:center" > <img src="{{ asset("theme2/images/gears.gif") }}"></div>');
+        var now = new Date();
+        d =  now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+        ident = 0;
+        formdata = {
+          docteur: {{docteur.id}}
+          , semaine : d , id:ident  };
+                            $('.rdvDocteur{{docteur.id}}').html('<div style="text-align:center" > <img src="{{ asset("theme2/images/gears.gif") }}"></div>');
+      $.ajax({
+        url : "{{ path( 'agenda_recherche1_ajax') }}",
+        type : 'post',
+        data : formdata  ,
+        success : function( statut){
+          $('.agenda').html(statut);
+        }
+        ,
+        error : function(resultat, statut, erreur){
+          if(statut){
+            error = '<div class="alert alert-dismissible alert-danger">' + 
+              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+              erreur + " ! veuillez recommencer " +
+              '</div>';
+            $('.agenda').html(error);
+          }
+        }
+      }
+            );
+      return false;
+    }
+    );
+</script>
+{% endblock %}

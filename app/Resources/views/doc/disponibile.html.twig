@@ -1,0 +1,279 @@
+
+{% extends "docteur.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Docteur'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+      <h3><i class="fa fa-home"></i> Interface Spécialiste </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('docteur_pro_connecter') }}"  > Accueil </a> </li>
+                                 <li> <a href="{{ path('docteur_pro_profil') }}"  > Mon Profil </a> </li>
+                                <li> <a href="#"  class="active" > Mes Disponibilités </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+<!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Disponibilité : {{docteur.nom}} </h3>
+                                    </div>
+                                    <span class="bt"></span>
+                                    {{ form_start(form, {"attr":{ "class":"panel-body form-horizontal"}}) }}
+                                    {% for flashMessage in app.session.flashbag.get('notice') %}
+     
+                                                      
+                                                      <div class="alert alert-dismissible alert-success"  style="color:green; font-weight:bold"  >
+                                                  {{ flashMessage }}</a>.
+                                                </div>
+                                                  {% endfor %}
+
+                                    {% macro information_prototype(disponible) %}
+  
+                           
+                                       
+                           <div class="rows">
+
+                                                <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                        {{ form_label(disponible.creno, "Intervalle" , {'label_attr': {'class': 'control-label'}}) }}
+                                                        {{ form_widget(disponible.creno , { 'attr' : {'placeholder' : 'Intervalle',  'class' : 'form-control'  }} ) }}
+                                                </div>
+
+
+                                                </div>
+                                                 <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                        {{ form_label(disponible.domicile, " Domicile " , {'label_attr': {'class': 'control-label'}}) }}
+                                                        {{ form_widget(disponible.domicile , { 'attr' : {'placeholder' : '',  'class' : 'form-control'  }} ) }}
+                                                </div>
+
+
+                                                </div>
+
+                                                 <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                        {{ form_label(disponible.jour, " Jour " , {'label_attr': {'class': 'control-label'}}) }}
+                                                        {{ form_widget(disponible.jour , { 'attr' : {'placeholder' : '',  'class' : 'form-control'  }} ) }}
+                                                </div>
+
+
+                                                </div>
+
+                                                 <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                        {{ form_label(disponible.heure, "De  " , {'label_attr': {'class': 'control-label'}}) }}
+                                                        {{ form_widget(disponible.heure , { 'attr' : {'placeholder' : '',  'class' : 'form-control '   }} ) }}
+                                                </div>
+                                                </div>
+                                                <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                        {{ form_label(disponible.heureFin, "A  " , {'label_attr': {'class': 'control-label'}}) }}
+                                                        {{ form_widget(disponible.heureFin , { 'attr' : {'placeholder' : '',  'class' : 'form-control '  }} ) }}
+                                                </div>
+                                            </div>
+
+
+
+                                                
+                                                
+
+                                            
+
+                                        </div>
+
+                                       
+                            
+                            {% endmacro %}
+
+                    <div class="collection" id="docteur_disponible" data-prototype="{{ _self.information_prototype(form.disponible.vars.prototype)|e }}">
+                        {% for disponible in form.disponible %}
+                            {{ _self.information_prototype(disponible) }}
+                        {% endfor %}
+                               <span style="display:none;">  {{ form_widget( form.disponible ) }}  </span>
+                        </div>
+                        <div id="ajout"  >
+                        </div>
+
+
+                                        
+
+
+                         <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('docteur') }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+
+
+
+
+        </div>
+        <div style="float:right">
+            <button type="submit"   class="btn btn-pink">Valider</button>
+        </div>
+
+
+                                     {{ form_end(form) }}
+
+
+                            </div>
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+
+
+
+    
+     
+     
+
+{# Voici le script en question : #}
+<script type="text/javascript">
+  $(document).ready(function() {
+    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+    var $container = $('div#docteur_disponible');
+
+    // On ajoute un lien pour ajouter une nouvelle catégorie
+    var $addLink = $('<a href="#" id="add_category" class="btn btn-success">Ajouter une nouvelle période</a>');
+    $('.bt').html($addLink);
+
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $addLink.click(function(e) {
+      addCategory($container);
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      return false;
+    });
+
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    var index = $container.find(':input').length;
+
+    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+    if (index == 0) {
+      addCategory($container);
+
+      //$('#ajout').next('div').addClass('couleur_test');
+    } else {
+      // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+      $container.children('div').each(function() {
+        addDeleteLink($(this));
+      });
+    }
+
+    // La fonction qui ajoute un formulaire Categorie
+    function addCategory($container) {
+
+       
+
+      // Dans le contenu de l'attribut « data-prototype », on remplace :
+      // - le texte "__name__label__" qu'il contient par le label du champ
+      // - le texte "__name__" qu'il contient par le numéro du champ
+      var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Période n°' + (index+1))
+          .replace(/__name__/g, index));
+
+        //$prototype.attr('class','rows');
+        
+
+
+      // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+      addDeleteLink($prototype);
+
+      // On ajoute le prototype modifié à la fin de la balise <div>
+      $('#ajout').append($prototype);
+
+      // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+      index++;
+    }
+
+    // La fonction qui ajoute un lien de suppression d'une catégorie
+    function addDeleteLink($prototype) {
+      // Création du lien
+      $deleteLink = $('<div class="col-md-2"><div class="form-group"> <label class="control-label">Action</label> <br/><a href="#" class="btn btn-danger">Supprimer</a></div></div><p>&nbsp;</p>');
+
+      // Ajout du lien
+      $prototype.append($deleteLink);
+
+      // Ajout du listener sur le clic du lien
+      $deleteLink.click(function(e) {
+        $prototype.remove();
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return false;
+      });
+    }
+
+    
+    $(".timeB").timepicker();
+  });
+
+
+</script>
+
+   
+                            
+       
+   
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+ {% block javascripts %}
+
+
+
+ <script src="{{ asset( 'pro/js/jquery-ui.min.js' ) }} "></script>
+        <script src="{{ asset( 'pro/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js' ) }} "></script>
+        <!--Bootstrap Tags Input [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/tag-it/tag-it.min.js' ) }} "></script>
+        <!--Chosen [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/chosen/chosen.jquery.min.js' ) }} "></script>
+        <!--noUiSlider [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/noUiSlider/jquery.nouislider.all.min.js' ) }} "></script>
+        <!--Bootstrap Timepicker [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js' ) }} "></script>
+        <!--Bootstrap Datepicker [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/bootstrap-datepicker/bootstrap-datepicker.js' ) }} "></script>
+        <!--Dropzone [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/dropzone/dropzone.min.js' ) }} "></script>
+        <!--Dropzone [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/ion-rangeslider/ion.rangeSlider.min.js' ) }} "></script>
+        <!--Masked Input [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/masked-input/jquery.maskedinput.min.js' ) }} "></script>
+        <!--Summernote [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/summernote/summernote.min.js' ) }} "></script>
+       
+        <!--Full Calendar [ SAMPLE ]--> 
+            <!--Fullscreen jQuery [ OPTIONAL ]--> 
+    {% endblock %}

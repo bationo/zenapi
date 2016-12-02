@@ -1,0 +1,203 @@
+
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Docteur'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+        <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="{{ path('pro_patient') }}"  > Mes Patients </a> </li>
+                                <li> <a href="#" class="active" > Fiche Patient </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+<!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Fiche Patient </h3>
+                                    </div>
+                                    <!-- BASIC FORM ELEMENTS -->
+                                    <!--===================================================-->
+
+                                     {% for flashMessage in app.session.flashbag.get('notice') %}
+     
+                                                        <ul class="woocommerce-error">
+                                                          <li style="color:green"><strong></strong> {{ flashMessage }}</li>
+                                                      </ul>
+                                                  {% endfor %}
+                                       
+                                            <table class="table table-hover record_properties">
+                                            <tbody>
+
+                                                 <tr>
+                                                    <th scope="row"></th>
+                                                    <td> <img src="{{ asset(user.webpath) }} " style="height:120px;"> </td>
+                                                </tr>
+                                              
+                                                <tr>
+                                                    <th scope="row">Nom</th>
+                                                    <td>{{ user.profil.nom }}</td>
+                                                </tr>
+                                               
+                                                <tr>
+                                                    <th scope="row">Prénom</th>
+                                                    <td>{{ user.profil.prenom }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Lieu de Naissance</th>
+                                                    <td>{{ user.profil.lieuNaissance }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Ville de résidence</th>
+                                                    <td>{{ user.profil.ville }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Pays de résidence</th>
+                                                    <td>{{ user.pays.nom }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Numéro de Téléphone</th>
+                                                    <td>{{ user.pays.indicatif }} {{ user.profil.tel }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Adresse Mail</th>
+                                                    <td>{{ user.email }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Date de Naissance</th>
+                                                    <td>{{ user.profil.dateNaissance|localizeddate('full', 'none') }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Groupe Sanguin </th>
+                                                    <td>{{ user.profil.groupeSanguin }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Le Patient est-il Assuré ? </th>
+                                                    <td> {% if user.profil.assurer == true  %} OUI {% else %} NON {% endif %}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Compagnie d'assurance </th>
+                                                    <td>{{ user.profil.compagnieAssurance }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">identifiant d'assurance </th>
+                                                    <td>{{ user.profil.numeroAssurance }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Commentaire </th>
+                                                    <td>{{ user.profil.note }}  </td>
+                                                </tr>
+
+                                               
+
+                                                
+
+                                                
+
+                                                    <th scope="row">Date de creation </th>
+                                                        <td>{{ user.profil.created|localizeddate('full', 'short') }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Date de modification</th>
+                                                        <td>{{ user.profil.modified|localizeddate('full', 'short') }}</td>
+                                                    </tr>
+
+                                                     <tr>
+                                                    <th scope="row">Liste des modifications  </th>
+                                                    <td> 
+
+                                                        {% for modif in user.profil.modification %}
+                                                            <ul>
+
+                                                                <li> date de  Modification  : {{modif.created|localizeddate('full', 'short')}}  </li>
+                                                                <li> Commentaire  : {{modif.commentaire}}  </li>
+                                                                <li> Opération réaliser Par   : {% if modif.user.profil != null  %} {{modif.user.profil.nom}} {{modif.user.profil.nom}} {% else %} 
+
+                                                                    {{modif.user.professionnel.nom}} {% endif %}    </li>
+                                                            </ul>
+
+                                                        {% endfor %}
+
+                                                     </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+<style type="text/css">
+.ff{
+    color: green;
+    font-weight: bold;
+}
+</style>
+
+        <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('pro_patient') }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+            
+          
+
+
+        </div>
+
+   
+
+    
+
+                          
+      
+                            </div>
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+
+
+
+    
+     
+        
+       
+   
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

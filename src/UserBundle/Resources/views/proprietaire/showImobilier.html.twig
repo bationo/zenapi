@@ -1,0 +1,395 @@
+  <section class="card">
+        <header class="card-header card-header-lg">
+          Liste des biens immobiliers
+          <a class="btn btn-info pull-right btnNewImmobilier" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target=".newImmobilier" >
+            <i class="fa fa-plus">
+            </i> {{ 'Create a new entry'|trans({}, 'admin') }}
+          </a> 
+        </header>
+        <div class="card-block">  
+          <section class="card">
+            <div class="card-block">
+              <table  class="display table table-bordered datatable" cellspacing="0" width="100%">
+                <thead>
+                  <tr>
+                    <th>Identification
+                    </th>
+                    <th>Type
+                    </th>
+                    <th>Etat
+                    </th>
+                    <th>Nom
+                    </th>
+                    <th>Montant
+                    </th>
+                    <th>{{ 'Actions'|trans({}, 'admin') }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for immobilier in user.proprietaire.immobilier %}
+                  <tr>
+                    <td>
+                      <a href="{{ path('immobilier_show', {id: immobilier.id}) }}">BIMO-{{ immobilier.id }}
+                      </a>
+                    </td>
+                    <td> {{ immobilier.type }} 
+                    </td>
+                    <td> {% if immobilier.vente == true %}
+                      <span class="label label-warning">disponible pour la  vente
+                      </span>
+                      {% else %}
+                      <span class="label label-purple">disponible pour la location
+                      </span>
+                      {% endif %}
+                    </td>
+                    <td>{{ immobilier.nom }} 
+                    </td>
+                    <td>{{ immobilier.montant }} FCFA
+                    </td>
+                    <td>
+                      <div class="btn-group">
+                        <a class="btn btn-inline btn-success btn-sm" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target=".showFiche{{ immobilier.id }}" >
+                          <i class="fa fa-file-o">
+                          </i> {{ 'show'|trans({}, 'admin') }}
+                        </a>
+                      
+
+                        {% if immobilier.vente == false %}
+                        <a class="btn btn-inline btn-primary btn-sm" href="{{ path('locative', {id: immobilier.id}) }}">
+                          <i class="fa fa-home" aria-hidden="true">
+                          </i> locatives
+                        </a>
+                        {% endif %}
+                      </div>
+                    </td>
+                  </tr>
+
+
+
+                  {% endfor %}                       
+                </tbody>
+              </table>
+            </div>
+          </section> 
+        </div>
+      </section>
+
+ {% for immobilier in user.proprietaire.immobilier %}
+<div class="modal mmodal fade showFiche{{ immobilier.id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                  <i class="font-icon-close-2" ></i>
+                </button>
+              </div>
+      <div class="modal-body">
+        <section class="tabs-section">
+          <div class="tabs-section-nav tabs-section-nav-inline">
+            <ul class="nav" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" href="#tabs-3-tab-1" role="tab" data-toggle="tab">
+                  Fiche Immobilier 
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#tabs-3-tab-2" role="tab" data-toggle="tab">
+                  Liste Locative
+                </a>
+              </li>
+           
+            </ul>
+          </div>
+          <!--.tabs-section-nav-->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="tabs-3-tab-1">
+                <section class="card">
+                    <header class="card-header card-header-lg">
+                      Fiche Immobilier : {{immobilier.nom}}
+                      <span class="pull-right">
+                        {% if immobilier.proprietaire.entreprise != null %}
+                        Proprietaire : {{immobilier.proprietaire.entreprise.raisonSocial}}
+                        {% else %}
+                        Proprietaire : {{immobilier.proprietaire.particulier.nom}} {{immobilier.proprietaire.particulier.prenom}}
+                        {% endif %}
+                      </span>
+                    </header>
+                    <div class="card-block">
+                      <div class="col-md-6">
+                        <table class="table table-hover record_properties">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Identifiant
+                              </th>
+                              <td>BIMO-{{ immobilier.id }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Proprietaire
+                              </th>
+                              <td>
+                                {% if immobilier.proprietaire.entreprise != null %}
+                                {{immobilier.proprietaire.entreprise.raisonSocial}} 
+                                {% else %}
+                                {{immobilier.proprietaire.particulier.nom}} {{immobilier.proprietaire.particulier.prenom}} 
+                                {% endif %}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Ce bien est-il destiné à la vente ?
+                              </th>
+                              <td>
+                                {% if immobilier.vente == true %} Oui
+                                {% else %}
+                                Non
+                                {% endif %}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Type
+                              </th>
+                              <td>{{ immobilier.type }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Valeur du bien
+                              </th>
+                              <td> {{immobilier.montant}} FCFA 
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Nom
+                              </th>
+                              <td>{{ immobilier.nom }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Commune
+                              </th>
+                              <td>{{ immobilier.commune }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Ilot
+                              </th>
+                              <td>{{ immobilier.lot }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Situation Géographique
+                              </th>
+                              <td>{{ immobilier.geographique }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Superficie
+                              </th>
+                              <td>{{ immobilier.superficie }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="col-md-6">
+                        <table class="table table-hover record_properties">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Quartier
+                              </th>
+                              <td>{{ immobilier.quartier }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Lot
+                              </th>
+                              <td>{{ immobilier.lot }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Ilot
+                              </th>
+                              <td>{{ immobilier.lot }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Lot
+                              </th>
+                              <td>{{ immobilier.ilot }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Titre Foncier
+                              </th>
+                              <td>{{ immobilier.titreFoncier }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Description
+                              </th>
+                              <td>{{ immobilier.description }}
+                              </td>
+                            </tr>
+                             <tr>
+                              <th scope="row">Fichier Joint
+                              </th>
+                              <td> <ul>
+                        {% for document in immobilier.document %}
+                            <li><a target="_blank" href="{{asset(document.document.webpath)}}">{{document.title}}</a></li>
+                            
+
+                      {% endfor %}
+                      </ul>
+                              </td>
+                            </tr>
+                        
+                            <tr>
+                              <th scope="row">Date d'enregistrement :
+                              </th>
+                              <td>{{ immobilier.created|localizeddate('full', 'short') }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Dernière modification :
+                              </th>
+                              <td>{{ immobilier.modified|localizeddate('full', 'short') }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="btn-group record_actions">
+                      
+                      <a class="btn btn-primary" href="{{ path('immobilier_edit', {id: immobilier.id}) }}">
+                        <i class="fa fa-edit">
+                        </i> {{ 'Edit'|trans({}, 'admin') }}
+                      </a>
+                      <button class="btn btn-danger" type="submit">
+                        <i class="fa fa-trash-o">
+                        </i> {{ 'Delete'|trans({}, 'admin') }}
+                      </button>
+                    </div>
+                  </section>
+            </div>
+            <!--.tab-pane-->
+            <div role="tabpanel" class="tab-pane fade" id="tabs-3-tab-2">
+
+                <section class="card">
+        <header class="card-header card-header-lg">
+            Liste des locatives 
+            <a class="btn btn-info pull-right" href="{{ path('locative_new' , {id: immobilier.id}) }}">
+                <i class="fa fa-plus"></i> {{ 'Create a new entry'|trans({}, 'admin') }}
+            </a>
+        </header>
+        <div class="card-block">  
+            <section class="card">
+                <div class="card-block">
+                    <table  class="display table table-bordered datatable" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Identification</th>
+                            <th>Type</th>
+                            <th>Nbre de pièce</th>
+                            <th>Superficie</th>
+                            <th>Montant du loyer</th>
+                            <th>{{ 'Actions'|trans({}, 'admin') }}</th>
+                        </tr>
+                        </thead>
+                      
+                        <tbody>
+                            {% for locative in immobilier.locative %}
+                                <tr>
+                                    <td><a href="{{ path('locative_show', {id: locative.id}) }}">LOCT-{{ locative.id }}</a></td>
+                                    <td>{{ locative.type }} </td>                           
+                                    <td>{{ locative.piece }}</td>
+                                    <td>{{ locative.supercie}} </td>
+                                    <td>{{ locative.Loyer }}</td>
+                                    <td>
+                                    <div class="btn-group">
+                                        <a class="btn btn-inline btn-success btn-sm" href="{{ path('locative_show', {id: locative.id}) }}">
+                                            <i class="fa fa-file-o"></i> {{ 'show'|trans({}, 'admin') }}
+                                        </a> 
+                                        <a class="btn btn-inline btn-primary btn-sm" href="{{ path('locative_edit', {id: locative.id}) }}">
+                                            <i class="fa fa-edit" aria-hidden="true"></i> modifer
+                                        </a>
+                                    </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+                                
+        </div>
+
+    </section>
+            </div>
+           
+          </div>
+          <!--.tab-content-->
+        </section>
+      </div>
+   
+    </div>
+  </div>
+</div>
+ {% endfor %}  
+
+<div class="modal fade newImmobilier in" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" >
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                  <i class="font-icon-close-2"></i>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="contNewImmobilier">
+                  
+                  
+                </div>
+              </div>
+           
+            </div>
+          </div>
+        </div>
+
+<script type="text/javascript">
+$('.btnNewImmobilier').click(function(){
+ formdata = { id:"1" };
+ $('.contNewImmobilier').html("<div style=\"text-align:center\"><img src=\"{{ asset('theme/ripple.svg') }}\"></div>");
+       $.ajax({
+                    url : "{{ path( 'immobilier_new' , {id:user.proprietaire.id} ) }}",
+                    type : 'post',
+                    data : formdata  ,
+                    success : function( statut){
+                      if(statut){
+                        $('.contNewImmobilier').html(statut);
+                      }
+                    }
+                    ,
+                    error : function(resultat, statut, erreur){
+                      if(statut){
+                        error = '<div class="alert alert-dismissible alert-danger">' + 
+                          '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                          erreur + " ! veuillez recommencer " +
+                          '</div>';
+                        $('.contNewImmobilier').html(error);
+                      }
+                    }
+                  }
+              );
+
+} );
+</script>
+
+<style type="text/css">
+.font-icon-close-2{
+  position: relative;
+    top: -10px;
+}
+    
+
+</style>

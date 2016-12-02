@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Actualités - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+  <style type="text/css">
+    .blog .item {
+      width: 25%;
+    }
+  </style>
+{% endblock %}
+
+{% block page_body %}
+  <div class="page-full">
+    <div class="blog-wrapper blog-scroll">
+      <div id="blog" class="blog">
+        <div class="blog-sizer"></div>
+        {% for post in posts %}
+          <div class="item">
+            <img src="{{ asset(post.imageWebPath) }}" alt="{{ post.title }}" class="img-responsive">
+            <div class="overlay">
+              <div class="blog-scroll">
+                <a href="{{ path('post_show', { slug: post.slug, id: post.id }) }}" class="blog-post-title"><h5>{{ post.title }}</h5></a>
+                {% if post.content|length > 150 %}{{ [post.content|striptags|trim|convert_encoding('UTF-8', 'HTML-ENTITIES')|slice(0,150),'...']|join('') }}{% else %}{{ post.content|striptags|trim|convert_encoding('UTF-8', 'HTML-ENTITIES') }}{% endif %}
+                <div class="read-more">
+                  <a href="{{ path('post_show', { slug: post.slug, id: post.id }) }}" class="button">Lire plus</a>
+                </div>
+                <div class="blog-share">Partager: <a href="#" class="hb-fb" data-href="{{ absolute_url(path('post_show', { 'slug':post.slug, 'id':post.id })) }}"><i class="pe-so-facebook"></i></a></div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="load-more">
+        <a href="#" class="button">Charger plus</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

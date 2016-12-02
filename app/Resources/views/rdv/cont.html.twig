@@ -1,0 +1,407 @@
+{% extends 'Layout.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+    {% block file %}
+
+         <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="#" class="active" > Ajouter un nouveau Rendez-vous </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+
+{% block body %}
+
+
+                <!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+  {% for message in app.session.flashbag.get('info') %}
+        <div class="alert alert-dismissible alert-success">
+  <button type="button" class="close" data-dismiss="alert">X</button>
+  {{ message }}
+</div>
+      {% endfor %}
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Ajouter un nouveau Rendez-vous </h3>
+                                    </div>
+                                    <br/>
+                                    <form action="{{ path('pro_rdv_new') }}" method="post">
+                                    
+                                        <div class="error"></div> 
+                                       <div class="form-group">
+                                            <label class="col-md-3 control-label">Patient</label>
+                                            <div class="col-md-9">
+                                                <p class="form-control-static"> <a class="patientRdv" data-id="{{patient.id}}" data-toggle="modal" href="#plan" >{{patient.nom}} {{patient.prenom}}</a> </p>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="form-group">
+                                                <label class="control-label col-md-3"> Spécialité </label>
+                                                <div class="col-md-9">
+                                                    <!-- Bootstrap Select with Search Input -->
+                                                    <!--===================================================-->
+                                                    <select class="form-control selectpicker specialite " data-live-search="true">
+                                                        <option value="">Choix</option>
+                                                {% for specialite in  specialites %}
+                                                        <option value="{{specialite}}">{{specialite}}</option>
+                                                {% endfor %}
+                                                       
+                                                    </select>
+                                                    <!--===================================================-->
+                                                </div>
+                                        </div>
+                                        <div  style="display:none" >
+                                            <input type="hidden" class="specialiteRdv" >
+                                        </div>
+
+                                        <div class="consultant">
+
+
+                                        </div>
+                                       
+                                        
+
+                                    
+                                   
+                                     
+
+
+
+
+
+<p><br/><br/><br/></p>
+
+                                        <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('pro_rdv_liste') }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+
+
+
+
+        </div>
+        <div style="float:right; display:none"  class="btnConf">
+            <button type="submit"   class="btn btn-pink btnvalid">Confirmer le rendez-vous</button>
+        </div>
+        <div style="float:right; display:none"  class="btnChargement">
+            <p>Chargement...</p>
+        </div>
+        </form>
+                                </div>
+                               
+                               
+                               
+
+                               
+                               
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+                      
+ <div id="plan" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+
+
+                     <table class="table table-hover record_properties">
+                                            <tbody>
+
+                                                 <tr>
+                                                    <th scope="row"></th>
+                                                    <td> <img src="{{ asset(patient.user.webpath) }} " style="height:120px;"> </td>
+                                                </tr>
+                                              
+                                               <tr>
+                                                    <th scope="row">Genre</th>
+                                                    <td>{{ patient.genre }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Nom</th>
+                                                    <td>{{ patient.nom }}</td>
+                                                </tr>
+                                               
+                                                <tr>
+                                                    <th scope="row">Prénom</th>
+                                                    <td>{{ patient.prenom }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Lieu de Naissance</th>
+                                                    <td>{{ patient.lieuNaissance }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Ville de résidence</th>
+                                                    <td>{{ patient.ville }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Pays de résidence</th>
+                                                    <td>{{ patient.user.pays.nom }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Numéro de Téléphone</th>
+                                                    <td>{{ patient.user.pays.indicatif }} {{ patient.tel }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Adresse Mail</th>
+                                                    <td>{{ patient.user.email }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Date de Naissance</th>
+                                                    <td>{{ patient.dateNaissance|localizeddate('full', 'none') }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Groupe Sanguin </th>
+                                                    <td>{{ patient.groupeSanguin }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Le Patient est-il Assuré ? </th>
+                                                    <td> {% if patient.assurer == true  %} OUI {% else %} NON {% endif %}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Compagnie d'assurance </th>
+                                                    <td>{{ patient.compagnieAssurance }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">identifiant d'assurance </th>
+                                                    <td>{{ patient.numeroAssurance }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Commentaire </th>
+                                                    <td>{{ patient.note }}  </td>
+                                                </tr>
+
+                                               
+
+                                                
+
+                                                
+
+                                                   
+                                            </tbody>
+                     </table>   
+                                             
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+ 
+{% block javascripts %}
+
+    
+<script type="text/javascript">
+
+$('.specialite').change(function(){
+
+
+
+
+
+        if($(this).val() != ""){
+            $('.btnConf').hide();
+             $('.consultant').html('<div style="text-align:center" > <img src="{{ asset("pro/img/load.gif") }}"></div>');
+             
+             $('.specialiteRdv').val($(this).val());  
+
+             formdata = {specialite: $(this).val()  };
+
+
+            $.ajax({
+               url : "{{ path( 'pro_rdv_specialite') }}",
+               type : 'post',
+               data : formdata  ,
+               success : function( statut){
+
+
+                  if(statut){
+
+                $('.consultant').html(statut);
+
+            $('.docteur').change(function(){
+                                    if($(this).val() != ""){
+                                        $('.btnConf').hide();
+                                        ident = "0";
+    var now = new Date();
+    d =  now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+                                        formdata = {docteur: $(this).val() , semaine : d , id:ident  };
+
+                                     
+                $('.agendaM').html('<div style="text-align:center" > <img src="{{ asset("pro/img/load.gif") }}"></div>');
+
+            $.ajax({
+               url : "{{ path( 'pro_rdv_agenda') }}",
+               type : 'post',
+               data : formdata  ,
+               success : function( statut){
+
+                        $('.agendaM').html(statut);
+
+                      },
+
+               error : function(resultat, statut, erreur){
+
+                if(statut){
+
+                     error = '<div class="alert alert-dismissible alert-danger">' + 
+                              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                               erreur + " ! veuillez recommencer " +
+                            '</div>';
+                 $('.error').html(error);
+                }
+                 
+               }
+
+              
+
+            });
+
+
+
+                                    }
+
+            });
+                    
+                  }
+
+               },
+
+               error : function(resultat, statut, erreur){
+
+                if(statut){
+
+                     error = '<div class="alert alert-dismissible alert-danger">' + 
+                              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                               erreur + " ! veuillez recommencer " +
+                            '</div>';
+                 $('.error').html(error);
+                }
+                 
+               }
+
+              
+
+            });
+
+
+
+            }
+
+    });
+ 
+$('.btnvalid').click(function(){
+
+pat = $('.patientRdv').data('id'); 
+spe =$('.specialiteRdv').val();
+doc = $('.docteurrdv').val();
+rdv = $('.dateRdvConfirmer').data('val');
+com = $('.comRdv').val();
+if($('.domicileStatut').val() == 1){
+    dom = $('.domicileRdv').val();
+    disponible = 1;
+}else{
+    dom = 0;
+    disponible = 0;
+}  
+
+
+if(pat != "" && spe != "" && doc != "" && rdv != ""  ){
+    $('.btnConf').hide(); 
+    $('.btnChargement').show();
+        
+        formdata = {patient: pat , specialite : spe , docteur : doc , date : rdv , commentaire : com , domicile : dom , disponible : disponible  };
+        $.ajax({
+               url : "{{ path( 'pro_rdv_confirmer') }}",
+               type : 'post',
+               data : formdata  ,
+               success : function( statut){
+
+                        
+                        if(statut){
+                             $('.btnConf').show(); 
+                             $('.btnChargement').hide();
+                                url = "{{ path( 'pro_rdv_show' , {id: "id"  } )    }}";
+                                url = url.replace("id", statut);
+                                location.href = url;
+
+
+                        }
+
+                      },
+
+               error : function(resultat, statut, erreur){
+
+                if(statut){
+
+                     error = '<div class="alert alert-dismissible alert-danger">' + 
+                              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                               erreur + " ! veuillez recommencer " +
+                            '</div>';
+                 $('.error').html(error);
+                 $('.btnConf').show(); 
+                $('.btnChargement').hide();
+                }
+                 
+               }
+
+              
+
+            });
+
+
+
+
+}else{
+    alert('veuillez completer correctement les informations du rendez-vous!');
+}
+
+
+
+
+return false;
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+

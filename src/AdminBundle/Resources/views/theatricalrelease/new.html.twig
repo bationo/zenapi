@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Programme: {{ place.title }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">{{ '%entity% creation'|trans({'%entity%': 'Programme'}, 'admin') }}</h1>
+                    </div>
+                    <div class="box-body">
+                        {{ form_start(form) }}
+                        <div class="form-group">
+                            <label for="state_nom">Date et heure</label><br>
+                            <div class='input-group date datetimepicker'>
+                                {{ form_widget( form.dateTime, { "attr": { "class": "form-control" }} ) }}
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            {{ form_errors( form.dateTime) }}
+                        </div>
+                        {{ form_widget(form) }}
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button class="btn btn-primary pull-left" type="submit">{{ 'Create'|trans({}, 'admin') }}</button>
+                                <a class="btn btn-info pull-right" href="{{ path ( 'admin_theatrical_release', {id : place.id } ) }}">
+                                    <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+                                </a>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

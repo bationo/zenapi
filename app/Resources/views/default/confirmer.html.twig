@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+
+{% block content %}
+
+  <div style="background: #00944A!important; height:10px!important;">
+               
+        </div>
+
+
+
+ <section class="tunnel-form__wrapper  row">
+        <header class="tunnel-form__header">
+          <div class="container">
+            <h2>Bonne nouvelle {{app.user.profil.prenom}} : votre RDV est maintenant confirmé ! 
+            </h2>
+            <ul class="form__steps__nav ">
+              <li class="form__steps__nav__item form__steps__nav__item--current">
+                <span class="step-number">1
+                </span>
+                <span class="step-title">Choisir un motif de consultation
+                </span>
+              </li>
+              <li class="form__steps__nav__item form__steps__nav__item--current">
+                <span class="step-number">2
+                </span>
+                <span class="step-title">S'identifier
+                </span>
+              </li>
+              <li class="form__steps__nav__item form__steps__nav__item--current">
+                <span class="step-number">3
+                </span>
+                <span class="step-title">Valider vos informations
+                </span>
+              </li>
+              <li class="form__steps__nav__item form__steps__nav__item--current">
+                <span class="step-number">4
+                </span>
+                <span class="step-title">Confirmer votre rdv
+                </span>
+              </li>
+            </ul>
+            <h3 class="form__steps__current-step-title">Choisir un motif de consultation
+            </h3>
+          </div>
+        </header>
+        {% if rdv.docteur.image != null  %} {% set img = rdv.docteur.image.webpath %} {% else %} {% set img = "uploads/avatars/avatar.png" %}   {% endif %}
+        <div class="tunnel-form__content">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 col-md-push-6">
+                <div class="tunnel-box tunnel-box--white tunnel-box--praticien has-bubble has-bubble--always">
+                  <div class="praticien__sticker">
+                    <div class="praticien__img">
+                      <img src="{{ asset(img) }}" class="praticien__img__profil" >
+                    </div>
+                    <div class="praticien__fn">
+                      <a href="{{ path( 'professionel_name' ,{ id : rdv.docteur.professionnel.id , name : rdv.docteur.professionnel.nom|replace(" ", "-") } ) }}" target="_blank">
+                        <span class="praticien__name">{{ rdv.docteur.titre.libele }} {{ rdv.docteur.nom }} - {{rdv.docteur.professionnel.nom}}
+                        </span>
+                      </a>
+                      <span class="praticien__speciality">{% for specialite in rdv.docteur.ListeSpecialite %}
+                            {{specialite.libele}} 
+                    {% endfor %}
+                      </span>
+                    </div>
+                    <div class="praticien__infos">  
+                      <p class="praticien__adress">{{ rdv.docteur.professionnel.localisation }}
+                  <br>{{ rdv.docteur.professionnel.ville }} {{ rdv.docteur.professionnel.user.pays.nom }}
+                  <br>({{ rdv.docteur.professionnel.user.pays.indicatif }}) {{ rdv.docteur.professionnel.fixe }} / {{ rdv.docteur.professionnel.tel }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+               
+              
+              </div>
+              <div class="tunel-col col-md-6 col-md-pull-6">
+           
+
+                  <div class="tunnel-form  tunnel-box">
+
+                    <span class="glyphicon glyphicon-calendar tunnel-form__cal__toggle" aria-hidden="true">
+                      </span>
+                      <span > Date de votre rendez-vous&nbsp;: <span style="color:#00944A"> {{rdv.dateRdv|localizeddate('full', 'short')}} au centre médical {{rdv.docteur.professionnel.nom}} avec {{ rdv.docteur.titre.libele }} {{ rdv.docteur.nom }} </span>.
+                      </span> <br/>
+                      <p>
+                        Vous avez reçu par e-mail un mémo accompagné des informations pratiques pour vous rendre à ce rendez-vous.
+                      </p>
+
+
+                  </div>
+
+          </div>
+          </div>
+        </div>
+</section>
+
+{% endblock %}

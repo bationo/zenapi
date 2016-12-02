@@ -1,0 +1,7 @@
+services:
+    app.image_uploader:
+        class: AdminBundle\Uploader\FileUploader
+        arguments: ['%images_directory%']
+    app.document_uploader:
+        class: AdminBundle\Uploader\FileUploader
+        arguments: ['%images_directory%']

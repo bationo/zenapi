@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Programme - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block page_body %}
+  <div class="page-full">
+    <div class="release-date-slider">
+      {%  for theatricalrelease in theatricalreleases %}
+      <div class="release-date">
+        <div class="date"><span>{{ theatricalrelease.dateTime|date('d') }}</span>{{ [theatricalrelease.dateTime|localizeddate('none', 'none', null, null, 'MMM'), theatricalrelease.dateTime|date('Y'),theatricalrelease.dateTime|date('H:i')]|join(' ') }}</div>
+        <h4>{{ theatricalrelease.place.title }}</h4>
+        <p>{{ theatricalrelease.place.location }}</p>
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#ticket_form" data-place="{{ theatricalrelease.place.id }}" class="button white icon-hover order-ticket">Commander Ticket<i class="pe-7s-angle-right"></i></a>
+      </div>
+      {%  endfor %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+  $('.order-ticket').click(function(){
+    $place = $(this).data('place');
+    $('#ticket_place option[value="'+$place+'"]').prop('selected', true);
+    total();
+  });
+</script>
+{% endblock %}

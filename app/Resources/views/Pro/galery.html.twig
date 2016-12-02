@@ -1,0 +1,227 @@
+
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Galerie'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+        <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="#" class="active"  > Ma Galerie </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+{{ form_start(form, {"attr":{ "class":"panel-body form-horizontal"} , "action":path('pro_mon_galery')  } ) }}
+
+
+
+
+
+
+
+
+  {% macro information_prototype(image , image_path) %} 
+  
+      {% set image_path = image_path|default(null) %}                     
+                                       
+                           <div class="rows">
+
+                                        <div class="col-md-10">
+
+
+                                                <div class="form-group">
+                                                        {{ form_label(image.tempFile, "Image" , {'label_attr': {'class': 'control-label'}}) }}
+                                                        {{ form_widget(image.tempFile , { 'attr' : {'placeholder' : 'Intervalle',  'class' : 'form-control'  }} ) }}
+                                                </div>
+                                                 {% if image_path != null %}
+                                                <img src="{{ asset( image_path ) }}" alt="" style="width: auto; height: 150px;">
+                                                {% endif %}
+
+
+                                          </div>
+                                        
+                                  
+
+
+                                        </div>
+
+                                       
+                            
+                            {% endmacro %}
+
+
+                    <div class="collection" id="docteur_disponible" data-prototype="{{ _self.information_prototype(form.image.vars.prototype)|e }}">
+                    {% for image in form.image %}
+                            {{ _self.information_prototype(image , image.vars.value.webPath ) }} 
+                        {% endfor %}
+                               <span style="display:none;">  {{ form_widget( form.image ) }}  </span>
+                  </div>
+                        <div id="ajout"  >
+                        </div>
+
+ 
+
+  
+ <!--Page content-->
+                    <!--===================================================-->
+                    <div id="page-content">
+                        <div class="panel-heading">
+                            <span class="pull-right">
+                            <span class="bt"></span>
+                            <button class="btn btn-default" type="submit"><i class="fa fa-upload "></i> Upload</button> 
+                           {{ form_end(form) }}
+
+                            </span>
+                        </div>
+                        <div class="gamma-container gamma-loading" id="gamma-container">
+                            <ul class="gamma-gallery">
+
+                        {#
+
+                            {% if images != null %}
+
+                                {% for image in images.image %}
+                                  
+                                <li> 
+                                    <div data-alt="img03" data-description="" data-max-width="1800" data-max-height="1350">
+
+                                        <div data-src="{{ asset(image.webPath) }} " data-min-width="1300"></div>
+                                        <div data-src="{{ asset(image.webPath) }}" data-min-width="1000"></div>
+                                        <div data-src="{{ asset(image.webPath) }}" data-min-width="700"></div>
+                                        <div data-src="{{ asset(image.webPath) }}" data-min-width="300"></div>
+                                        <div data-src="{{ asset(image.webPath) }}" data-min-width="200"></div>
+                                        <div data-src="{{ asset(image.webPath) }}" data-min-width="140"></div>
+                                        <div data-src="{{ asset(image.webPath) }}"></div> 
+                                        <noscript>
+                                            <img src="{{ asset(image.webPath) }}" alt="img03" /> 
+                                            
+                                        </noscript>
+
+                                    </div> ggff
+
+                                </li> 
+                            {% endfor  %}
+                        {% endif  %} #}
+                               
+                            </ul>
+                            <div class="gamma-overlay"></div>
+                        </div>
+                    </div>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+
+     <style type="text/css">
+
+     .gamma-btn-ssplay{
+      display: none;
+     }
+
+
+     </style>
+     
+
+{# Voici le script en question : #}
+<script type="text/javascript">
+  $(document).ready(function() {
+    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+    var $container = $('div#docteur_disponible');
+
+    // On ajoute un lien pour ajouter une nouvelle catégorie
+    var $addLink = $('<a href="#" id="add_category" class="btn btn-success">Ajouter</a>');
+    $('.bt').html($addLink);
+
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $addLink.click(function(e) {
+      addCategory($container);
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      return false;
+    });
+
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    var index = $container.find(':input').length;
+
+
+    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+    if (index == 0) {
+      addCategory($container);
+      //$('#ajout').next('div').addClass('couleur_test');
+    } else {
+      // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+      $container.children('div').each(function() {
+        addDeleteLink($(this));
+      });
+    }
+
+    // La fonction qui ajoute un formulaire Categorie
+    function addCategory($container) {
+
+       
+
+      // Dans le contenu de l'attribut « data-prototype », on remplace :
+      // - le texte "__name__label__" qu'il contient par le label du champ
+      // - le texte "__name__" qu'il contient par le numéro du champ
+      var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Période n°' + (index+1))
+          .replace(/__name__/g, index));
+
+        //$prototype.attr('class','rows');
+        
+
+
+      // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+      addDeleteLink($prototype);
+
+      // On ajoute le prototype modifié à la fin de la balise <div>
+      $('#ajout').append($prototype);
+
+      // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+      index++;
+    }
+
+    // La fonction qui ajoute un lien de suppression d'une catégorie
+    function addDeleteLink($prototype) {
+      // Création du lien
+      $deleteLink = $('<div class="col-md-2"><div class="form-group"> <label class="control-label">Action</label> <br/><a href="#" class="btn btn-danger">Supprimer</a></div></div><p>&nbsp;</p>');
+
+      // Ajout du lien
+      $prototype.append($deleteLink);
+
+      // Ajout du listener sur le clic du lien
+      $deleteLink.click(function(e) {
+        $prototype.remove();
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return false;
+      });
+    }
+
+    
+  });
+
+
+</script>
+
+   
+       
+   
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

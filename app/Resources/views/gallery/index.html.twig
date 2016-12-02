@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Albums - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block page_body %}
+  <div class="page-full">
+    <div class="gallery-wrapper">
+      <div class="gallery-slider">
+        {% set models = ['middle', '', 'middle', 'bottom', 'top'] %}
+        {% set model = 0 %}
+        {% for album in albums %}
+          <div class="item {{ models[model] }}">{% set model = model+1 %}{% if model > 3 %}{% set model = 0 %}{% endif %}
+            <a href="{{ asset(album.imageWebPath) }}" data-lightbox-gallery="gallery{{ album.id }}" title="{{ album.title }}" class="nivo-gallery">
+              <figure data-bg="{{ asset(album.imageWebPath) }}">
+                  <img src="{{ asset(album.imageWebPath) }}" alt="{{ album.title }}" class="img-responsive">
+                <figcaption>
+                  <p>{{ album.title }}</p>
+                </figcaption>
+              </figure>
+            </a>
+            {% for photo in album.galleryImages %}
+              <a href="{{ asset(photo.imageWebPath) }}" data-lightbox-gallery="gallery{{ album.id }}" title="{{ photo.title }}" class="hidden"></a>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+      <h1><img src="{{ asset( 'images/logo.png' ) }}" alt="L'interprète" class="img-responsive center-block"><small>Quand le pouvoir ne change jamais de maître</small></h1>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  <script>
+    $(document).ready(function(){
+      $('.nivo-gallery').nivoLightbox();
+    });
+  </script>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ '%entity% creation'|trans({'%entity%': 'Article'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+{% block stylesheet %}
+    <style type="text/css">
+        .squaredThree {
+            display: inline-block;
+            margin: 0;
+        }
+
+        .squaredThree label {
+            padding-left: 20px;
+        }
+
+        .squaredThree label:after {
+            top: 6px;
+            left: 6px;
+        }
+
+        .squaredThree + label {
+            cursor: pointer;
+            position: relative;
+            top: -2px;
+            left: 15px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="row">
+            {{ form_start(form, {action: path('admin_posts_create')}) }}
+            <div class="col-md-8">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">{{ '%entity% creation'|trans({'%entity%': 'Article'}, 'admin') }}</h1>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="post_title">Titre</label>
+                            {{ form_widget( form.title, { "attr": { "class": "form-control", "id": "post_title", "placeholder": "Titre" }}) }}
+                            {{ form_errors(form.title) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="post_description">Description</label>
+                            {{ form_widget( form.content, { "attr": { "class": "form-control", "id": "post_description" }}) }}
+                            {{ form_errors(form.content) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">Publier</h1>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="celebrite_state">État</label>
+                            {{ form_widget( form.state, { "attr": { "class": "form-control" }}) }}
+                            {{ form_errors(form.state) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="celebrite_state">Publié le</label>
+                            <div class='input-group date datetimepicker'>
+                                {{ form_widget( form.publishedAt, { "attr": { "class": "form-control" }} ) }}
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button class="btn btn-primary pull-right" type="submit"><i class="fa fa-plus"></i> {#{ 'Create'|trans({}, 'admin') }#}Publier</button>
+                    </div>
+                </div>
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">Catégories article</h1>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        {% macro post_prototype(post) %}
+                            <div class="row">
+                                <div class='col-sm-12'>
+                                    <div class="form-group">
+                                        <div class="squaredThree">
+                                            {{ form_widget( post, { 'attr': { 'class': '' } } ) }}
+                                            {{ form_label( post, null, {
+                                                'label': ' '
+                                            } ) }}
+                                        </div>
+                                        {{ form_label( post ) }}
+                                        {{ form_errors( post ) }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endmacro %}
+                        {% for post in form.categories %}
+                            {{ _self.post_prototype(post) }}
+                        {% endfor %}
+                        <span style="display:block;">{{ form_widget( form.categories ) }}</span>
+                    </div>
+                </div>
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">Image à la une</h1>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        {{ form_widget( form.image.tempFile, { "attr": { "class": "form-control" }}) }}
+                        {{ form_errors(form.image.tempFile) }}
+                    </div>
+                </div>
+            </div>
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock %}

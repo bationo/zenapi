@@ -1,0 +1,82 @@
+{% extends "MAXOMAdminBundle::layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'User'}, 'admin') }} - {{ parent() }}{% endblock %}
+{% macro thead(name, field, label) %}
+    {% spaceless %}
+        {% set sort = app.session.get('sort.' ~ name) %}
+        {% if sort and sort.field == field %}
+            {% if sort.type == 'DESC' %}
+                <a href="{{ path('maxom_admin_user_sort', {field: field, type: 'ASC'}) }}">{{ label }} <i class="fa fa-sort-down"></i></a>
+            {% elseif sort.type == 'ASC' %}
+                <a href="{{ path('maxom_admin_user_sort', {field: field, type: 'DESC'}) }}">{{ label }} <i class="fa fa-sort-up"></i></a>
+            {% endif %}
+        {% else %}
+            <a href="{{ path('maxom_admin_user_sort', {field: field, type: 'ASC'}) }}">{{ label }} <i class="fa fa-sort"></i></a>
+        {% endif %}
+    {% endspaceless %}
+{% endmacro %}
+
+{% from _self import thead %}
+
+
+
+{% block body %}
+    <h1>{{ '%entity% list'|trans({'%entity%': 'User'}, 'admin') }}</h1>
+
+    {#% include 'ESUserBundle:User:filter.html.twig' with {form: form} %#}
+    
+    <table class="table table-striped table-hover table-bordered records_list">
+        <thead>
+            <tr>
+                <th scope="col">Avatar</th>
+                <th scope="col">{{ thead('user', 'username', 'Nom d\'utilisateur') }}</th>
+                <th scope="col">Nom et prénoms</th>
+                <th scope="col">Email</th>
+                <th scope="col">{{ thead('user', 'locked', 'Verrouillé') }}</th>
+                <th scope="col">Groupes</th>
+                <th scope="col">Nbre connexion</th>
+                <th scope="col">Première connexion</th>
+                <th scope="col">Dernière connexion</th>
+                <th scope="col">Id</th>
+                <th scope="col">{{ 'Actions'|trans({}, 'admin') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in paginator %}
+                <tr>
+                    <td><img src="{{ asset( user.webPath ) }}" class="img-circle" alt="{{ user.username }}" style="width:100%;max-width:45px;height:auto"></td>
+                    <td><a href="{{ path('maxom_admin_user_show', {id: user.id}) }}">{{ user.username }}</a></td>
+                    <td>{{ [user.admin.nom, user.admin.prenom]|join(' ')  }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{% if user.locked %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %}</td>
+                    <td>{{ user.groups|join(', ') }}</td>
+                    <td>{{ user.loginCount }}</td>
+                    <td>{% if user.firstLogin %}{{ user.firstLogin|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{% if user.lastLogin %}{{ user.lastLogin|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{{ user.id }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm" href="{{ path('maxom_admin_user_show', {id: user.id}) }}">
+                                <i class="fa fa-file-o"></i> {{ 'show'|trans({}, 'admin') }}
+                            </a>
+                            <a class="btn btn-default btn-sm" href="{{ path('maxom_admin_user_edit', {id: user.id}) }}">
+                                <i class="fa fa-edit"></i> {{ 'edit'|trans({}, 'admin') }}
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {{ knp_pagination_render(paginator) }}
+    
+    <ul class="new_entry list-unstyled">
+        <li>
+            <a class="btn btn-info" href="{{ path('maxom_admin_user_new') }}">
+                <i class="fa fa-plus"></i> {{ 'Create a new entry'|trans({}, 'admin') }}
+            </a>
+        </li>
+    </ul>
+    
+{% endblock %}

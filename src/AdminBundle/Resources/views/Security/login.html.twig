@@ -1,0 +1,49 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="login-box">
+      <div class="login-logo">
+        <p><b>Administration</b></p>
+          <img src="{{ asset('theme/images/logos.png') }}"  style="max-width:100%">
+      </div><!-- /.login-logo -->
+      <div class="login-box-body">
+        <p class="login-box-msg">Démarrer une session </p>
+        {% if error %}
+    
+      <div class="alert alert-danger fade in">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <h4>Alerte - Erreur</h4>
+                            <p> {{ error.messageKey|trans(error.messageData, 'security') }} </p>
+                        </div>
+	{% endif %}
+
+        <form action="{{ path("admin_security_check") }}" method="post">
+                 <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+          <div class="form-group has-feedback">
+            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" class="form-control" placeholder="Username" />
+
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+          </div>
+
+          <div class="form-group has-feedback">
+            <input type="password" id="password" name="_password" required="required" class="form-control" placeholder="Mot de Passe" />
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+          <div class="row">
+            <div class="col-xs-8">
+             
+            </div><!-- /.col -->
+            <div class="col-xs-4">
+                <input type="submit" id="_submit" name="_submit" class="btn btn-primary btn-block btn-flat" value="{{ 'security.login.submit'|trans }}" />
+            </div><!-- /.col -->
+          </div>
+        </form>
+      
+        <a href="{{ path("admin_resetting_request") }}">Mot de passe oublié ?</a><br>
+
+      </div><!-- /.login-box-body -->
+    </div><!-- /.login-box -->
+{% endblock fos_user_content %}

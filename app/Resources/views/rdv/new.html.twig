@@ -1,0 +1,289 @@
+{% extends 'Layout.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+    {% block file %}
+
+         <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="#" class="active" > Ajouter un nouveau Rendez-vous </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+
+{% block body %}
+
+
+                <!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+  {% for message in app.session.flashbag.get('info') %}
+        <div class="alert alert-dismissible alert-success">
+  <button type="button" class="close" data-dismiss="alert">X</button>
+  {{ message }}
+</div>
+      {% endfor %}
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Ajouter un nouveau Rendez-vous </h3>
+                                    </div>
+                                    <br/>
+                                    <form action="{{ path('pro_rdv_new') }}" method="post">
+                                    <div class="form-group">
+                                            <label class="col-md-12 control-label" for="patient">Rechercher un patient à partir de son nom , ou son numéro de téléphone , ou son adresse mail </label>
+                                            <div class="col-md-12">
+                                                <input required type="text" id="patient" name="data" class="form-control" placeholder="Exemple : Kouakou Fabrice ou +22508874697 ou konan@gmail.com">
+                                                <small class="help-block" style="color:red" >Exemple : Kouakou Fabrice ou +22508874697 ou konan@gmail.com </small>
+                                            </div>
+                                        </div>
+        <div style="float:right">
+            <button type="submit"   class="btn btn-pink ">Rechercher</button>
+        </div>
+        </form>
+       
+        <p> &nbsp; &nbsp;&nbsp;</p> <p> &nbsp; &nbsp;&nbsp;</p>
+
+                            {% if patients is not null %}
+                                <table id="demo-dt-delete" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Nom</th>
+                                            <th>Ville</th>
+                                            <th>Mail</th>
+                                            <th>Téléphone</th>
+                                            
+                                            <th scope="col">{{ 'Actions'|trans({}, 'admin') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                         {% for key, patient in patients %}
+                                            <tr>
+                                                <td> <input type="radio" name="choix" class="choix" value="{{patient.id}}" data-nom="{{patient.nom}}">  </td>
+                                                                            <td><span> {{ patient.nom }} {{ patient.prenom }}</span></td>
+                                                                            <td>{{ patient.ville }}</td>
+                                                                            <td>{{ patient.user.email }}</td>
+                                                                            <td>{{ patient.user.pays.indicatif }} {{ patient.tel }}</td>
+                                                                           
+                                                                            <td>
+                                                                                <div class="btn-group">
+                                                                                    <a data-toggle="modal" href="#plan{{key}}" class="btn btn-default btn-sm" >
+                                                                                        <i class="fa fa-file-o"></i> Afficher
+                                                                                    </a>
+                                                              
+                                                                                   
+                                                                                </div>
+                                                                            </td>
+
+                                                                           
+                                            </tr>
+
+
+                                              {% endfor %}
+                                          
+                                       
+                                       
+                                     
+                                    </tbody>
+                                </table>
+
+                                  <div style="float:right">
+            <button type="button"   class="btn btn-pink envoie">Valider</button>
+        </div>
+
+<script type="text/javascript">
+
+$('.envoie').click(function(){
+
+  n =   $( ".choix:checked" ).length;
+
+    if(n != 0){
+
+            val = $( ".choix:checked" ).val();
+            name = $( ".choix:checked" ).data("nom");
+            
+            url = "{{ path( 'pro_rdv_continuez' , {id: "val" , name: "name"  } )    }}";
+
+             url = url.replace("val", val);
+             url = url.replace("name", name);
+
+            location.href = url;
+    }else{
+        alert("veuillez selectionner un patient avant de continuer! ");
+    }
+return false;
+});
+ 
+
+</script>
+
+                            {% endif %}
+                                    
+                                   
+                                     
+
+
+
+
+
+
+
+                                        <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('pro_rdv_liste') }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+
+
+
+
+        </div>
+      
+                                </div>
+                               
+                               
+                               
+
+                               
+                               
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+                      
+
+
+{% for key, patient in patients %}
+    <div id="plan{{key}}" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+
+
+                     <table class="table table-hover record_properties">
+                                            <tbody>
+
+                                                 <tr>
+                                                    <th scope="row"></th>
+                                                    <td> <img src="{{ asset(patient.user.webpath) }} " style="height:120px;"> </td>
+                                                </tr>
+                                              <tr>
+                                                    <th scope="row">Genre</th>
+                                                    <td>{{ patient.genre }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Nom</th>
+                                                    <td>{{ patient.nom }}</td>
+                                                </tr>
+                                               
+                                                <tr>
+                                                    <th scope="row">Prénom</th>
+                                                    <td>{{ patient.prenom }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Lieu de Naissance</th>
+                                                    <td>{{ patient.lieuNaissance }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Ville de résidence</th>
+                                                    <td>{{ patient.ville }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Pays de résidence</th>
+                                                    <td>{{ patient.user.pays.nom }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Numéro de Téléphone</th>
+                                                    <td>{{ patient.user.pays.indicatif }} {{ patient.tel }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Adresse Mail</th>
+                                                    <td>{{ patient.user.email }} </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">Date de Naissance</th>
+                                                    <td>{{ patient.dateNaissance|localizeddate('full', 'none') }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Groupe Sanguin </th>
+                                                    <td>{{ patient.groupeSanguin }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Le Patient est-il Assuré ? </th>
+                                                    <td> {% if patient.assurer == true  %} OUI {% else %} NON {% endif %}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Compagnie d'assurance </th>
+                                                    <td>{{ patient.compagnieAssurance }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">identifiant d'assurance </th>
+                                                    <td>{{ patient.numeroAssurance }}  </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Commentaire </th>
+                                                    <td>{{ patient.note }}  </td>
+                                                </tr>
+
+                                               
+
+                                                
+
+                                                
+
+                                                   
+                                            </tbody>
+                     </table>   
+                                             
+                </div>
+               
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+
+
+{% endblock %}
+
+
+
+
+
+{% block javascripts %}
+
+    
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+

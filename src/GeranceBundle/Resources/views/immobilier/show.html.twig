@@ -1,0 +1,195 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Immobilier - {{ parent() }}{% endblock %}
+
+
+
+{% block route %}
+
+         <header class="section-header">
+            <div class="tbl">
+                <div class="tbl-row">
+                    <div class="tbl-cell">
+                        <h3></h3>
+                        <ol class="breadcrumb breadcrumb-simple pull-left">
+                            <li><a href="{{ path('homepage') }}">Accueil</a></li>
+                            <li><a href="{{ path('proprietaire') }}">Liste des propriétaires</a></li>
+                            {% if immobilier.proprietaire.entreprise != null %}
+                                 <li><a href="{{ path('immobilier' , {id:immobilier.proprietaire.id}) }}">Liste Biens immobiliers - proprietaire : {{immobilier.proprietaire.entreprise.raisonSocial}} </a></li>
+                            {% else %}
+                                 <li><a href="{{ path('immobilier' , {id:immobilier.proprietaire.id}) }}">
+                                    Liste Biens immobiliers - proprietaire : {{immobilier.proprietaire.particulier.nom}} {{immobilier.proprietaire.particulier.prenom}} </a>
+                                </li>
+                            {% endif %}
+
+                            <li class="active">Fiche Immobilier : {{immobilier.nom}} </li>
+                             
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+    {% endblock %}
+
+
+{% block body %}
+
+
+    <section class="card">
+        <header class="card-header card-header-lg">
+             Fiche Immobilier : {{immobilier.nom}}
+             <span class="pull-right">
+
+             {% if immobilier.proprietaire.entreprise != null %}
+                Proprietaire : {{immobilier.proprietaire.entreprise.raisonSocial}}
+             {% else %}
+                Proprietaire : {{immobilier.proprietaire.particulier.nom}} {{immobilier.proprietaire.particulier.prenom}}
+            {% endif %}
+            </span>
+        </header>
+            <div class="card-block">
+
+                <div class="col-md-6">
+             <table class="table table-hover record_properties">
+                <tbody>
+                    <tr>
+                        <th scope="row">Identifiant</th>
+                        <td>BIMO-{{ immobilier.id }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Proprietaire</th>
+                        <td>
+                             {% if immobilier.proprietaire.entreprise != null %}
+                             {{immobilier.proprietaire.entreprise.raisonSocial}} 
+                             {% else %}
+                              {{immobilier.proprietaire.particulier.nom}} {{immobilier.proprietaire.particulier.prenom}} 
+                            {% endif %}
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Ce bien est-il destiné à la vente ?</th>
+                        <td>
+                            {% if immobilier.vente == true %} Oui
+                            {% else %}
+                                Non
+                            {% endif %}
+                                                        
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Type</th>
+                        <td>{{ immobilier.type }}</td>
+                    </tr>
+                   
+                    <tr>
+                        <th scope="row">Valeur du bien</th>
+                        <td> {{immobilier.montant}} FCFA </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Nom</th>
+                        <td>{{ immobilier.nom }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Commune</th>
+                        <td>{{ immobilier.commune }}</td>
+                    </tr>
+                      <tr>
+                        <th scope="row">Ilot</th>
+                        <td>{{ immobilier.lot }}</td>
+                    </tr>
+                     <tr>
+                        <th scope="row">Situation Géographique</th>
+                        <td>{{ immobilier.geographique }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Superficie</th>
+                        <td>{{ immobilier.superficie }}</td>
+                    </tr>
+                 
+                </tbody>
+            </table>
+                    
+
+                </div>
+                 <div class="col-md-6">
+             <table class="table table-hover record_properties">
+                <tbody>
+                   
+                    <tr>
+                        <th scope="row">Quartier</th>
+                        <td>{{ immobilier.quartier }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Lot</th>
+                        <td>{{ immobilier.lot }}</td>
+                    </tr>
+                     <tr>
+                        <th scope="row">Ilot</th>
+                        <td>{{ immobilier.lot }}</td>
+                    </tr>
+                     <tr>
+                        <th scope="row">Lot</th>
+                        <td>{{ immobilier.ilot }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Titre Foncier</th>
+                        <td>{{ immobilier.titreFoncier }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Description</th>
+                        <td>{{ immobilier.description }}</td>
+                    </tr>
+                     <tr>
+                      <th scope="row">Document joint 
+                      </th>
+                      <td>
+                        <ul>
+                        {% for document in immobilier.document %}
+                            <li><a target="_blank" href="{{asset(document.document.webpath)}}">{{document.title}}</a></li>
+                            
+
+                      {% endfor %}
+                      </ul>
+                        
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                    <th scope="row">Date d'enregistrement :</th>
+                        <td>{{ immobilier.created|localizeddate('full', 'short') }}</td>
+                     </tr>
+                    <tr>
+                        <th scope="row">Dernière modification :</th>
+                        <td>{{ immobilier.modified|localizeddate('full', 'short') }}</td>
+                    </tr>
+                </tbody>
+            </table>
+                    
+
+                </div>
+              
+
+        </div>
+
+
+        <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('immobilier' , {id:immobilier.proprietaire.id}) }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+
+            <a class="btn btn-primary" href="{{ path('immobilier_edit', {id: immobilier.id}) }}">
+                <i class="fa fa-edit"></i> {{ 'Edit'|trans({}, 'admin') }}
+            </a>
+            <button class="btn btn-danger" type="submit"><i class="fa fa-trash-o"></i> {{ 'Delete'|trans({}, 'admin') }}</button>
+
+        </div>
+
+      
+    </section>
+
+    
+{% endblock %}

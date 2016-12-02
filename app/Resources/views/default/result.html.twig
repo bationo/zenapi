@@ -1,0 +1,318 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+
+{% block content %}
+
+
+
+<script src="{{ asset("theme2/js/paginate.js") }}"></script>
+        <section>
+
+
+              <div id="page-search-pro" class="">
+                <div class="row">
+                    <div class="search">
+                        <div class="search-forms">
+
+
+      {{ render(controller('FrontBundle:Default:rechercheForm')) }}
+
+                        </div>
+                    </div>
+                </div>
+        </div>
+<section class="search__results  container etape1" >
+  <!-- ce div sert à contenir la map qui scroll avec le contenu -->
+  <div class="clearfix search__results__inner" >
+    <div class="container__map" id="container__map" >
+     
+      <div class="map__wrapper" id="map__wrapper">
+      
+      </div>
+    </div>
+
+    {% if liste|length == 0  %}
+        <div style="text-align:center"> 
+            <h3>Aucun résultat ne correspond à votre recherche </h3>
+        </div>
+    {% endif %}
+
+ <ul id="paginate">  
+ {% for docteur in liste %} 
+  <li>
+    <div class="results">
+
+
+      <div class="result__showing-days"  >
+       <div class="result__showing-days__list jour_agenda{{docteur.id}}">
+          <span class="spacer" aria-hidden="true">
+          </span>
+          <ul>
+            <li>
+              <abbr title="lun. 24/16">
+              </abbr>lun.
+              <br>
+              <abbr>
+              </abbr>
+            </li>
+            <li>
+              <abbr title="mar. 25/16">
+              </abbr>mar.
+              <br>
+              <abbr>
+              </abbr>
+            </li>
+            <li>
+              <abbr title="mer. 26/16">
+              </abbr>mer.
+              <br>
+              <abbr>
+              </abbr>
+            </li>
+            <li>
+              <abbr title="jeu. 27/16">
+              </abbr>jeu.
+              <br>
+              <abbr>
+              </abbr>
+            </li>
+            <li>
+              <abbr title="ven. 28/16">
+              </abbr>ven.
+              <br>
+              <abbr>
+              </abbr>
+            </li>
+            <li>
+              <abbr title="sam. 29/16">
+              </abbr>sam.
+              <br>
+              <abbr>
+              </abbr>
+            </li>
+            <li>
+              <abbr title="dim. 30/16">
+              </abbr>dim.
+              <br>
+              <abbr>
+              </abbr>
+            </li>
+          </ul>
+          <span class="spacer" aria-hidden="true">
+          </span>
+       </div>
+      </div>
+      <ol class="results__list">
+
+
+      	
+      		{% if docteur.image != null  %} {% set img = docteur.image.webpath %} {% else %} {% set img = "uploads/avatars/avatar.png" %}   {% endif %}
+        <li class="result doc_result_list" >
+          <div class="result__praticien has-bubble">
+            <div class="praticien__sticker">
+             
+              <div class="praticien__img">
+                <a href="{{ path( 'professionel_name' ,{ id:docteur.professionnel.id , name:docteur.professionnel.nom|replace(" ", "-") } ) }}">
+                  <img src="{{ asset(img) }}" class="praticien__img__profil" >
+                </a>
+              </div>
+              <h3 class="praticien__fn">
+                <span class="praticien__name">
+                  <a href="">{{ docteur.titre.libele }} {{ docteur.nom }} <br/>
+                  	{{ docteur.professionnel.nom }}
+                  </a>
+                </span>
+                <span class="praticien__speciality">
+                	{% for specialite in docteur.ListeSpecialite %}
+                            {{specialite.libele}} 
+                    {% endfor %}
+                </span>
+              </h3>
+              <div class="praticien__infos">
+                <p class="praticien__adress">{{ docteur.professionnel.localisation }}
+                  <br>{{ docteur.professionnel.ville }} {{ docteur.professionnel.user.pays.nom }}
+                </p>
+               
+              </div>
+              <div class="praticien__actions">
+                <a class="btn btn-rdv" style="background-color:#00944A; border-color:#00944A" href="{{ path( 'professionel_name' ,{ id:docteur.professionnel.id , name:docteur.professionnel.nom|replace(" ", "-") } ) }}">Prendre RDV
+                </a>
+              </div>
+            </div>
+            <div class="bubble bubble--top praticien__more">
+              <div class="bubble__content">
+                <div class="bubble__office">
+                  <div class="bubble__office-text">
+                    <h4>Présentation 
+                    </h4>
+                    
+                    <p>{{docteur.professionnel.presentation|raw}}
+                    </p>
+                    
+                   
+                    <p>&nbsp;
+                    </p>
+                    <div class="hide-end-text">
+                    </div>
+                  </div>
+                  <div class="bubble__office-link">
+                    <a href="{{ path( 'professionel_name' ,{ id:docteur.professionnel.id , name:docteur.professionnel.nom|replace(" ", "-") } ) }}">Voir plus
+                    </a>
+                  </div>
+                </div>
+                <div class="bubble__price">
+                  <h4>Prix de la consultation
+                  </h4>
+                  <p>
+                  	{% for specialite in docteur.professionnel.specialite %}
+                  		{{specialite.libele.libele}} : {{specialite.prix}} FCFA <br/>
+                                                           
+                     {% endfor %}
+
+
+                  
+                  </p>
+                  <h4>Agenda du {{ docteur.titre.libele }}
+                  </h4>
+                 {% for disponible in docteur.disponible %}
+
+                                                            <ul>
+                                                            <li> Les <span class="ff">{{disponible.jour.libele}}</span>     De <span class="ff">{{disponible.heure|date('H:i')}}</span> A <span class="ff">{{disponible.heureFin|date('H:i')}}</span> </li> 
+                                                            
+                                                            </ul>
+
+                                                        {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+<div id="result__rdv__doctor-172" class="result__rdv rdv__dispos__swipe" style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+
+  <div class="rdvDocteur{{docteur.id}}" style="text-align:center">  <img src="{{ asset("theme2/images/gears.gif") }}" style="width:130px; height:auto; text-align:center"  >  </div>
+
+</div>
+
+
+         
+
+          <div class="result__actions">
+            <a class="btn btn-rdv" href="#">Prendre RDV
+            </a>
+          </div>
+        </li>
+        <li class="result result--separator" aria-hidden="true">
+          <div class="result__praticien has-bubble">
+          </div>
+          <div class="result__rdv">
+          </div>
+        </li>
+       
+         
+   
+       
+      
+
+       
+      </ol>
+
+    </div>
+
+</li>         
+          
+      
+ 
+{% endfor %}   
+</ul>   
+  </div>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </section>
+
+   
+
+<script type="text/javascript">
+
+
+
+$(document).ready(function() {
+ 
+$('#paginate').paginate(); 
+$('.paginate-pagination').addClass("md-pagination"); 
+$('.paginate-pagination ul').children().addClass("md-pagination__page");
+$( ".md-pagination" ).first().addClass("md-pagination__page--current");
+
+
+
+{% for docteur in liste %}
+
+  ident = "0";
+    var now = new Date();
+    d =  now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+ formdata = {docteur: "{{docteur.id}}" , semaine : d , id:ident  };
+
+	$.ajax({
+               url : "{{ path( 'agenda_recherche_ajax') }}",
+               type : 'post',
+               data : formdata  ,
+               success : function( statut){
+
+                        $('.rdvDocteur{{docteur.id}}').html(statut);
+
+                          i = 1;
+                          $('.jour_agenda{{docteur.id}} li').each(function( index ) {
+
+                            elem = $('.resultat_agenda{{docteur.id}} th:eq('+i+')').html();
+                            
+                            $(this).html(elem);
+
+                            i++;
+                          });
+
+                          
+
+
+                      },
+
+               error : function(resultat, statut, erreur){
+
+                if(statut){
+
+                     error = '<div class="alert alert-dismissible alert-danger">' + 
+                              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                               erreur + " ! veuillez recommencer " +
+                            '</div>';
+                 $('.rdvDocteur{{docteur.id}}').html(error);
+                }
+                 
+               }
+
+              
+
+            });
+
+
+{% endfor %}
+ 
+});
+
+
+</script>
+
+{% endblock %}

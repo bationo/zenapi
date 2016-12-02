@@ -1,0 +1,58 @@
+
+  <div class="row">
+                            <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                                <div class="widgetbox widgetbox-default widgetbox-item-icon">
+                                    <div class="widgetbox-item-left widgetbox-icon-success"> <span class="fa fa-envelope-o"></span> </div>
+                                    <div class="widgetbox-data-right">
+                                        <div class="widgetbox-int"> Compte Pro </div>
+                                        <div class="widgetbox-title"> {{comptePro.nb}} SMS </div>
+                                        <div class="widgetbox-subtitle"> <a href=""> <i class="fa fa-cog fa-2x" aria-hidden="true"></i> </a>   </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                                <div class="widgetbox widgetbox-default widgetbox-item-icon">
+                                    <div class="widgetbox-item-left widgetbox-icon-danger"> <span class="fa fa-envelope-o"></span> </div>
+                                    <div class="widgetbox-data-right">
+                                        <div class="widgetbox-int"> Compte Free </div>
+                                        <div class="widgetbox-title"> {{compteFree.nb}} SMS </div>
+                                        <div class="widgetbox-subtitle"> <a href="">  </a>   </div>
+                                    </div>
+                                </div>
+                            </div>
+                          
+                           <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                                <div class="widgetbox widgetbox-default widgetbox-item-icon">
+                                    <div class="widgetbox-item-right widgetbox-icon-info"> <span class="fa fa-line-chart"></span> </div>
+                                    <div class="widgetbox-data-left">
+                                        <div class="widgetbox-int"><a href="{{ path('repertoire_all', {type: 'sms'}) }}"> {{nbSMS}} </a></div>
+                                        <p> <a href="{{ path('repertoire_all', {type: 'sms'}) }}"> SMS envoyé(s)</a>   </p>
+                                    </div>
+                                    <div class="widgetbox-data-left">
+                                        <div class="widgetbox-subtitle">
+                                            <div class="progress-sm progress">
+                                                <div class="progress-bar progress-bar-primary" style="width: 55%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                         
+                             <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="panel">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-9 col-sm-9 col-xs-10">
+                                                <h3 class="mar-no"> <span class="counter"><a href="{{ path('repertoire_all', {type: 'mail'}) }}">{{nbMail}} mails envoyé </a></span></h3>
+                                                <p> <a href="{{ path('repertoire_all', {type: 'mail'}) }}">Historique Mail</a> </p>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-2"> <i class="fa fa-line-chart fa-3x text-danger"></i> </div>
+                                        </div>
+                                        <div class="progress progress-striped progress-sm">
+                                            <div style="width: 60%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" class="progress-bar progress-bar-danger"> <span class="sr-only">60% Complete</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>

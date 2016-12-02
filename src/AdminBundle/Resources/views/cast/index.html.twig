@@ -1,0 +1,76 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Cast'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+{% block stylesheet %}
+    <style>
+        table.table-bordered tbody th, table.table-bordered tbody td {
+            vertical-align: middle;
+        }
+
+        .image {
+            width: 70px;
+        }
+
+        .image>img {
+            display: inherit;
+            max-width:100%;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">{{ '%entity% list'|trans({'%entity%': 'Cast'}, 'admin') }}</h1>
+                        <a class="btn btn-info pull-right" href="{{ path('admin_distribution_new') }}">
+                            <i class="fa fa-plus"></i> {{ 'Create a new entry'|trans({}, 'admin') }}
+                        </a>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-striped table-hover table-bordered datatable records_list">
+                            <thead>
+                            <tr>
+                                <th scope="col">Image</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Poste</th>
+                                <th scope="col">A l'affiche</th>
+                                <th scope="col">Publication</th>
+                                <th scope="col">Ajout</th>
+                                <th scope="col">Dernière modification</th>
+                                <th scope="col">{{ 'Actions'|trans({}, 'admin') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for cast in entities %}
+                                <tr>
+                                    <td class="image"><img src="{{ asset( cast.ImageWebPath ) }}" alt="{{ cast.name }}"></td>
+                                    <td><a href="{{ path('admin_distribution_show', {id: cast.id}) }}">{{ cast.name }}</a></td>
+                                    <td>{{ cast.function }}</td>
+                                    <td>{% if cast.staring %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %}</td>
+                                    <td>{% if cast.publishedAt %}{{ cast.publishedAt|date('d/m/Y à H:i:s') }}{% endif %}</td>
+                                    <td>{% if cast.createdAt %}{{ cast.createdAt|date('d/m/Y à H:i:s') }}{% endif %}</td>
+                                    <td>{% if cast.updatedAt %}{{ cast.updatedAt|date('d/m/Y à H:i:s') }}{% endif %}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-default btn-sm" href="{{ path('admin_distribution_show', {id: cast.id}) }}">
+                                                <i class="fa fa-file-o"></i> {{ 'show'|trans({}, 'admin') }}
+                                            </a>
+                                            <a class="btn btn-default btn-sm" href="{{ path('admin_distribution_edit', {id: cast.id}) }}">
+                                                <i class="fa fa-edit"></i> {{ 'edit'|trans({}, 'admin') }}
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

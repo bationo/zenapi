@@ -1,0 +1,63 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Programme - {{ theatricalrelease.place.title }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">Programme - {{ theatricalrelease.place.title }}</h1>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-hover record_properties">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Date de diffusion</th>
+                                    <td>{{ 'Le ' ~ theatricalrelease.dateTime|date('d/m/Y à H:i:s') }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Id</th>
+                                    <td>{{ theatricalrelease.id }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="btn-group record_actions">
+                            <a class="btn btn-info pull-left" href="{{ path('admin_theatrical_release', {id: theatricalrelease.place.id}) }}">
+                                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+                            </a>
+                            <a class="btn btn-primary" href="{{ path('admin_theatrical_release_update', {id: theatricalrelease.id}) }}">
+                                <i class="fa fa-edit"></i> {{ 'Edit'|trans({}, 'admin') }}
+                            </a>
+                            {{ form_start(delete_form, { "attr": { "class": "pull-left" } }) }}
+                            {{ form_widget(delete_form) }}
+                            <button class="btn btn-danger" style="border-radius: 0px 4px 4px 0px" type="submit"><i class="fa fa-trash-o"></i> Supprimer definitivement</button>
+                            <input name="modal" type="hidden" value="0">
+                            {{ form_end(delete_form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="delete_confirm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>{{ 'Confirm delete'|trans({}, 'admin') }}</h3>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'You are about to delete an item'|trans({}, 'admin') }}, {{ 'this procedure is irreversible'|trans({}, 'admin') }}.</p>
+                    <p>{{ 'Do you want to proceed?'|trans({}, 'admin') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger">{{ 'Yes'|trans({}, 'admin') }}</button>
+                    <button class="btn btn-default" data-dismiss="modal">{{ 'No'|trans({}, 'admin') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

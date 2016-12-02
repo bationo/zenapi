@@ -1,0 +1,112 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Profil - {{ parent() }}{% endblock %}
+
+{% block stylesheet %}{% endblock %}
+
+{% block breadcumb %}
+            <header class="main-header">
+                <div class="container">
+                    <h1 class="page-title">Mon compte</h1>
+
+                    <ol class="breadcrumb pull-right">
+                        <li><a href="{{ path( 'es_front' ) }}">Accueil</a></li>
+                        <li class="active">Mon compte</li>
+                    </ol>
+                </div>
+            </header>
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <section>
+            	<img src="{{ asset( app.user.webPath ) }}" alt="avatar" class="img-responsive imageborder" width="180" height="180">
+            </section><hr>
+            <section>
+                    <a href="{{ path('profil_edit') }}" type="submit" class="btn btn-ar btn-success btn-block">Modifier mon profil</a>
+            </section>
+        </div>
+        <div class="col-md-8">
+            <section>
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><i class="fa fa-user"></i> General Information</div>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Nom utilisateur</th>
+                            <td>{{ app.user.username }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td><a href="#">{{ app.user.email }}</a></td>
+                        </tr>
+                        <tr>
+                            <th>Nom</th>
+                            <td>{{ app.user.profil.nom }}</td>
+                        </tr>
+                        <tr>
+                            <th>Telephone</th>
+                            <td>{{ app.user.profil.telephone }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date d' inscription</th>
+                            <td>12 - 05 - 2016</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">Dernier Commentaire</h2>
+                <div class="list-group">
+                    <a href="#" class="list-group-item">
+                        <h3>List group item heading</h3>
+                        <p>Summum eventurum. Cuius facta brute consequatur theophrastus quantaque hortensio priventur fabellas fugiendum, sollicitare voce motu constantia omnes iactant exorsus videtisne. Ponderum illas, intellegam reprimique libro imperii sempiternum renovata retinent aristotele nosmet, quanti simulent totum, declinabunt, loca voluptas protervi iucunditate. Verborum parendum legatis honeste iucunditatis, tradere angatur partis spe motu nullae audiebamus honoris formidines earum, commodi nullae tenebo putat, necessarius dicendum occultarum probamus pleniorem optimum, industria sapientiamque aperiri eae temperantiamque utamur denique ipsas.</p>
+                    </a>
+                </div> <!--list-group -->
+            </section>
+        </div>
+    </div>
+</div> <!-- container  --> 
+
+ {#   <div id="delete_confirm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>{{ 'Confirm delete'|trans({}, 'admin') }}</h3>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'You are about to delete an item'|trans({}, 'admin') }}Vous êtes sur le point de supprimer votre compte, {{ 'this procedure is irreversible'|trans({}, 'admin') }}.</p>
+                    <p>{{ 'Do you want to proceed?'|trans({}, 'admin') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger">{{ 'Yes'|trans({}, 'admin') }}</button>
+                    <button class="btn btn-default" data-dismiss="modal">{{ 'No'|trans({}, 'admin') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="delete_confirm_cv" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>{{ 'Confirm delete'|trans({}, 'admin') }}</h3>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'You are about to delete an item'|trans({}, 'admin') }}, {{ 'this procedure is irreversible'|trans({}, 'admin') }}.</p>
+                    <p>{{ 'Do you want to proceed?'|trans({}, 'admin') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger">{{ 'Yes'|trans({}, 'admin') }}</button>
+                    <button class="btn btn-default" data-dismiss="modal">{{ 'No'|trans({}, 'admin') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>#}
+{% endblock %}
+
+{% block javascript %}{% endblock %}

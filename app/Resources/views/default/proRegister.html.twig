@@ -1,0 +1,335 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription Professionnel - {{ parent() }}{% endblock %}
+
+{% block content %}
+
+<script src="//cdn.ckeditor.com/4.5.11/basic/ckeditor.js"></script>
+            
+          <br/><br/><br/>
+            <div id="main" class="site-main">
+
+            <div class="container active-sidebar">
+                <div id="primary" class="content-area">
+                    <div id="content" class="site-content" role="main">
+                        <div id="post-62" class="entry post-62 page type-page status-publish hentry">
+                            <div class="entry-content">
+                                <div class="vc_row wpb_row vc_row-fluid vc_custom_1456310629405">
+                                    <div class="row">
+                                        <div class="h-padding-0 wpb_column vc_column_container vc_col-sm-12">
+                                            <div class="wpb_wrapper">
+                                                <div class="woocommerce">
+
+                                                 
+                                                 {% for flashMessage in app.session.flashbag.get('notice') %}
+     
+                                                        <ul class="woocommerce-error">
+                                                          <li style="color:red"> <strong>Erreur:</strong> {{ flashMessage }}</li>
+                                                      </ul>
+                                                  {% endfor %}
+
+                                                    <div class="col2-set" id="customer_login">
+
+                                                        <div class="col-3">
+
+
+                                                            <h2 style="color:#00944A">Ouverture de compte : Professionnel</h2>
+
+                                                              
+                                                            {{ form_start(form, {"attr":{ "class":"fos_user_registration_register erreur_formulaire erreur"}, "action":path('professionel_register')}) }}
+                    {{ form_errors(form, {'attr': {'color': 'red'}}) }}
+  
+
+                                                              <p class="form-row form-row-wide">
+                                                                    {{ form_label(form.tempFile, 'Image de profil '  ) }}
+                                                                     {{ form_widget(form.tempFile , { 'attr' : {'placeholder' : 'Image de profil',  'class' : 'form-control'  }} ) }} {{ form_errors(form.tempFile , { 'attr' : {'class' : 'red' }} ) }}
+                                                                </p>
+
+                                                                <p class="form-row form-row-wide">
+                                                                   {{ form_label(form.email,  'Adresse e-mail ' ) }} <span class="required">*</span>
+                                                                     {{ form_widget(form.email , { 'attr' : {'placeholder' : 'Adresse e-mail',  'class' : 'form-control' }} ) }} {{ form_errors(form.email , { 'attr' : {'class' : 'red' }} ) }}
+                                                                </p>
+
+                                                                  <p class="form-row form-row-wide">
+                                                                    {{ form_label(form.plainPassword.first,  'Mot de passe ' ) }} <span class="required">*</span>
+                                                                     {{ form_widget(form.plainPassword.first , { 'attr' : {'placeholder' : 'Mot de passe',  'class' : 'form-control' }} ) }} {{ form_errors(form.plainPassword.first , { 'attr' : {'class' : 'red' }} ) }}
+                                                                </p>
+
+                                                                  <p class="form-row form-row-wide">
+                                                                    {{ form_label(form.plainPassword.second,  'Confirmation Mot de passe ' ) }} <span class="required">*</span>
+                                                                     {{ form_widget(form.plainPassword.second , { 'attr' : {'placeholder' : 'Confirmation Mot de passe',  'class' : 'form-control' }}  ) }} {{ form_errors(form.plainPassword.second , { 'attr' : {'class' : 'red' }} ) }}
+
+                                                                </p>
+
+                                                                  <p class="form-row form-row-wide">
+                                                                    {{ form_label(form.professionnel.nom,  'Nom du centre de santé  ' ) }} <span class="required">*</span>
+                                                                    {{ form_widget(form.professionnel.nom , { 'attr' : {'placeholder' : 'Nom du cabinet / de la clinique ',  'class' : 'form-control' }} ) }} {{ form_errors(form.professionnel.nom , { 'attr' : {'class' : 'red'}} ) }}
+                                                                </p>
+
+
+                                                                  <p class="form-row form-row-wide">
+                                                                    {{ form_label(form.professionnel.ville,  'Ville d\'implantation ' ) }} <span class="required">*</span>
+                                                                     {{ form_widget(form.professionnel.ville , { 'attr' : {'placeholder' : 'Ville d\'implantation',  'class' : 'form-control' }}  ) }} {{ form_errors(form.professionnel.ville , { 'attr' : {'class' : 'red' }} ) }}
+                                                                </p>
+                                                                 <p class="form-row form-row-wide">
+                                                                     {{ form_label(form.pays.nom,  'Pays' ) }} <span class="required"></span>
+                                                                    {{ form_widget(form.pays.nom , { 'attr' : {'placeholder' : 'pays',  'class' : 'form-control indicatiff'  }} ) }} {{ form_errors(form.pays.nom , { 'attr' : {'class' : 'red' }} ) }}
+                                                                </p>
+
+                                                                <p class="form-row form-row-wide">
+                                                                  {{ form_label(form.professionnel.localisation,  'Votre Localisation (nom de quartier, rue, etc ) ' ) }} <span class="required">*</span>
+                                                                     {{ form_widget(form.professionnel.localisation , { 'attr' : {'placeholder' : 'Votre Localisation (nom de quartier, rue, etc )',  'class' : 'form-control' }} ) }} {{ form_errors(form.professionnel.localisation , { 'attr' : {'class' : 'red' }} ) }}
+                                                                </p>
+
+                                                            
+
+                                                                <p class="form-row form-row-wide">
+                                                                     {{ form_label(form.professionnel.presentation,  'Présentation de votre activité' ) }} <span class="required">*</span>
+                                                                    {{ form_widget(form.professionnel.presentation , { 'attr' : {'placeholder' : 'Présentation de votre activité',  'class' : 'form-control ckeditor' , 'rows' : '8' }} ) }} {{ form_errors(form.professionnel.presentation , { 'attr' : {'class' : 'red ' }} ) }}
+                                                                </p>
+                                                                 <p class="form-row form-row-wide">
+                                                                     {{ form_label(form.professionnel.url,  'Lien Site web' ) }} <span class="required"></span>
+                                                                    {{ form_widget(form.professionnel.url , { 'attr' : {'placeholder' : 'Présentation de votre activité',  'class' : 'form-control' , 'rows' : '8' }} ) }} {{ form_errors(form.professionnel.url , { 'attr' : {'class' : 'red' }} ) }}
+                                                                </p>
+
+                                                                <p class="form-row form-row-wide">
+                                                                  {{ form_label(form.professionnel.tarif,  'Prix minimum d\'une consultation' ) }} <span class="required">*</span>
+                                                                     {{ form_widget(form.professionnel.tarif , { 'attr' : {'placeholder' : 'Prix minimum d\'une consultation',  'class' : 'form-control' }} ) }} {{ form_errors(form.professionnel.tarif , { 'attr' : {'class' : 'red' }} ) }}
+                                                                </p>
+
+                                                                
+
+                                                                <p class="form-row form-row-wide">
+                                                                  {{ form_label(form.professionnel.tel,   'Numéro de Téléphone Mobile '  ) }}<span class="required">*</span>
+
+                                                                  <div class="pays" style="width: 100%;">
+
+                                                                      <div class="indicatif" style="color:#00944A; font-weight:bold" ></div> <div style="width: 90%;">
+                                                                      {{ form_widget(form.professionnel.tel , { 'attr' : {'placeholder' : 'Votre Numéro de Téléphone',   'class' : 'form-control' }} ) }} {{ form_errors(form.professionnel.tel , { 'attr' : {'class' : 'red' }} ) }}
+
+                                                                    </div>
+                                                                    </div>
+                                                                     
+                                                                </p>
+                                                                <p class="form-row form-row-wide">
+                                                                  {{ form_label(form.professionnel.fixe,   'Numéro de Téléphone Fixe '  ) }}<span class="required"></span>
+
+                                                                  <div class="pays" style="width: 100%;">
+
+                                                                      <div class="indicatif" style="color:#00944A; font-weight:bold" ></div> <div style="width: 90%;">
+                                                                      {{ form_widget(form.professionnel.fixe , { 'attr' : {'placeholder' : 'Votre Numéro de Téléphone Fixe ',   'class' : 'form-control' }} ) }} {{ form_errors(form.professionnel.fixe , { 'attr' : {'class' : 'red' }} ) }}
+
+                                                                    </div>
+                                                                    </div>
+                                                                     
+                                                                </p>
+
+
+                                                                 <p class="form-row form-row-wide">
+                                                                  {{ form_label(form.professionnel.langue,  'les langues parlées' ) }} <span class="required">*</span>
+                                                                     {{ form_widget(form.professionnel.langue , { 'attr' : {'placeholder' : 'les langues parlées ',  'class' : 'form-control' }} ) }} {{ form_errors(form.professionnel.langue , { 'attr' : {'class' : 'red' }} ) }}
+                                                                </p>
+
+                                                                 <p class="form-row form-row-wide">
+                                                                  {{ form_label(form.professionnel.dure,  'Durée moyenne de vos consultations' ) }} <span class="required">*</span>
+                                                                     {{ form_widget(form.professionnel.dure , { 'attr' : {'placeholder' : 'Durée moyenne de vos consultations',  'class' : 'form-control' }} ) }} {{ form_errors(form.professionnel.dure , { 'attr' : {'class' : 'red' }} ) }}
+
+                                                                </p>
+                                                                 <p class="form-row form-row-wide">
+                                                                     {{ form_label(form.professionnel.jour,  'Jour de Travail' ) }} <span class="required">*</span>
+                                                                    
+                                 {{ form_widget(form.professionnel.jour , { 'attr' : {'placeholder' : 'Jour de Travail',  'class' : 'form-control' }} ) }} {{ form_errors(form.professionnel.jour , { 'attr' : {'class' : 'red' }} ) }}
+                                                                </p>
+
+                                                                 
+
+                                                                <p class="form-row form-row-wide">
+                                                                  {{ form_label(form.professionnel.ouverture,   'Heure d\'ouverture '  ) }}<span class="required"></span>
+
+                                                                  <div class="pays" style="width: 100%;">
+
+                                                                       <div class="ov">
+                                                                      {{ form_widget(form.professionnel.ouverture , { 'attr' : {'placeholder' : 'Heure d\'ouverture ',   'class' : 'form-control' }} ) }} {{ form_errors(form.professionnel.ouverture , { 'attr' : {'class' : 'red' }} ) }}
+
+                                                                    </div>
+                                                                    </div>
+                                                                     
+                                                                </p>
+
+                                                                 <p class="form-row form-row-wide">
+                                                                  {{ form_label(form.professionnel.fermeture,   'Heure de fermeture '  ) }}<span class="required"></span>
+
+                                                                  <div class="pays" style="width: 100%;">
+
+                                                                       <div class="ov">
+                                                                      {{ form_widget(form.professionnel.fermeture , { 'attr' : {'placeholder' : 'Heure de fermeture ',   'class' : 'form-control' }} ) }} {{ form_errors(form.professionnel.fermeture , { 'attr' : {'class' : 'red' }} ) }}
+
+                                                                    </div>
+                                                                    </div>
+                                                                     
+                                                                </p>
+
+                                                               
+
+                                                                
+                                            
+
+                                                                
+
+                                
+
+
+                                                                <p class="form-row">
+                                                                     <input type="submit" style="background:#00944A" class="button" name="login"  value="S'inscrire" /> 
+                                                                   
+                                                                </p>
+                                                             
+
+
+
+                                                        </div>
+
+                           
+                                   
+                                     {{ form_end(form) }}
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- .entry-content -->
+                        </div>
+                        <!-- #post -->
+                    </div>
+                    <!-- #content -->
+                </div>
+                <!-- #primary -->
+                <div id="tertiary" class="sidebar-container" role="complementary">
+                    <div class="sidebar-inner">
+                        <div class="widget-area clearfix">
+                            <div id="vc_widget-6" class="widget-2 widget-even widget widget_vc_widget">
+                                <div class="scoped-style">
+                                    <style type="text/css" data-type="vc_shortcodes-custom-css" scoped>
+                                        .vc_custom_1443872752035 {
+                                            margin-bottom: 0px !important;
+                                        }
+                                    </style>
+                                    <div class="vc_row wpb_row vc_row-fluid vc_custom_1443872752035">
+                                        <div class="row">
+                                            <div class="h-padding-0 wpb_column vc_column_container vc_col-sm-12">
+                                                <div class="wpb_wrapper">
+
+
+                                                    <div role="form" class="wpcf7" id="wpcf7-f49-o1" lang="en-US" dir="ltr">
+                                                      {{ render( controller( "FrontBundle:Default:bloc" ) ) }}
+                                               
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                         
+                        </div>
+                        <!-- .widget-area -->
+                    </div>
+                    <!-- .sidebar-inner -->
+                </div>
+                <!-- #tertiary -->
+            </div>
+
+        </div>
+<br/><br/><br/>
+
+  <style type="text/css">
+  .pays div {
+    display: inline-block;
+  }
+    .erreur   ul li , .required {
+        color: red;
+        font-weight: bold;
+         background: none!important;
+    }
+
+
+</style>
+
+    <style type="text/css">
+    #erreur   ul li {
+        color: red;
+        font-weight: bold;
+        background: none!important;
+    }
+    .ov  {
+  width: 100%;
+}
+.ov select {
+  width: 48%;
+  display: inline-block;
+}
+
+</style>
+<script type="text/javascript">
+
+ $('.fos_user_registration_register').submit(function(){
+
+ cont =  CKEDITOR.instances['fos_user_registration_professionnel_presentation'].getData();
+
+ if(cont != ""){
+
+  return true;
+
+ }else{
+  alert("Le champ Présentation est obligatoire!");
+
+  return false;
+ }
+
+
+ } )
+
+
+$( ".indicatiff" ).change(function() {
+ 
+   indice =   $(this).val();
+
+   $('.indicatif').text(indice);
+
+
+});
+
+
+$('.choix').click(function(){
+
+    $('#assurance').toggle();
+
+});
+
+$(function() {
+
+
+ indice =   $('.indicatiff').val();
+
+
+   $('.indicatif').text(indice);
+
+
+
+ if( $('.choix').is(':checked') ){
+
+    $('#assurance').toggle();
+   // $("#assurance").removeAttr("style");
+}
+
+});
+
+</script>
+{% endblock %} 
+

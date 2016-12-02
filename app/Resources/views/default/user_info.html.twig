@@ -1,0 +1,72 @@
+
+                         <form name="bookingForm" method="POST"  class="Form2ETape" action="#" >
+                <div class="errorr">
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="username">Nom</label>
+                  <input class="form-control" type="text" disabled id="nomV" value="{{app.user.profil.nom}}" >
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="username">Prénom</label>
+                  <input class="form-control" type="text" required disabled id="prenomV" value="{{app.user.profil.prenom}}" >
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="username">Date de Naissance</label>
+                  <input class="form-control" type="text" required disabled id="naissanceV" value="{{app.user.profil.dateNaissance|date('d-m-Y')}}" >
+                </div>
+                 <div class="form-group">
+                  <label class="control-label" for="username">lieu  de Naissance</label>
+                  <input class="form-control" type="text" required disabled id="lieuV" value="{{app.user.profil.lieuNaissance}}" >
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="username">Ville - commune</label>
+                  <input class="form-control" type="text" required id="communeV" value="{{app.user.profil.ville}}" >
+                </div>
+              
+                <div>
+                <label class="control-label" for="username">Téléphone</label>
+                <div class="input-group">
+                  <span class="input-group-addon" id="indicatifV">{{app.user.pays.indicatif}}</span>
+                  <input type="text" class="form-control" required id="telV" value="{{app.user.profil.tel}}" aria-describedby="basic-addon1">
+                </div>
+                </div>
+
+                <div class="form-group" style="display:none">
+                  <label class="control-label" for="mailV">mail</label>
+                  <input class="form-control" type="text" required id="mailV" value="{{app.user.email}}" >
+                </div>
+
+
+
+
+             
+                  <span class="chargement" style="float:right"><input style="background-color:#00944A!important; color:white" type="submit" class="btn btn-validate btn-form" value="Suivant >>"> </span>
+                  <span class="chargement1" style="display:none ; float:right">Chargement...</span>
+
+
+                  <br/><br/>
+                     
+        <a href="#" style="text-align:left"  class="btn btn-validate  retour2" > << Précedent </a>
+        <div id="connexion" style="display:none ;">connexion</div>
+            </form>
+    <script type="text/javascript">
+    $('.retour2').click(function(){
+        $('.form__steps__nav__item--current').last().removeClass("form__steps__nav__item--current");
+        $('.form__steps__nav__item--current').last().removeClass("form__steps__nav__item--current");
+         $('.etape1Form').show();
+        $('.etape3Form').hide();
+    return false;
+    });
+
+      $('.Form2ETape').submit(function(){
+                                      $('.form__steps__nav__item--current').last().next('li').addClass("form__steps__nav__item--current");
+                                      $('.etape3Form').hide();
+                                      $('.etape4Form').show();
+                                      $('#telValide').val($('#telV').val()); 
+                                      $('#indicatifC').text($('#indicatifV').text()); 
+
+                                    return false;
+                                    });
+
+
+    </script>

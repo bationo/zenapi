@@ -1,0 +1,8 @@
+					 <label class="form-label required " for="contrat_immobilier">Bien Immobilier</label>
+                        <select id="contrat_immobilier" name="immobilier" placeholder="immobilier" class="form-control immobilier" required="required"> 
+                            <option value="">Faite un choix</option>
+                        {% for item in  locative %}       
+                            <option value="{{item.id}}"> {{item.nom}}</option>        
+                        {% endfor %}
+                        </select>
+                        <small class="help-block"></small>

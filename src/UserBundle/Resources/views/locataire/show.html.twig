@@ -1,0 +1,493 @@
+<section class="tabs-section">
+  <div class="tabs-section-nav tabs-section-nav-inline">
+    <ul class="nav" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" href="#FicheLocative" role="tab" data-toggle="tab">
+          Fiche Locataire
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#FicheContrat" role="tab" data-toggle="tab">
+          Contrat
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#FicheOccupe" role="tab" data-toggle="tab">
+          Locative Occupée
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!--.tabs-section-nav-->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="FicheLocative">
+      <div class="row">
+        {% if user.locataire.entreprise != null  %}
+        <div class="col-md-12">
+          <section class="card">
+            <header class="card-header card-header-lg">
+              Fiche du locataire : {{user.locataire.entreprise.raisonSocial}} 
+            </header>
+            <div class="card-block">
+              <div class="col-md-6">
+                <table class="table table-hover record_properties">
+                  <tbody>
+                    <tr>
+                      <th scope="row">
+                      </th>
+                      <td> 
+                        <img src="{{ asset(user.webpath) }} " style="height:120px;"> 
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Code :
+                      </th>
+                      <td>LOC-{{ user.id }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Raison sociale :
+                      </th>
+                      <td>{{ user.locataire.entreprise.raisonSocial }} 
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"> Forme juridique:
+                      </th>
+                      <td>{{ user.locataire.entreprise.formeJuridique }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"> Régistre de commerce:
+                      </th>
+                      <td>{{ user.locataire.entreprise.registreCommerce }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Nom & Prénoms gérant :
+                      </th>
+                      <td>{{ user.locataire.entreprise.gerantNom }} {{ user.locataire.entreprise.gerantPrenom }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Né(e) le :
+                      </th>
+                      <td>   {{ user.locataire.entreprise.gerantDateNaissance|localizeddate('full', 'none') }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lieu de naissance :
+                      </th>
+                      <td>{{ user.locataire.entreprise.gerantLieuNaissance }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Nature de la pièce :
+                      </th>
+                      <td>{{ user.locataire.entreprise.gerantNaturePiece }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Date de délivrance :
+                      </th>
+                      <td>{{ user.locataire.entreprise.gerantDateDelivrance|localizeddate('full', 'none') }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lieu de délivrance :
+                      </th>
+                      <td>{{ user.locataire.entreprise.gerantLieuDelivrance }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lieu de résidence  :
+                      </th>
+                      <td>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="table table-hover record_properties">
+                  <tbody>
+                    <tr>
+                      <th scope="row">Tel :
+                      </th>
+                      <td>{{ user.locataire.entreprise.gerantTelephone }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Cel :
+                      </th>
+                      <td>{{ user.locataire.entreprise.gerantCellulaire }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">N° Compte contribuable :
+                      </th>
+                      <td>{{ user.locataire.entreprise.compteContribuable }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Situation matrimonial:
+                      </th>
+                      <td>{{ user.locataire.entreprise.situationMatrimonial }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Profession :
+                      </th>
+                      <td>{{ user.locataire.entreprise.gerantProfession }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Siège :
+                      </th>
+                      <td>{{ user.locataire.entreprise.siege }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">E-mail :
+                      </th>
+                      <td>{{ user.locataire.entreprise.gerantMail }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Tel du bureau :
+                      </th>
+                      <td>{{ user.locataire.entreprise.telBureau }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Fax :
+                      </th>
+                      <td>{{ user.locataire.entreprise.fax }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Personne à contacter en cas d'urgence :
+                      </th>
+                      <td>{{ user.locataire.entreprise.nomContactUrgence }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lien d'affinité :
+                      </th>
+                      <td>{{ user.locataire.entreprise.affiniteContactUrgence }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Contact d'urgence :
+                      </th>
+                      <td>{{ user.locataire.entreprise.telContactUrgence }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Date d'enregistrement :
+                      </th>
+                      <td>{{ user.locataire.entreprise.created|localizeddate('full', 'short') }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Dernière modification :
+                      </th>
+                      <td>{{ user.locataire.entreprise.modified|localizeddate('full', 'short') }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>            
+            </div>
+          </section>
+        </div>
+        {% else %}
+        <div class="col-md-12">
+          <section class="card">
+            <header class="card-header card-header-lg">
+              Fiche locataire {{user.locataire.particulier.nom}} {{user.locataire.particulier.prenom}}
+            </header>
+            <div class="card-block">
+              <div class="col-md-6">
+                <table class="table table-hover record_properties">
+                  <tbody>
+                    <tr>
+                      <th scope="row">
+                      </th>
+                      <td> 
+                        <img src="{{ asset(user.webpath) }} " style="height:120px;"> 
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Code :
+                      </th>
+                      <td>LOC-{{ user.id }}
+                      </td>
+                    </tr>                                    
+                    <tr>
+                      <th scope="row">Nom & Prénoms gérant :
+                      </th>
+                      <td>{{ user.locataire.particulier.nom }} {{ user.locataire.particulier.prenom }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Né(e) le :
+                      </th>
+                      <td>   {{ user.locataire.particulier.DateNaissance|localizeddate('full', 'none') }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lieu de naissance :
+                      </th>
+                      <td>{{ user.locataire.particulier.LieuNaissance }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Nature de la pièce :
+                      </th>
+                      <td>{{ user.locataire.particulier.NaturePiece }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Date de délivrance :
+                      </th>
+                      <td>{{ user.locataire.particulier.DateDelivrance|localizeddate('full', 'none') }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lieu de délivrance :
+                      </th>
+                      <td>{{ user.locataire.particulier.LieuDelivrance }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lieu de résidence  :
+                      </th>
+                      <td>{{ user.locataire.particulier.LieuHabitation }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Tel :
+                      </th>
+                      <td>{{ user.locataire.particulier.Telephone }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="table table-hover record_properties">
+                  <tbody>
+                    <tr>
+                      <th scope="row">Cel :
+                      </th>
+                      <td>{{ user.locataire.particulier.Cellulaire }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">N° Compte contribuable :
+                      </th>
+                      <td>{{ user.locataire.particulier.numeroContribuable }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Adresse postale :
+                      </th>
+                      <td>{{ user.locataire.particulier.adressePostale }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Profession :
+                      </th>
+                      <td>{{ user.locataire.particulier.Profession }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">E-mail :
+                      </th>
+                      <td>{{ user.email }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Tel du bureau :
+                      </th>
+                      <td>{{ user.locataire.particulier.telBureau }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Personne à contacter en cas d'urgence :
+                      </th>
+                      <td>{{ user.locataire.particulier.nomContactUrgence }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lien d'affinité :
+                      </th>
+                      <td>{{ user.locataire.particulier.affiniteContactUrgence }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Contact d'urgence :
+                      </th>
+                      <td>{{ user.locataire.particulier.telContactUrgence }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Date d'enregistrement :
+                      </th>
+                      <td>{{ user.locataire.particulier.created|localizeddate('full', 'short') }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Dernière modification :
+                      </th>
+                      <td>{{ user.locataire.particulier.modified|localizeddate('full', 'short') }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+        {% endif %}
+      </div>
+      {{ form_start(delete_form) }}
+      {{ form_widget(delete_form) }}
+      <div class="btn-group record_actions">
+        <a class="btn btn-primary" href="{{ path('locataire_edit', {id: user.id}) }}">
+          <i class="fa fa-edit">
+          </i> {{ 'Edit'|trans({}, 'admin') }}
+        </a>
+        <button class="btn btn-danger" type="submit">
+          <i class="fa fa-trash-o">
+          </i> {{ 'Delete'|trans({}, 'admin') }}
+        </button>
+      </div>
+      <input name="modal" type="hidden" value="0">
+      {{ form_end(delete_form) }}
+      <div id="delete_confirm" class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+              </button>
+              <h3>{{ 'Confirm delete'|trans({}, 'admin') }}
+              </h3>
+            </div>
+            <div class="modal-body">
+              <p>{{ 'You are about to delete an item'|trans({}, 'admin') }}, {{ 'this procedure is irreversible'|trans({}, 'admin') }}.
+              </p>
+              <p>{{ 'Do you want to proceed?'|trans({}, 'admin') }}
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-danger">{{ 'Yes'|trans({}, 'admin') }}
+              </button>
+              <button class="btn btn-default" data-dismiss="modal">{{ 'No'|trans({}, 'admin') }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--.tab-pane-->
+    <div role="tabpanel" class="tab-pane fade" id="FicheContrat">
+
+           <section class="card">
+        <header class="card-header card-header-lg">
+            Liste des contrats 
+            <a class="btn btn-info pull-right btnAjout" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target=".NewContrat"  href="#">
+                <i class="fa fa-plus"></i> {{ 'Create a new entry'|trans({}, 'admin') }}
+            </a> 
+           
+        </header>
+        <div class="card-block">  
+            <section class="card">
+                <div class="card-block">
+                    <table  class="display table table-bordered datatable" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Identification</th>
+                            <th>Type de contrat</th>
+                            <th>Date début</th>
+                            <th>Date fin</th>
+                            <th>{{ 'Actions'|trans({}, 'admin') }}</th>
+                        </tr>
+                        </thead>
+                      
+                        <tbody>
+                            {% for contrat in user.locataire.contrat %}
+                        <tr>
+                            <td><a href="{{ path('contrat_show', {id: contrat.id}) }}">CONT-{{ contrat.id }}</a></td>
+                            <td> {{ contrat.type }} </td>
+                            <td>{{ contrat.dateDebut|localizeddate('full', 'short') }}</td>
+                            <td>{{ contrat.dateFin|localizeddate('full', 'short') }} </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-inline btn-success btn-sm" href="{{ path('contrat_show', {id: contrat.id}) }}">
+                                        <i class="fa fa-file-o"></i> {{ 'show'|trans({}, 'admin') }}
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}                       
+                       
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </section> 
+                            
+        </div>
+</section>
+
+    </div>
+    <!--.tab-pane-->
+    <div role="tabpanel" class="tab-pane fade" id="FicheOccupe">Tab 3
+    </div>
+    
+  </div>
+  <!--.tab-content-->
+</section>
+
+
+<script type="text/javascript">
+
+$('.btnAjout').click(function(){
+
+$('.showLocataire').modal('hide');
+
+
+        formdata = { id:"1" };
+        $('.contNewContrat').html("<div style=\"text-align:center\"><img src=\"{{ asset('theme/ripple.svg') }}\"></div>");
+       $.ajax({
+                    url : "{{ path('contrat_new', {id: user.locataire.id } ) }}",
+                    type : 'post',
+                    data : formdata  ,
+                    success : function( statut){
+                      if(statut){
+                        $('.contNewContrat').html(statut);
+
+                      }
+                    }
+                    ,
+                    error : function(resultat, statut, erreur){
+                      if(statut){
+                        error = '<div class="alert alert-dismissible alert-danger">' + 
+                          '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                          erreur + " ! veuillez recommencer " +
+                          '</div>';
+                        $('.contNewContrat').html(error);
+                      }
+                    }
+                  }
+              );
+
+
+
+} );
+
+</script>

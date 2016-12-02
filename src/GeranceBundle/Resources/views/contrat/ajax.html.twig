@@ -1,0 +1,8 @@
+					 <label class="form-label required " for="contrat_locative">Locative</label>
+                        <select id="contrat_locative" name="locative" placeholder="locative" class="form-control locativeC calcul" required="required"> 
+                            <option value="">Faite un choix</option>
+                        {% for item in  locative %}       
+                            <option value="{{item.id}}" data-montant="{{item.loyer}}" data-charge="{{item.charge}}">  {{item.porte}}</option>        
+                        {% endfor %}
+                        </select>
+                        <small class="help-block"></small>

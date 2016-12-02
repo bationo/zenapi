@@ -1,0 +1,289 @@
+ {% set values = [] %} 
+                    {% set jour = [ 'lun' , 'mar' , "mer" , "jeu" , "ven" , "sam" , "dim" ] %}
+
+                       {% for key,periode in periodes %}
+                        {% set values = values|merge([key]) %}
+
+                       {% endfor  %}
+
+
+<div class="availabilities__results-nav left-nav mobile">
+  {% if "now"|date('Ymd')  != semaine|date('Ymd') %}
+    <a href="#" data-date="{{ semaine|date_modify("-1 week")|date("Y-m-d") }}"  class="prevAgenda{{docteur.id}} praticien__rdv-table__nav ">RDV suivants
+    </a>
+  {% endif %}
+    
+           
+
+  </div>
+
+  <table class="praticien__rdv-table praticien__rdv-table--small praticien__rdv-table-- resultat_agenda{{docteur.id}}">
+    <thead>
+      <tr>
+                  <th class="availabilities__results-nav">
+                  </th>
+
+                   {% for j in jour %}
+
+                    {% if j in values %}
+
+
+                  <th>
+                     <abbr title="{{ periodes[j][0]|localizeddate('none', 'none', null, null, 'd MMMM') }}">
+                    </abbr>{{j}}.
+                    <br>{{ periodes[j][0]|date("d/m") }}
+                    <abbr>
+                    </abbr>
+                  </th>
+                  {% else %}
+                   <th>
+                    <abbr title="">
+                      </abbr>{{j}}.
+                        <br>
+                      <abbr>
+                    </abbr>
+                  </th>
+
+                                {% endif %}
+
+
+                  {% endfor %}
+
+
+                 
+                 
+                
+                  <th class="availabilities__results-nav">
+                  </th>
+                </tr>
+    </thead>
+    <tbody class="result__doctorId">
+      <tr>
+        <td class="availabilities__results-nav">
+       
+        {% if "now"|date('Ymd')  != semaine|date('Ymd') %}
+            <a href="#" data-date="{{ semaine|date_modify("-1 week")|date("Y-m-d") }}" class="praticien__rdv-table__nav praticien__rdv-table__nav--prev prevAgenda{{docteur.id}}">RDV suivants
+            </a>
+          </div>
+        {% endif %}
+         </td>
+
+      {% for j in jour %}
+
+                {% if j in values %} 
+              <td>
+                <ul class="praticien__rdv-table__rdvs " style="max-height:220px; overflow:hidden;  ">
+                  {% set i = 1 %}
+                {% for key,heure in  periodes[j] %}
+                  <li>
+                    <a class="heurerdv" data-domicile="{{domicile[j][key]}}" data-dateaff="{{heure|localizeddate('full', 'short')}}" data-datetime="{{heure|date('Y-m-d H:i')}}" href="#">
+                      <time>{{heure|localizeddate('none', 'short')}}
+                      </time>
+                    </a>
+                  </li>
+                    {% if i == 7 %}
+                      <li> <a href="#"  class="agendaPlus{{docteur.id}} praticien__rdv-table__show-all">plus...</a> </li>
+                    {% endif %}
+
+
+                  {% set i = i +1 %}
+                {% endfor %} 
+                
+              </td>
+
+                {% else %}
+                  <td>
+                    <ul class="praticien__rdv-table__rdvs">
+                    </ul>
+                  </td>   
+
+                {% endif %}
+
+      {% endfor %}
+
+        
+
+
+        
+
+        <td class="availabilities__results-nav">
+          <a href="#" data-date="{{ semaine|date_modify("+1 week")|date("Y-m-d") }}" class="nextAgenda{{docteur.id}} praticien__rdv-table__nav praticien__rdv-table__nav--next">RDV suivants
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div  class="availabilities__results-nav right-nav mobile">
+    <a href="#" data-date="{{ semaine|date_modify("+1 week")|date("Y-m-d") }}" class="nextAgenda{{docteur.id}} praticien__rdv-table__nav ">RDV suivants
+    </a>
+  </div>
+ <form method="post" action="{{ path('prendre_rendez') }}"  id="FormRdv" >
+<input type="hidden" name="domicile" class="formDomicicle" />
+<input type="hidden" name="date" class="formDate">
+<input type="hidden" name="docteur" class="formDocteur">
+ </form>
+
+ <script type="text/javascript">
+
+
+$('.agendaPlus{{docteur.id}}').click(function(){
+
+txt = $(this).text();
+if(txt == "plus..."){
+  style = { "max-height":"inherit" , "overflow":"visible"  };
+$(this).closest("ul").css(style);
+$(this).text("moin...");
+
+
+
+}else{
+  style = { "max-height":"220px" , "overflow":"hidden"  };
+$(this).closest("ul").css(style);
+$(this).text("plus...");
+
+}
+
+  
+
+
+  return false;
+});
+
+
+
+$('.heurerdv').click(function(){
+domicile =  $(this).data("domicile");
+date = $(this).data("datetime");
+docteur = "{{docteur.id}}";
+
+$('.formDomicicle').val(domicile);
+$('.formDate').val(date);
+$('.formDocteur').val(docteur);
+
+$('#FormRdv').submit();
+
+return false;
+});
+
+
+
+
+$('.nextAgenda{{docteur.id}}').click(function(){
+
+
+{% if ident != 0 %} ident = "{{edit.id}}"; {% else %} ident = "0"; {% endif %}
+
+   var now = new Date($(this).data("date"));
+    d =  now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+
+                                        formdata = {docteur: {{docteur.id}} , semaine : d , id:ident  };
+
+                
+                $('.rdvDocteur{{docteur.id}}').html('<img src="{{ asset("theme2/images/gears.gif") }}" style="width:130px; height:auto; text-align:center"  >');
+
+            $.ajax({
+               url : "{{ path( 'agenda_recherche_ajax') }}",
+               type : 'post',
+               data : formdata  ,
+               success : function( statut){
+
+                         $('.rdvDocteur{{docteur.id}}').html(statut);
+
+                          i = 1;
+                          $('.jour_agenda{{docteur.id}} li').each(function( index ) {
+
+                            elem = $('.resultat_agenda{{docteur.id}} th:eq('+i+')').html();
+                            
+                            $(this).html(elem);
+
+                            i++;
+                          });
+
+                      },
+
+               error : function(resultat, statut, erreur){
+
+                if(statut){
+
+                     error = '<div class="alert alert-dismissible alert-danger">' + 
+                              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                               erreur + " ! veuillez recommencer " +
+                            '</div>';
+                 $('.error').html(error);
+                }
+                 
+               }
+
+              
+
+            });
+
+
+
+return false;
+
+});
+
+
+$('.prevAgenda{{docteur.id}}').click(function(){
+
+
+{% if ident != 0 %} ident = "{{edit.id}}"; {% else %} ident = "0"; {% endif %}
+
+   var now = new Date($(this).data("date"));
+    d =  now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+
+                                        formdata = {docteur: {{docteur.id}} , semaine : d , id:ident  };
+
+                
+                $('.rdvDocteur{{docteur.id}}').html('<img src="{{ asset("theme2/images/gears.gif") }}" style="width:130px; height:auto; text-align:center"  >');
+
+            $.ajax({
+               url : "{{ path( 'agenda_recherche_ajax') }}",
+               type : 'post',
+               data : formdata  ,
+               success : function( statut){
+
+                         $('.rdvDocteur{{docteur.id}}').html(statut);
+
+                          i = 1;
+                          $('.jour_agenda{{docteur.id}} li').each(function( index ) {
+
+                            elem = $('.resultat_agenda{{docteur.id}} th:eq('+i+')').html();
+                            
+                            $(this).html(elem);
+
+                            i++;
+                          });
+
+                      },
+
+               error : function(resultat, statut, erreur){
+
+                if(statut){
+
+                     error = '<div class="alert alert-dismissible alert-danger">' + 
+                              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                               erreur + " ! veuillez recommencer " +
+                            '</div>';
+                 $('.error').html(error);
+                }
+                 
+               }
+
+              
+
+            });
+
+
+
+return false;
+
+});
+
+
+
+
+
+
+ </script>

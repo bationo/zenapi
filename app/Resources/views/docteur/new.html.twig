@@ -1,0 +1,132 @@
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Docteur'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+        <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="{{ path('docteur') }}"  > Mes Spécialistes </a> </li>
+                                <li> <a href="#" class="active" > Ajouter un nouveau Spécialiste </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+<!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Ajouter un nouveau Spécialiste</h3>
+                                    </div>
+                                    <!-- BASIC FORM ELEMENTS -->
+                                    <!--===================================================-->
+                                        {{ form_start(form, {"attr":{ "class":"panel-body form-horizontal"}, "action":path('docteur_create')}) }}
+                                       
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.image.tempFile, "Image de Profil", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.image.tempFile , { 'attr' : {'placeholder' : 'Téléphone',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.image.tempFile , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                          <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.ListeSpecialite, "Spécialité", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.ListeSpecialite , { 'attr' : {'placeholder' : 'Téléphone',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.ListeSpecialite , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+                                                                      
+                                        <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.titre, "Titre", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.titre , { 'attr' : {'placeholder' : 'Titre',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.titre , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.nom, "Nom Complet", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.nom , { 'attr' : {'placeholder' : 'Nom',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.nom , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.mail, "Mail", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.mail , { 'attr' : {'placeholder' : 'Mail',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.mail , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.tel, "Tel  " ~ app.user.pays.indicatif, {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                 {{ form_widget(form.tel , { 'attr' : {'placeholder' : 'Téléphone',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.tel , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('docteur') }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+
+
+
+
+        </div>
+        <div style="float:right">
+            <button type="submit"   class="btn btn-pink">Ajouter</button>
+        </div>
+                                </div>
+                               
+                               
+                               
+
+                               
+                               
+                              {{ form_end(form) }}
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+
+
+
+    
+     
+        
+       
+   
+    
+{% endblock %}

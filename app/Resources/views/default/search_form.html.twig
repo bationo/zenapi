@@ -1,0 +1,173 @@
+<script type="text/javascript">
+ function openCity(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the link that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+</script>
+
+
+
+
+
+
+
+    <nav class="search-forms__switchs">
+        <ul>
+            <li><a style="cursor: pointer!important;" href="javascript:void(0)" class="search-forms__switch 
+                search-forms__switch--selected tablinks" onclick="openCity(event, 'doctorSearchForm')" >Rechercher par spécialité</a></li>
+            <li><a class="search-forms__switch tablinks" onclick="openCity(event, 'searchDoctorByName')" href="javascript:void(0)">J'ai déjà mon médecin</a></li>
+        </ul>
+    </nav>
+
+    <form id="doctorSearchForm"  method="POST" action="{{ path('recherche', {type: "specialite"}) }}" class="tabcontent search-form f--search search-form--selected">
+        <h3>Rechercher par spécialité</h3>
+
+        <div class="form-groups form-group__doc-speciality">
+            <div class="form-group f-blue-select">
+                <label for="searchCategory">Spécialité recherchée</label>
+
+                <select  id="searchCategory" name="searchCategory" class="search__doc-speciality " data-tags="false" data-placeholder="Spécialité recherchée" required="" tabindex="-1" >
+                                <option value=""></option>
+                            {% for specialite in specialites %}
+                                <option value="{{specialite.id}}">  {{specialite.libele}} </option>
+
+                            {% endfor %}
+                                       
+                                    </select>
+
+
+
+            </div>
+            <div id="location_search_container" class="location_search_container">
+                <div id="location_div" class="form-group form-group__search__doc-where">
+                    <label for="doctorSearchForm_location">Où ?</label>
+                    <input type="text" id="doctorSearchForm_location" name="location" class="locationAdresse search__doc-where form-control" data-toggle="popover" data-placement="bottom" data-trigger="manual" data-placeholder="Où ? (adresse, ville...)" placeholder="Où ? (adresse, ville...)" value="" latitude="" longitude="" required="" autocomplete="off">
+                    <a href="#" class="search__doc-where__geolc geolc icon-location" style="color: #00944A;" data-toggle="popover" data-placement="bottom" data-trigger="manual"><span>Autour de moi</span></a>
+                    <input type="hidden" value="" name="gps" class="gps" >
+
+                   
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <input type="submit" class="btn btn-validate" value="Prendre RDV">
+        </div>
+    </form>
+
+    <form method="POST" action="{{ path('recherche', {type: "praticien"}) }}" class="tabcontent search-form f--search" id="searchDoctorByName">
+        <input type="hidden" name="">
+        <h3>J'ai déjà mon médecin</h3>
+
+        <div class="form-groups">
+            <div class="form-group">
+                <label for="query">Nom de votre praticien</label>
+                <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input type="text" name="query" id="query" class="search__doc-who form-control select2-selection ui-autocomplete-input" value="" placeholder="Recherchez votre médecin ou votre établissement" required="" autocomplete="off">
+            </div>
+             <div id="location_search_container1" class="location_search_container">
+                <div id="location_div1" class="form-group form-group__search__doc-where">
+                    <label for="doctorSearchForm_location1">Où ?</label>
+                    <input type="text" id="doctorSearchForm_location1" name="location" class="locationAdresse search__doc-where form-control" data-toggle="popover" data-placement="bottom" data-trigger="manual" data-placeholder="Où ? (adresse, ville...)" placeholder="Où ? (adresse, ville...)" value="" latitude="" longitude="" required="" autocomplete="off">
+                    <a href="#" class="search__doc-where__geolc geolc icon-location" style="color: #00944A;" data-toggle="popover" data-placement="bottom" data-trigger="manual"><span>Autour de moi</span></a>
+                    <input type="hidden" value="" name="gps" class="gps" >
+
+                </div>
+            </div>
+            
+        </div>
+
+        
+
+        <div class="form-actions">
+            <input type="submit" class="btn btn-validate" value="Rechercher">
+        </div>
+    </form>
+
+ 
+
+   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCisbCYkxNG986xTmgCSYXEVt1EP5NuFvw&amp;libraries=places"></script>
+
+
+<script type="text/javascript">
+
+$('.tablinks').click(function(){
+    $('.tablinks').removeClass("search-forms__switch--selected");
+    $(this).addClass( "search-forms__switch--selected" );
+
+});
+
+
+$(document).ready(function() {
+  $("#searchCategory").select2();
+
+            var autocomplete = new google.maps.places.Autocomplete($("#doctorSearchForm_location")[0], {});
+
+            google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                var place = autocomplete.getPlace();
+            });
+
+            var autocomplete1 = new google.maps.places.Autocomplete($("#doctorSearchForm_location1")[0], {});
+
+            google.maps.event.addListener(autocomplete1, 'place_changed', function() {
+                var place = autocomplete1.getPlace();
+            });
+
+          $(".geolc").click(function(){
+
+
+              navigator.geolocation.getCurrentPosition(function(position)
+                {
+                    gps = position.coords.latitude + "," + position.coords.longitude;
+                    $('.gps').val(gps);
+
+                     
+                        var geocoder = new google.maps.Geocoder;
+                        var latlng = {lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)};
+                        geocoder.geocode({'location': latlng}, function(results, status) {
+                            if (status === google.maps.GeocoderStatus.OK) {
+                                if (results[0]) {
+                                    $(".locationAdresse").val(results[0].formatted_address);
+                                }
+                            }
+                        });
+                    });
+
+
+               
+                return false;
+          }); 
+ }); 
+
+  </script>
+
+        <style type="text/css">
+      
+      #page-search-pro {
+    background: rgba(0, 148, 75, 0.9)!important;
+    opacity: 0.9!important;
+    padding: 20px 0!important;
+}
+body {
+    min-width: 20pc!important;
+    background-color: #fff!important;
+    color: #787878!important;
+    font-variant-ligatures: common-ligatures!important;
+}
+
+      </style>

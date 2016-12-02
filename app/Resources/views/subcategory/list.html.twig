@@ -1,0 +1,9 @@
+<ul class="tags list-unstyled pull-left">
+    {% for category in categories %}
+        <li>
+            <a href="{{ path('affairage_category', { 'slug': category.slug, 'id': category.id }) }}" title="{{ category.name }}">
+                {{ category.name }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>

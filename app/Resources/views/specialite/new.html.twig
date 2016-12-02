@@ -1,0 +1,99 @@
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Specialite'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+        <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="{{ path('specialite') }}"  > Mes Tarifs </a> </li>
+                                <li> <a href="#" class="active" > Ajouter un nouveau tarif </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+
+
+
+<!--Page content-->
+                    <!--===================================================-->
+                    <section id="page-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <button class="btn btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></button>
+                                        </div>
+                                        <h3 class="panel-title">Ajouter un nouveau tarif</h3>
+                                    </div>
+                                    <!-- BASIC FORM ELEMENTS -->
+                                    <!--===================================================-->
+                                        {{ form_start(form, {"attr":{ "class":"panel-body form-horizontal"}, "action":path('specialite_create')}) }}
+                                       
+
+                                                                      
+                                        <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.libele, "Specialité", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.libele , { 'attr' : {'placeholder' : 'Libele',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.libele , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+                                         <!--Text Input-->
+                                        <div class="form-group">
+                                             {{ form_label(form.prix, "Tarif", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.prix , { 'attr' : {'placeholder' : 'Tarif',  'class' : 'form-control'  }} ) }}
+                                                <small class="help-block">{{ form_errors(form.prix , { 'attr' : {'class' : 'red' }} ) }}</small>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="btn-group record_actions">
+
+            <a class="btn btn-info" href="{{ path('specialite') }}">
+                <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>
+
+
+
+
+        </div>
+        <div style="float:right">
+            <button type="submit"   class="btn btn-pink">Ajouter</button>
+        </div>
+                                </div>
+                               
+                               
+                               
+
+                               
+                               
+                              {{ form_end(form) }}
+                            </div>
+                           
+                        </div>
+                    </section>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+
+
+
+    
+     
+        
+       
+   
+    
+{% endblock %}

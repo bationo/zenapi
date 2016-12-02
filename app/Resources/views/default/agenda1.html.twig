@@ -1,0 +1,276 @@
+                      
+ {% set values = [] %} 
+                    {% set jour = [ 'lun' , 'mar' , "mer" , "jeu" , "ven" , "sam" , "dim" ] %}
+
+                       {% for key,periode in periodes %}
+                        {% set values = values|merge([key]) %}
+
+                       {% endfor  %}
+
+
+    <div class="tunnel-form__cal__celendar rdv__dispos__swipe" id="result__rdv__doctor-172" style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); display: block;">
+  <div class="availabilities__results-nav left-nav mobile">
+    <a href="javascript:void(0)" class="praticien__rdv-table__nav ">RDV suivants
+    </a>
+  </div>
+  <table class="praticien__rdv-table praticien__rdv-table--small praticien__rdv-table--7">
+    <thead>
+      <tr>
+        <th class="availabilities__results-nav">
+        </th>
+
+         {% for j in jour %}
+
+
+          {% if j in values %}
+
+        <th>
+          <abbr title="{{ periodes[j][0]|localizeddate('none', 'none', null, null, 'd MMMM') }}">{{j}}.
+            <br>{{ periodes[j][0]|date("d/m") }}
+          </abbr>
+        </th>
+
+          {% else %} 
+
+        <th>
+          <abbr title="">{{j}}.
+            <br>
+          </abbr>
+        </th>
+
+
+          {% endif %}  
+        
+      {% endfor %}
+       
+
+        <th class="availabilities__results-nav">
+        </th>
+      </tr>
+    </thead>
+    <tbody class="result__doctorId">
+      <tr>
+
+       
+        <td class="availabilities__results-nav">
+           {% if "now"|date('Ymd')  != semaine|date('Ymd') %}
+          <a href="#" data-date="{{ semaine|date_modify("-1 week")|date("Y-m-d") }}" class="praticien__rdv-table__nav praticien__rdv-table__nav--prev prevAgenda">RDV précédents
+          </a>
+          {% endif %}
+        </td>
+        
+
+             {% for j in jour %}
+
+                {% if j in values %}
+
+
+        <td>
+          <ul class="praticien__rdv-table__rdvs" style="max-height:220px; overflow:hidden;  ">
+             {% set i = 1 %}
+            {% for key,heure in  periodes[j] %}
+            <li>
+              <a href='#' class="heurerdv" data-domicile="{{domicile[j][key]}}" data-dateaff="{{heure|localizeddate('full', 'short')}}" data-datetime="{{heure|date('Y-m-d H:i')}}" >
+                <time>{{heure|localizeddate('none', 'short')}}
+                </time>
+              </a>
+            </li>
+             {% if i == 7 %}
+                      <li> <a href="#"  class="agendaPlus praticien__rdv-table__show-all">plus...</a> </li>
+                    {% endif %}
+
+
+                  {% set i = i +1 %}
+            {% endfor %}
+           
+          </ul>
+        </td>
+                
+
+                {% else %}  
+
+                  <td>
+                    <ul class="praticien__rdv-table__rdvs">
+                    </ul>
+                  </td>
+
+                {% endif %}
+        
+              {% endfor %}
+
+     
+       
+       
+        <td class="availabilities__results-nav">
+          <a href="#" data-date="{{ semaine|date_modify("+1 week")|date("Y-m-d") }}" class="nextAgenda praticien__rdv-table__nav praticien__rdv-table__nav--next">RDV suivants
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="availabilities__results-nav right-nav mobile">
+    <a href="javascript:void(0)" class="praticien__rdv-table__nav ">RDV suivants
+    </a>
+  </div>
+ 
+</div>
+
+<form method="post" action="{{ path('prendre_rendez') }}"  id="FormRdv" >
+<input type="hidden" name="domicile" class="formDomicicle" />
+<input type="hidden" name="date" class="formDate">
+<input type="hidden" name="docteur" class="formDocteur">
+ </form>
+
+
+
+ <script type="text/javascript">
+
+
+$('.agendaPlus').click(function(){
+
+txt = $(this).text();
+
+if(txt == "plus..."){
+  style = { "max-height":"inherit" , "overflow":"visible"  };
+$(this).parents("ul").css(style);
+$(this).text("moin...");
+
+
+
+}else{
+  style = { "max-height":"220px" , "overflow":"hidden"  };
+$(this).parents("ul").css(style);
+$(this).text("plus...");
+
+}
+
+  
+
+
+  return false;
+});
+
+
+
+
+
+
+$('.heurerdv').click(function(){
+domicile =  $(this).data("domicile");
+date = $(this).data("datetime");
+docteur = "{{docteur.id}}";
+
+$('.formDomicicle').val(domicile);
+$('.formDate').val(date);
+$('.formDocteur').val(docteur);
+
+$('#FormRdv').submit();
+
+return false;
+});
+
+
+
+
+$('.nextAgenda').click(function(){
+
+
+{% if ident != 0 %} ident = "{{edit.id}}"; {% else %} ident = "0"; {% endif %}
+
+   var now = new Date($(this).data("date"));
+    d =  now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+
+                                        formdata = {docteur: {{docteur.id}} , semaine : d , id:ident  };
+
+                
+                $('.agenda').html('<div style="text-align:center" > <img src="{{ asset("theme2/images/gears.gif") }}"></div>');
+
+            $.ajax({
+               url : "{{ path( 'agenda_recherche1_ajax') }}",
+               type : 'post',
+               data : formdata  ,
+               success : function( statut){
+
+                         $('.agenda').html(statut);
+
+                        
+
+                      },
+
+               error : function(resultat, statut, erreur){
+
+                if(statut){
+
+                     error = '<div class="alert alert-dismissible alert-danger">' + 
+                              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                               erreur + " ! veuillez recommencer " +
+                            '</div>';
+                 $('.agenda').html(error);
+                }
+                 
+               }
+
+              
+
+            });
+
+
+
+return false;
+
+});
+
+
+$('.prevAgenda').click(function(){
+
+
+{% if ident != 0 %} ident = "{{edit.id}}"; {% else %} ident = "0"; {% endif %}
+
+   var now = new Date($(this).data("date"));
+    d =  now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+
+                                        formdata = {docteur: {{docteur.id}} , semaine : d , id:ident  };
+
+                
+                $('.agenda').html('<div style="text-align:center" > <img src="{{ asset("theme2/images/gears.gif") }}"></div>');
+
+            $.ajax({
+               url : "{{ path( 'agenda_recherche1_ajax') }}",
+               type : 'post',
+               data : formdata  ,
+               success : function( statut){
+
+                         $('.agenda').html(statut);
+
+                         
+                      },
+
+               error : function(resultat, statut, erreur){
+
+                if(statut){
+
+                     error = '<div class="alert alert-dismissible alert-danger">' + 
+                              '<button type="button" class="close" data-dismiss="alert">x</button>' + 
+                               erreur + " ! veuillez recommencer " +
+                            '</div>';
+                 $('.agenda').html(error);
+                }
+                 
+               }
+
+              
+
+            });
+
+
+
+return false;
+
+});
+
+
+
+
+
+
+ </script>

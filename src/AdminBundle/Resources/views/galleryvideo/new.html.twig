@@ -1,0 +1,45 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ '%entity% creation'|trans({'%entity%': 'Photos'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">{{ '%entity% creation'|trans({'%entity%': 'Photos'}, 'admin') }}</h1>
+                    </div>
+                    <div class="box-body">
+                        {{ form_start(form, {action: path('admin_gallery_video_create')}) }}
+                        <div class="form-group">
+                            <label for="state_nom">Lien (Youtube, ex: https://www.youtube.com/watch?v=7zr6UoNG5ZM)</label>
+                            {{ form_widget( form.link, { "attr": { "class": "form-control" }}) }}
+                            {{ form_errors(form.link) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="state_nom">Titre</label>
+                            {{ form_widget( form.title, { "attr": { "class": "form-control" }}) }}
+                            {{ form_errors( form.title ) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="state_nom">Description</label>
+                            {{ form_widget( form.description, { "attr": { "class": "form-control" }}) }}
+                            {{ form_errors( form.description ) }}
+                        </div>
+                        {{ form_widget(form) }}
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button class="btn btn-primary pull-left" type="submit">{{ 'Create'|trans({}, 'admin') }}</button>
+                                <a class="btn btn-info pull-right" href="{{ path('admin_gallery_video') }}">
+                                    <i class="fa fa-list"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+                                </a>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

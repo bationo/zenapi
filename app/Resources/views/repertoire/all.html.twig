@@ -1,0 +1,96 @@
+{% extends "Layout.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Répertoire'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+    {% block file %}
+
+          <h3><i class="fa fa-home"></i> Interface Professionnel </h3>
+                        <div class="breadcrumb-wrapper">
+                            <span class="label">vous etes ici :</span>
+                            <ol class="breadcrumb">
+                                <li> <a href="{{ path('homepro') }}" > Accueil </a> </li>
+                                <li> <a href="{{ path('repertoire') }}"  > Mon Repertoire </a> </li>
+                                <li> <a href="#" class="active" > Historique </a> </li>
+                            </ol>
+                        </div>
+                      
+    {% endblock %}
+
+{% block body %}
+
+                {{ render(controller('AdminBundle:Repertoire:compte')) }}
+
+                  
+
+ <!--===================================================-->
+                        <!-- End Row selection (single row) -->
+                        <!-- Row selection and deletion (multiple rows) -->
+                        <!--===================================================-->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Message Historique </h3>
+                            </div>
+                        
+                            <div class="panel-body">
+                                <table id="demo-dt-delete" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Titre</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Statut</th>
+                                            <th scope="col">Date d'envoie</th>
+                                            <th scope="col">Date de soumission</th>
+                                            <th scope="col">{{ 'Actions'|trans({}, 'admin') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                         {% for message in messages %}
+                                            <tr>
+                                                
+                                                <td>{{ message.titre }}</td>
+                                                <td>{{ message.type }} </td>
+                                                <td>
+                                {% if message.statut == 0 %} <span class="label label-primary">En Cour</span> {% endif %}
+                                {% if message.statut == 1 %} <span class="label label-info">Terminer</span> {% endif %}
+                                {% if message.statut == 2 %} <span class="label label-warning">Annuler</span> {% endif %}
+
+                                                 </td>
+                                                 <td>{{ message.dateEnvoie|localizeddate('full', 'short') }}</td>
+                                               <td>{{ message.created|localizeddate('full', 'short') }}</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-default btn-sm" href="{{ path('repertoire_affichage', {id: message.id}) }}">
+                                                            <i class="fa fa-file-o"></i> {{ 'show'|trans({}, 'admin') }}
+                                                        </a>
+                                                   
+                                                        
+                                                      
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                          
+                                        {% endfor %}
+
+                                        
+                                        
+                                      
+                                    </tbody>
+                                   
+                                </table>
+                            </div>
+                        </div>
+                        <!--===================================================-->
+                        <!-- End Row selection and deletion (multiple rows) -->
+                        <!-- Add Row -->
+                        <!--===================================================-->
+
+
+
+
+
+    
+   
+    
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Configuration - {{ parent() }}{% endblock %}
+
+{% macro information_prototype(image) %}
+    <div class='col-lg-4' style="margin-bottom:10px">
+        <div class="form-group">
+            <label for="setting_title">Image de fond (2464x1632)</label>
+            {% if image.vars.value %}
+                <div style="margin-bottom: 5px"><img src="{{ asset( image.vars.value.webPath ) }}" alt="{{ image.vars.value.alt }}" style="max-width:100%"></div>
+            {% endif %}
+            {{ form_widget( image.tempFile, { "attr": { "class": "form-control" }}) }}
+            {{ form_errors( image.tempFile ) }}
+        </div>
+        {{ form_widget( image.tempFile, { "attr": { "class": "form-control" }}) }}
+    </div>
+{% endmacro %}
+
+{% block body %}
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">Configuration</h1>
+                    </div>
+                    {{ form_start(edit_form) }}
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="setting_title">Titre du site</label>
+                            {{ form_widget( edit_form.title, { "attr": { "class": "form-control" }}) }}
+                            {{ form_errors( edit_form.title ) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="setting_title">Mots clés du site (séparer avec des virgules: cinéma ivoirien, l'interprète le film, ...)</label>
+                            {{ form_widget( edit_form.keywords, { "attr": { "class": "form-control" }}) }}
+                            {{ form_errors( edit_form.keywords ) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="setting_description">Description du site et pied de page</label>
+                            {{ form_widget( edit_form.description, { "attr": { "class": "form-control" }}) }}
+                            {{ form_errors( edit_form.description ) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="setting_title">Bande annonce</label>
+                            {{ form_widget( edit_form.trailer, { "attr": { "class": "form-control" }}) }}
+                            {{ form_errors( edit_form.trailer ) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="setting_apropos">À propos (Synopsis)</label>
+                            {{ form_widget( edit_form.about, { "attr": { "class": "form-control" }}) }}
+                            {{ form_errors( edit_form.about ) }}
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="setting_title">Image de fond - Menu (320x985)</label>
+                                    <div style="margin-bottom: 5px"><img src="{{ asset( setting.MenuImageWebPath ) }}" alt="{{ setting.title }}" style="max-height: 250px"></div>
+                                    {{ form_widget( edit_form.menuImage.tempFile, { "attr": { "class": "form-control" }}) }}
+                                    {{ form_errors( edit_form.menuImage.tempFile ) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="border-bottom: 2px dashed #e1e3e9;margin-bottom:15px;">
+                            <h2>Images de fond <span class="addBgBtn pull-right"></span></h2>
+                        </div>
+                        <div class="collection" id="backgroundImages" data-prototype="{{ _self.information_prototype(edit_form.backgroundImages.vars.prototype)|e }}">
+                            {% for image in edit_form.backgroundImages %}
+                                {{ _self.information_prototype(image) }}
+                            {% endfor %}
+                            <span style="display:none;">  {{ form_widget( edit_form.backgroundImages ) }}  </span>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        {{ form_widget(edit_form) }}
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button class="btn btn-primary pull-left" type="submit">{{ 'Edit'|trans({}, 'admin') }}</button>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(edit_form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var $container = $('div#backgroundImages');
+
+            var $addLink = $('<a href="#" id="add_bg_image" class="btn btn-success" style="margin-left:50px">Ajouter une image </a>');
+            $('.addBgBtn').html($addLink);
+
+            $addLink.click(function(e) {
+                addBackground($container);
+                e.preventDefault();
+                return false;
+            });
+
+            var index = $container.find(':input').length;
+
+            if (index == 0) {
+                addBackground($container);
+            } else {
+                $container.children('div').each(function() {
+                    addDeleteLink($(this));
+                });
+            }
+
+            function addBackground($container) {
+                var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Image n°' + (index+1))
+                        .replace(/__name__/g, index));
+
+                addDeleteLink($prototype);
+
+                $('#backgroundImages').append($prototype);
+
+                index++;
+            }
+
+            function addDeleteLink($prototype) {
+                $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+
+                $prototype.append($deleteLink);
+
+                $deleteLink.click(function(e) {
+                    $prototype.remove();
+                    e.preventDefault();
+                    return false;
+                });
+            }
+        });
+    </script>
+{% endblock %}

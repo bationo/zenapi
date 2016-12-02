@@ -1,0 +1,229 @@
+{% extends 'base.html.twig' %}
+{% block title %}Inscription Patient - {{ parent() }}{% endblock %}
+{% block content %}
+<div style="background: #00955A!important; height:10px!important;">
+</div>
+<div id="main" class="site-main">
+  <div class="container active-sidebar">
+    <div id="primary" class="content-area">
+      <div id="content" class="site-content" role="main">
+        <div id="post-62" class="entry post-62 page type-page status-publish hentry">
+          
+          <div class="entry-content">
+            <div class="vc_row wpb_row vc_row-fluid vc_custom_1556310629505">
+              <div class="row">
+                <div class="h-padding-0 wpb_column vc_column_container vc_col-sm-12">
+                  <div class="wpb_wrapper">
+                    <div class="woocommerce">
+                      <h2 style="color:#00955A" >
+Recommander votre médecin 
+                      </h2>
+                      <div class="errorr">
+                      </div>
+
+   {% for message in app.session.flashbag.get('notice') %}
+        <div class="alert alert-dismissible alert-success">
+ <span style="color:green; font-weight: bold;"> {{ message }} </span>
+</div>
+      {% endfor %}
+      
+                      
+                  <form method="post" action="{{ path('recommander_son') }}" class="form-horizontal">
+                  
+ {% if app.user.groups is defined and app.user.groups.snapshot.0.name == "Profil" %}
+
+                       <div class="form-group">
+                        <label class="col-md-5 control-label required" for="nom">Votre Nom *</label>
+                        <div class="col-md-7">
+                          <input type="text" id="nom" value="{{app.user.profil.nom}}"  name="nom" required="required" placeholder="Votre Nom" class="form-control ">
+                          <small class="help-block">
+                          </small>
+                        </div>
+                      </div>
+
+                   
+
+                         <!--Text Input-->
+                      <div class="form-group">
+                        <label for="prenom" class="col-md-5 control-label">Votre Prénom *</label>
+                        <div class="col-md-7">
+                        
+                          <input type="text" value="{{app.user.profil.prenom}}" class="form-control" id="prenom" placeholder="Votre Prénom" name="prenom" required>
+                           <small class="help-block">
+                          </small>
+                        </div>
+                       
+                        </div>
+
+                         <!--Text Input-->
+                      <div class="form-group">
+                        <label for="mail" class="col-md-5 control-label">Votre Mail *</label>
+                        <div class="col-md-7">
+                        
+                          <input type="email" value="{{app.user.email}}" class="form-control" id="mail" placeholder="Votre Mail" name="mail" required>
+                        <small class="help-block">
+                          </small>
+                        </div>
+                        </div>
+
+                      <!--Text Input-->
+                      <div class="form-group">
+                        <label for="tel" class="col-md-5 control-label">Votre Numéro de téléphone *</label>
+                        <div class="col-md-7">
+                        
+                          <input type="tel" value="{{app.user.pays.indicatif}}{{app.user.profil.tel}}" class="form-control" id="tel" placeholder="Votre Numéro de téléphone" name="tel" required>
+                        <small class="help-block">
+                          </small>
+                        </div>
+                        </div>
+
+
+{% else %}
+
+ <div class="form-group">
+                        <label class="col-md-5 control-label required" for="nom">Votre Nom *</label>
+                        <div class="col-md-7">
+                          <input type="text" id="nom"  name="nom" required="required" placeholder="Votre Nom" class="form-control ">
+                          <small class="help-block">
+                          </small>
+                        </div>
+                      </div>
+
+                   
+
+                         <!--Text Input-->
+                      <div class="form-group">
+                        <label for="prenom" class="col-md-5 control-label">Votre Prénom *</label>
+                        <div class="col-md-7">
+                        
+                          <input type="text" class="form-control" id="prenom" placeholder="Votre Prénom" name="prenom" required>
+                           <small class="help-block">
+                          </small>
+                        </div>
+                       
+                        </div>
+
+                         <!--Text Input-->
+                      <div class="form-group">
+                        <label for="mail" class="col-md-5 control-label">Votre Mail *</label>
+                        <div class="col-md-7">
+                        
+                          <input type="email" class="form-control" id="mail" placeholder="Votre Mail" name="mail" required>
+                        <small class="help-block">
+                          </small>
+                        </div>
+                        </div>
+
+                      <!--Text Input-->
+                      <div class="form-group">
+                        <label for="tel" class="col-md-5 control-label">Votre Numéro de téléphone *</label>
+                        <div class="col-md-7">
+                        
+                          <input type="tel" class="form-control" id="tel" placeholder="Votre Numéro de téléphone" name="tel" required>
+                        <small class="help-block">
+                          </small>
+                        </div>
+                        </div>
+
+
+
+{% endif %}
+                     
+                        <!--Text Input-->
+                      <div class="form-group">
+                        <label for="nomD" class="col-md-5 control-label">Le nom de votre medecin * </label>
+                        <div class="col-md-7">
+                        
+                          <input type="text" class="form-control" id="nomD" placeholder="Le nom de votre medecin" name="nomD" required>
+                        <small class="help-block">
+                          </small>
+                        </div>
+                        </div>
+
+                          <!--Text Input-->
+                      <div class="form-group">
+                        <label for="specialite" class="col-md-5 control-label">La Spécialité de votre medecin *</label>
+                        <div class="col-md-7">
+                        
+                         <select class="form-control" id="specialite" required name="specialite">
+                          <option value="">Choix
+                          </option>
+                          {% for specialite in specialites %}
+                          <option value="{{specialite.libele}}">{{specialite.libele}}
+                          </option>
+                          {% endfor %}
+                        </select>
+                          
+                        <small class="help-block">
+                          </small>
+                        </div>
+                        </div>
+
+                          <!--Text Input-->
+                      <div class="form-group">
+                        <label for="telD" class="col-md-5 control-label">Le téléphone de votre medecin *</label>
+                        <div class="col-md-7">
+                        
+                          <input type="tel" class="form-control" id="telD" placeholder="Le téléphone de votre medecin" name="telD" required>
+                        <small class="help-block">
+                          </small>
+                        </div>
+                        </div>
+
+                             <!--Text Input-->
+                      <div class="form-group">
+                        <label for="villeD" class="col-md-5 control-label">La ville  de votre medecin *</label>
+                        <div class="col-md-7">
+                        
+                          <input type="text" class="form-control" id="villeD" placeholder="La ville  de votre medecin" name="villeD" required>
+                        <small class="help-block">
+                          </small>
+                        </div>
+                        </div>
+
+                          <!--Text Input-->
+                      <div class="form-group">
+                        <label for="com" class="col-md-5 control-label">Commentaire</label>
+                        <div class="col-md-7">
+                          <textarea rows="5" class="form-control" id="com" placeholder="Commentaire" name="com" ></textarea>
+                         
+                        <small class="help-block">
+                          </small>
+                        </div>
+                        </div>
+
+                      
+                      
+                   
+                      <div class="f__actions">
+                        <span class="chargementI" style="text-align:center">
+                       
+
+                          <input style="background-color:#00955A!important; color:white ; float:right" type="submit" class="btn btn-form btn-validate" value="Envoyer"> 
+                        </span>
+                       </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  </main>
+
+<style type="text/css">
+.inscription  li {
+    background: none!important;
+    color: red;
+}
+
+
+
+</style>
+{% endblock %} 
+{% block javascripts %}{% endblock %}

@@ -1,0 +1,262 @@
+<?php
+
+namespace GeranceBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Facture
+ *
+ * @ORM\Table(name="facture")
+ * @ORM\Entity(repositoryClass="GeranceBundle\Repository\FactureRepository")
+ */
+class Facture
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+     /**
+     * @var array
+     *
+     * @ORM\Column(name="etat", type="boolean")
+     */
+    private $etat;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="tva", type="integer")
+     */
+    private $tva;
+
+    /**
+     * @ORM\OneToMany(targetEntity="GeranceBundle\Entity\OptionPaiement", mappedBy="facture" , cascade={"persist","remove"})
+     */
+    private $optionPaiement;
+
+    /**
+     * @ORM\OneToMany(targetEntity="GeranceBundle\Entity\OptionFacture", mappedBy="facture" , cascade={"persist","remove"})
+     */
+    private $optionFacture;
+
+	 /**
+     * @ORM\ManyToOne(targetEntity="GeranceBundle\Entity\Loyer", inversedBy="facture")
+     * @ORM\JoinColumn(name="loyer_id", referencedColumnName="id", nullable=true)
+     */
+    private $loyer;
+	
+    /**
+   * @ORM\OneToOne(targetEntity="GeranceBundle\Entity\FactContrat", cascade={"persist"})
+   * @ORM\JoinColumn( nullable=true)
+   */
+   private $contrat;
+  
+	
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime")
+     */
+    private $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="modified", type="datetime")
+     */
+    private $modified;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+   
+
+    /**
+     * Set tva
+     *
+     * @param integer $tva
+     *
+     * @return Facture
+     */
+    public function setTva($tva)
+    {
+        $this->tva = $tva;
+
+        return $this;
+    }
+
+    /**
+     * Get tva
+     *
+     * @return int
+     */
+    public function getTva()
+    {
+        return $this->tva;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return Facture
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set modified
+     *
+     * @param \DateTime $modified
+     *
+     * @return Facture
+     */
+    public function setModified($modified)
+    {
+        $this->modified = $modified;
+
+        return $this;
+    }
+
+    /**
+     * Get modified
+     *
+     * @return \DateTime
+     */
+    public function getModified()
+    {
+        return $this->modified;
+    }
+
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->optionPaiement = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add optionPaiement
+     *
+     * @param \GeranceBundle\Entity\OptionPaiement $optionPaiement
+     *
+     * @return Facture
+     */
+    public function addOptionPaiement(\GeranceBundle\Entity\OptionPaiement $optionPaiement)
+    {
+        $this->optionPaiement[] = $optionPaiement;
+
+        return $this;
+    }
+
+    /**
+     * Remove optionPaiement
+     *
+     * @param \GeranceBundle\Entity\OptionPaiement $optionPaiement
+     */
+    public function removeOptionPaiement(\GeranceBundle\Entity\OptionPaiement $optionPaiement)
+    {
+        $this->optionPaiement->removeElement($optionPaiement);
+    }
+
+    /**
+     * Get optionPaiement
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOptionPaiement()
+    {
+        return $this->optionPaiement;
+    }
+
+
+
+    /**
+     * Set etat
+     *
+     * @param boolean $etat
+     *
+     * @return Facture
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return boolean
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * Add optionFacture
+     *
+     * @param \GeranceBundle\Entity\OptionFacture $optionFacture
+     *
+     * @return Facture
+     */
+    public function addOptionFacture(\GeranceBundle\Entity\OptionFacture $optionFacture)
+    {
+        $this->optionFacture[] = $optionFacture;
+
+        return $this;
+    }
+
+    /**
+     * Remove optionFacture
+     *
+     * @param \GeranceBundle\Entity\OptionFacture $optionFacture
+     */
+    public function removeOptionFacture(\GeranceBundle\Entity\OptionFacture $optionFacture)
+    {
+        $this->optionFacture->removeElement($optionFacture);
+    }
+
+    /**
+     * Get optionFacture
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOptionFacture()
+    {
+        return $this->optionFacture;
+    }
+}

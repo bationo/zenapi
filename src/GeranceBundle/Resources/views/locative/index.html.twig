@@ -1,0 +1,87 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ '%entity% list'|trans({'%entity%': 'Locative'}, 'admin') }} - {{ parent() }}{% endblock %}
+
+
+{% block route %}
+
+             <header class="section-header">
+                <div class="tbl">
+                    <div class="tbl-row">
+                        <div class="tbl-cell">
+                            <h3></h3>
+                            <ol class="breadcrumb breadcrumb-simple pull-left">
+                                <li><a href="{{ path('homepage') }}">Accueil</a></li>
+                                <li><a href="{{ path('proprietaire') }}">Liste des propriétaires</a></li>
+                                <li><a href="{{ path('immobilier' , {id:immobilier.proprietaire.id}) }}">Bien immobilier</a></li>
+                                <li class="active">Liste locative</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+
+    {% endblock %}
+
+
+{% block body %}
+
+    <section class="card">
+        <header class="card-header card-header-lg">
+            Liste des locatives 
+            <a class="btn btn-info pull-right" href="{{ path('locative_new' , {id: immobilier.id}) }}">
+                <i class="fa fa-plus"></i> {{ 'Create a new entry'|trans({}, 'admin') }}
+            </a>
+        </header>
+        <div class="card-block">  
+            <section class="card">
+                <div class="card-block">
+                    <table  class="display table table-bordered datatable" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Identification</th>
+                            <th>Type</th>
+                            <th>Nbre de pièce</th>
+                            <th>Superficie</th>
+                            <th>Montant du loyer</th>
+                            <th>{{ 'Actions'|trans({}, 'admin') }}</th>
+                        </tr>
+                        </thead>
+                      
+                        <tbody>
+                            {% for locative in entities %}
+                                <tr>
+                                    <td><a href="{{ path('locative_show', {id: locative.id}) }}">LOCT-{{ locative.id }}</a></td>
+                                    <td>{{ locative.type }} </td>                           
+                                    <td>{{ locative.piece }}</td>
+                                    <td>{{ locative.supercie}} </td>
+                                    <td>{{ locative.Loyer }}</td>
+                                    <td>
+                                    <div class="btn-group">
+                                        <a class="btn btn-inline btn-success btn-sm" href="{{ path('locative_show', {id: locative.id}) }}">
+                                            <i class="fa fa-file-o"></i> {{ 'show'|trans({}, 'admin') }}
+                                        </a> 
+                                        <a class="btn btn-inline btn-primary btn-sm" href="{{ path('locative_edit', {id: locative.id}) }}">
+                                            <i class="fa fa-edit" aria-hidden="true"></i> modifer
+                                        </a>
+                                    </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+             <a class="btn btn-secondary pull-left" href="{{ path('immobilier' , {id:immobilier.proprietaire.id}) }}">
+                <i class="fa fa-arrow-circle-left"></i> {{ 'Back to the list'|trans({}, 'admin') }}
+            </a>                      
+        </div>
+
+    </section>
+
+    <ul class="new_entry list-unstyled">
+        
+    </ul>
+    
+{% endblock %}

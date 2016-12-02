@@ -1,0 +1,139 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} - index{% endblock %}
+
+{% block body %}
+
+   <section class="content">
+       <div class="row">
+           <div class="col-lg-3 col-xs-6">
+               <!-- small box -->
+               <div class="small-box bg-aqua">
+                   <div class="inner">
+                       <h3></h3>
+                       <p>Réservation</p>
+                   </div>
+                   <div class="icon">
+                       <i class="ion ion-bag"></i>
+                   </div>
+                   <a href="#" class="small-box-footer">Info <i class="fa fa-arrow-circle-right"></i></a>
+               </div>
+           </div>
+           <div class="col-lg-3 col-xs-6">
+               <!-- small box -->
+               <div class="small-box bg-green">
+                   <div class="inner">
+                       <h3><sup style="font-size: 20px">jours</sup></h3>
+                       <p>Durée moyenne livraison</p>
+                   </div>
+                   <div class="icon">
+                       <i class="ion ion-stats-bars"></i>
+                   </div>
+                   <a href="javascript:void(0)" class="small-box-footer">Info <i class="fa fa-arrow-circle-right"></i></a>
+               </div>
+           </div>
+           <div class="col-lg-3 col-xs-6">
+               <!-- small box -->
+               <div class="small-box bg-yellow">
+                   <div class="inner">
+                       <h3></h3>
+                       <p>Avis</p>
+                   </div>
+                   <div class="icon">
+                       <i class="ion ion-chatbubble-working"></i>
+                   </div>
+                   <a href="#" class="small-box-footer">Info <i class="fa fa-arrow-circle-right"></i></a>
+               </div>
+           </div>
+           <div class="col-lg-3 col-xs-6">
+               <!-- small box -->
+               <div class="small-box bg-red">
+                   <div class="inner">
+                       <h3></h3>
+                       <p>Commentaires</p>
+                   </div>
+                   <div class="icon">
+                       <i class="ion ion-chatbubbles"></i>
+                   </div>
+                   <a href="#" class="small-box-footer">Info <i class="fa fa-arrow-circle-right"></i></a>
+               </div>
+           </div>
+       </div>
+
+       <div class="row">
+           <section class="col-lg-12 connectedSortable ui-sortable">
+               <div class="nav-tabs-custom">
+                   <!-- Tabs within a box -->
+                   <ul class="nav nav-tabs pull-right">
+                       <li><a href="#delivered-chart" data-toggle="tab">Livrés</a></li>
+                       <li><a href="#reserved-chart" data-toggle="tab">Réservés</a></li>
+                       <li class="active"><a href="#donut-chart" data-toggle="tab">Graphe</a></li>
+                       <li class="pull-left header"><i class="fa fa-inbox"></i> Tickets</li>
+                   </ul>
+                   <div class="tab-content no-padding">
+                       <div class="chart tab-pane" id="delivered-chart">
+                           <div class="box">
+                               <div class="box-header">
+                                   <h1 class="box-title">Tickets livrés</h1>
+                               </div>
+                               <div class="box-body">
+                                   <table class="table table-striped table-hover table-bordered records_list">
+                                       <thead>
+                                       <tr>
+                                           <th scope="col">Nom</th>
+                                           <th scope="col">Téléphone</th>
+                                           <th scope="col">Cinéma</th>
+                                           <th scope="col">Ticket</th>
+                                           <th scope="col">Réservation</th>
+                                           <th scope="col">Livreur</th>
+                                           <th scope="col">Livraison</th>
+                                           <th scope="col">{{ 'Actions'|trans({}, 'admin') }}</th>
+                                       </tr>
+                                       </thead>
+                                       <tbody>
+                                       
+                                       </tbody>
+                                   </table>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="chart tab-pane" id="reserved-chart">
+                           <div class="box">
+                               <div class="box-header">
+                                   <h1 class="box-title">Tickets réservés</h1>
+                               </div>
+                               <div class="box-body">
+                                   <table class="table table-striped table-hover table-bordered records_list">
+                                       <thead>
+                                       <tr>
+                                           <th scope="col">Nom</th>
+                                           <th scope="col">Téléphone</th>
+                                           <th scope="col">Cinéma</th>
+                                           <th scope="col">Ticket</th>
+                                           <th scope="col">Réservation</th>
+                                           <th scope="col">{{ 'Actions'|trans({}, 'admin') }}</th>
+                                       </tr>
+                                       </thead>
+                                       <tbody>
+                                      
+                                       </tbody>
+                                   </table>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="chart tab-pane active" id="donut-chart">
+                           <div id="sales-chart"></div>
+                       </div>
+                   </div>
+               </div>
+           </section>
+       </div>
+   </section>
+{% endblock %}
+
+{% block javascript %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="{{ asset('bundles/admin/plugins/morris/morris.min.js') }}"></script>
+    <script src="{{ asset('bundles/admin/plugins/fastclick/fastclick.min.js') }}"></script>
+  
+{% endblock %}

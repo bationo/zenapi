@@ -1,0 +1,59 @@
+{% extends "base.html.twig" %}
+
+{% block title %}User - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h1 class="box-title">{{ user.admin.name }}</h1>
+                        <div class="btn-group record_actions pull-right">
+                            <a href="{{ path('admin_profile_edit' ) }}" class="btn btn-md btn-primary btn-flat">
+                                <i class="fa fa-edit"></i> {{ 'Edit'|trans({}, 'admin') }}
+                            </a>
+                            <a href="{{ path('admin_profil_password' ) }}" class="btn btn-md btn-danger btn-flat pull-right">
+                                <i class="fa fa-lock"></i> {{ 'change_password.submit'|trans({}, 'FOSUserBundle') }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-hover record_properties">
+                            <tbody>
+                            <tr>
+                                <th scope="row">Avatar</th>
+                                <td><img src="{{ asset( user.webPath ) }}" class="user-image" alt="{{ user.username }}"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Username</th>
+                                <td>{{ user.username }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Email</th>
+                                <td>{{ user.email }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Rôles</th>
+                                <td>{{ user.roles|join(', ') }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Nom</th>
+                                <td>{{ user.admin.name }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">téléphone</th>
+                                <td>{{ user.admin.phone }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fonction</th>
+                                <td>{{ user.admin.function }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

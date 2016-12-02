@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr">
+    
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Interface  Pro </title>
+        <link rel="shortcut icon" href="img/favicon.ico">
+
+
+
+
+        <!--STYLESHEET-->
+        <!--=================================================-->
+        <!--Roboto Slab Font [ OPTIONAL ] -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700|Roboto:300,400,700" rel="stylesheet">
+        <!--Bootstrap Stylesheet [ REQUIRED ]-->
+        <link href="{{ asset( 'pro/css/bootstrap.min.css' ) }} " rel="stylesheet">
+        <!--Jasmine Stylesheet [ REQUIRED ]-->
+        <link href="{{ asset( 'pro/css/style.css' ) }} " rel="stylesheet">
+        <!--Font Awesome [ OPTIONAL ]-->
+        <link href="{{ asset( 'pro/plugins/font-awesome/css/font-awesome.min.css' ) }} " rel="stylesheet">
+        <!--Switchery [ OPTIONAL ]-->
+        <link href="{{ asset( 'pro/plugins/switchery/switchery.min.css' ) }} " rel="stylesheet">
+        <!--Bootstrap Select [ OPTIONAL ]-->
+        <link href="{{ asset( 'pro/plugins/bootstrap-select/bootstrap-select.min.css' ) }} " rel="stylesheet">
+        <!--Bootstrap Validator [ OPTIONAL ]-->
+        <link href="{{ asset( 'pro/plugins/bootstrap-validator/bootstrapValidator.min.css' ) }} " rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="https://rdvmedecine.com/web/favicon.ico" />
+
+        <link href="{{ asset( 'pro/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css' ) }} " rel="stylesheet">
+        <!--Bootstrap Datepicker [ OPTIONAL ]-->
+        <link href="{{ asset( 'pro/plugins/bootstrap-datepicker/bootstrap-datepicker.css' ) }} " rel="stylesheet">
+        <!--ricksaw.js [ OPTIONAL ]-->
+        <link href="{{ asset( 'pro/plugins/jquery-ricksaw-chart/css/rickshaw.css' ) }} " rel="stylesheet">
+        <!--jVector Map [ OPTIONAL ]-->
+        <link href="{{ asset( 'pro/plugins/jvectormap/jquery-jvectormap.css' ) }} " rel="stylesheet">
+        <!--Demo [ DEMONSTRATION ]-->
+        <link href="{{ asset( 'pro/css/demo/jquery-steps.min.css' ) }} " rel="stylesheet">
+        <!--Demo [ DEMONSTRATION ]-->
+        <link href="{{ asset( 'pro/css/demo/jasmine.css' ) }} " rel="stylesheet">
+        <link href=" {{ asset( 'pro/plugins/fullcalendar/fullcalendar.css' ) }}" rel="stylesheet">
+        <!--jQuery [ REQUIRED ]-->
+        <script src="{{ asset( 'pro/js/jquery-2.1.1.min.js' ) }} "></script>
+        <!--SCRIPT-->
+        <!--=================================================-->
+        <!--Page Load Progress Bar [ OPTIONAL ]-->
+        <link href="{{ asset( 'pro/plugins/pace/pace.min.css' ) }}" rel="stylesheet" />
+        <script src="{{ asset( 'pro/plugins/pace/pace.min.js' ) }}"> </script>
+
+        <!--Demo [ DEMONSTRATION ]-->
+        <link href="{{ asset( 'pro/css/demo/gamma-gallery.css' ) }} " rel="stylesheet">
+        <!--SCRIPT-->
+        <!--=================================================-->
+        <script src="{{ asset( 'pro/plugins/gamma-gallery/js/modernizr.custom.70736.js' ) }} "></script>
+        <script src="https://cdn.ckeditor.com/4.5.11/basic/ckeditor.js"></script>
+    </head>
+    <!--TIPS-->
+    <!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
+    <body>
+        <div id="container" class="effect mainnav-lg navbar-fixed mainnav-fixed">
+            <!--NAVBAR-->
+            <!--===================================================-->
+            <header id="navbar">
+                <div id="navbar-container" class="boxed">
+                    <!--Brand logo & name-->
+                    <!--================================-->
+                    <div class="navbar-header">
+                        <a href="{{ path('homepro') }}" class="navbar-brand">
+                            <i class="fa fa-stethoscope  brand-icon"></i>
+                            <div class="brand-title">
+                                <span class="brand-text">RdvMedecine</span>
+                            </div>
+                        </a>
+                    </div>
+                    <!--================================-->
+                    <!--End brand logo & name-->
+                    <!--Navbar Dropdown-->
+                    <!--================================-->
+                    <div class="navbar-content clearfix">
+                        <ul class="nav navbar-top-links pull-left">
+                            <!--Navigation toogle button-->
+                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            <li class="tgl-menu-btn">
+                                <a class="mainnav-toggle" href="#"> <i class="fa fa-navicon fa-lg"></i> </a>
+                            </li>
+                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            <!--End Navigation toogle button-->
+                            <!--Profile toogle button-->
+                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            <li id="profilebtn" class="hidden-xs">
+                                <a href="JavaScript:void(0);"> <i class="fa fa-user fa-lg"></i> </a>
+                            </li>
+                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            <!--End Profile toogle button-->
+                            <!--Messages Dropdown-->
+                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle"> <i class="fa fa-envelope fa-lg"></i> <span class="nbMessageAlert"> </span>
+                                </a>
+                                <!--Message dropdown menu-->
+                                <div class="dropdown-menu dropdown-menu-md with-arrow">
+                                    <div class="pad-all bord-btm">
+                                       <div class="h4 text-muted text-thin mar-no">Vous avez <span class="nbMessage">0</span> nouveau message.</div>
+                                    </div>
+                                   
+                                    <!--Dropdown footer-->
+                                    <div class="pad-all bord-top">
+                                        <a href="{{ path('contact_pro') }}" class="btn-link text-dark box-block"> <i class="fa fa-angle-right fa-lg pull-right"></i>Afficher tous vos messages </a>
+                                    </div>
+                                </div>
+                            </li>
+                           
+                        </ul>
+                        <ul class="nav navbar-top-links pull-right">
+                            <!--Profile toogle button-->
+                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            <li class="hidden-xs" id="toggleFullscreen">
+                                <a class="fa fa-expand" data-toggle="fullscreen" href="#" role="button">
+                                <span class="sr-only">Toggle fullscreen</span>
+                                </a>
+                            </li>
+                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            <!--End Profile toogle button-->
+                            <!--User dropdown-->
+                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            <li id="dropdown-user" class="dropdown">
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle text-right">
+                                    <span class="pull-right"> <img class="img-circle img-user media-object" src="{{ asset(app.user.webpath) }} " alt="Profile Picture"> </span>
+                                    <div class="username hidden-xs"> {{app.user.professionnel.nom}} </div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right with-arrow"> 
+                                    <!-- User dropdown menu -->
+                                    <ul class="head-list"> 
+                                        <li>
+                                            <a href="{{ path('pro_mon_profil') }}"> <i class="fa fa-user fa-fw"></i> Mon Profil </a>
+                                        </li>
+                                       
+                                        <li>
+                                            <a href="{{ path('pro_mon_profil_password') }}">  <i class="fa fa-gear fa-fw"></i> Modifier mon Mot de passe </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('fos_user_security_logout') }}"> <i class="fa fa-sign-out fa-fw"></i> Déconnexion </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                           
+                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            <!--End Navigation toogle button-->
+                        </ul>
+                    </div>
+                    <!--================================-->
+                    <!--End Navbar Dropdown-->
+                </div>
+            </header>
+            <!--===================================================-->
+            <!--END NAVBAR-->
+            <div class="boxed">
+                <!--CONTENT CONTAINER-->
+                <!--===================================================-->
+                <section id="content-container">
+                    <div id="profilebody">
+                        <div class="pad-all animated fadeInDown">
+                            <div class="row">
+                                <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+                                    <div class="panel panel-default mar-no">
+                                        <div class="panel-body">
+                                            <a href="{{ path('repertoire') }}">
+                                                <div class="pull-left">
+                                                    <br/>
+                                                    <p class="profile-title text-bricky">Mon Répertoire </p>
+                                                </div>
+                                                <div class="pull-right text-bricky"> <i class="fa fa-users fa-4x"></i> </div>
+                                            </a> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12"> 
+                                    <div class="panel panel-default mar-no">
+                                        <div class="panel-body">
+                                            <a href="{{ path('contact_pro') }}">
+                                                <div class="pull-left">
+                                                    <p class="profile-title text-bricky">Mes Messages</p>
+                                                </div>
+                                                <div class="pull-right text-bricky"> <i class="fa fa-envelope fa-4x"></i> </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                               
+                               
+                                <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12"> 
+                                    <div class="panel panel-default mar-no">
+                                        <div class="panel-body">
+                                            <a href="{{ path('pro_mon_galery') }}">
+                                                <div class="pull-left">
+                                                    <p class="profile-title text-bricky">Mes Images</p>
+                                                </div>
+                                                <div class="pull-right text-bricky"> <i class="fa fa-picture-o fa-4x"></i> </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <header class="pageheader">
+                        {% block file %}
+                      
+                        {% endblock %}
+
+                        
+                    </header>
+                    <!--Page content-->
+                    <!--===================================================-->
+                    <div id="page-content">
+                        
+                        {% block body %}
+                      
+                        {% endblock %}
+
+
+
+
+
+                    </div>
+                    <!--===================================================-->
+                    <!--End page content-->
+                </section>
+                <!--===================================================-->
+                <!--END CONTENT CONTAINER-->
+                <!--MAIN NAVIGATION-->
+                <!--===================================================-->
+                <nav id="mainnav-container">
+                    <div id="mainnav">
+                        <!--Menu-->
+                        <!--================================-->
+                        <div id="mainnav-menu-wrap">
+                            <div class="nano">
+                                <div class="nano-content">
+                                    <ul id="mainnav-menu" class="list-group">
+                                        <!--Category name-->
+                                        <li class="list-header">Navigation</li>
+                                        <!--Menu list item-->
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                            <i class="fa fa-home"></i>
+                                            <span class="menu-title">Tableau de bord</span>
+                                            <i class="arrow"></i>
+                                            </a>
+                                           
+                                        </li>
+                                        
+                                       
+                                       
+                                        <li><a href="{{ path('docteur') }}"><i class="fa fa-caret-right"></i> Mes Spécialistes </a></li>
+                                        <li><a href="{{ path('specialite') }}"><i class="fa fa-caret-right"></i> Mes Tarifs </a></li>
+                                        <li><a href="{{ path('pro_patient') }}"><i class="fa fa-caret-right"></i> Mes Patients </a></li> 
+                                        <li><a href="{{ path('pro_rdv_liste') }}"><i class="fa fa-caret-right"></i> Mes Rendez-vous </a></li>
+                                        <li><a href="{{ path('ticket_pro') }}"><i class="fa fa-caret-right"></i> Support Client </a></li>   
+                                      
+                                      
+                                       
+                                       
+                                    </ul>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <!--================================-->
+                        <!--End menu-->
+                    </div>
+                </nav>
+              
+            </div>
+            <!-- FOOTER -->
+            <!--===================================================-->
+            <footer id="footer">
+                <!-- Visible when footer positions are fixed -->
+                <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+               
+                <!-- Visible when footer positions are static -->
+                <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                <div class="hide-fixed pull-right pad-rgt">Version v2.0</div>
+                <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                <!-- Remove the class name "show-fixed" and "hide-fixed" to make the content always appears. -->
+                <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                <p class="pad-lft">&#0169; Rdvmedecine.com</p>
+            </footer>
+            <!--===================================================-->
+            <!-- END FOOTER -->
+            <!-- SCROLL TOP BUTTON -->
+            <!--===================================================-->
+            <button id="scroll-top" class="btn"><i class="fa fa-chevron-up"></i></button>
+            <!--===================================================-->
+        </div>
+        <!--===================================================-->
+        <!-- END OF CONTAINER -->
+        <!--JAVASCRIPT-->
+        <!--=================================================-->
+
+
+        
+
+        
+        <!--BootstrapJS [ RECOMMENDED ]-->
+        <script src="{{ asset( 'pro/js/bootstrap.min.js' ) }} "></script>
+        <!--Fast Click [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/fast-click/fastclick.min.js' ) }} "></script>
+        <!--Jasmine Admin [ RECOMMENDED ]-->
+        <script src="{{ asset( 'pro/js/scripts.js' ) }} "></script>
+        <!--Jquery Nano Scroller js [ REQUIRED ]-->
+        <script src="{{ asset( 'pro/plugins/nanoscrollerjs/jquery.nanoscroller.min.js' ) }} "></script>
+        <!--Metismenu js [ REQUIRED ]-->
+        <script src="{{ asset( 'pro/plugins/metismenu/metismenu.min.js' ) }} "></script>
+        <!--Switchery [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/switchery/switchery.min.js' ) }} "></script>
+        <!--Jquery Steps [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/parsley/parsley.min.js' ) }} "></script>
+        <!--Jquery Steps [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/jquery-steps/jquery-steps.min.js' ) }} "></script>
+        <!--Bootstrap Select [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/bootstrap-select/bootstrap-select.min.js' ) }} "></script>
+        <!--Bootstrap Wizard [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js' ) }} "></script>
+        <!--Masked Input [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/masked-input/bootstrap-inputmask.min.js' ) }} "></script>
+        <!--Bootstrap Validator [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/bootstrap-validator/bootstrapValidator.min.js' ) }} "></script>
+        <!--Flot Chart [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/flot-charts/jquery.flot.min.js' ) }} "></script>
+        <script src="{{ asset( 'pro/plugins/flot-charts/jquery.flot.resize.min.js' ) }} "></script>
+        <!--Flot Order Bars Chart [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/flot-charts/jquery.flot.categories.js' ) }} "></script>
+        <!--jQuery Ricksaw Chart [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/rickshaw-master/vendor/d3.v2.js' ) }} "></script>
+        <script src="{{ asset( 'pro/plugins/rickshaw-master/src/js/rickshaw.js' ) }} "></script>
+        <script src="{{ asset( 'pro/plugins/rickshaw-master/rickshaw.min.js' ) }} "></script>
+        <!--Easy Pie Chart [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/easy-pie-chart/jquery.easypiechart.min.js' ) }} "></script>
+        <!--Fullscreen jQuery [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/screenfull/screenfull.js' ) }} "></script>
+        <!--Form Wizard [ SAMPLE ]-->
+        <script src="{{ asset( 'pro/js/demo/index.js' ) }} "></script>
+        <!--Form Wizard [ SAMPLE ]-->
+        <script src="{{ asset( 'pro/js/demo/wizard.js' ) }} "></script>
+<script src="{{ asset( 'pro/plugins/bootstrap-datepicker/bootstrap-datepicker.js' ) }} "></script>
+       
+      
+        <!--Gamma Gallery [ OPTIONAL ]-->
+        <script src="{{ asset( 'pro/plugins/gamma-gallery/js/jquery.masonry.min.js' ) }} "></script>
+        <script src="{{ asset( 'pro/plugins/gamma-gallery/js/jquery.history.js' ) }} "></script>
+        <script src="{{ asset( 'pro/plugins/gamma-gallery/js/js-url.min.js' ) }} "></script>
+        <script src="{{ asset( 'pro/plugins/gamma-gallery/js/jquerypp.custom.js' ) }} "></script>
+        <script src="{{ asset( 'pro/plugins/gamma-gallery/js/gamma.js' ) }} "></script>
+        <!--Demo script [ DEMONSTRATION ]-->
+        <!--Demo script [ DEMONSTRATION ]-->
+               <script src="{{ asset( 'pro/js/demo/pages-gallery.js' ) }} "></script>
+
+
+            {% block javascripts %}
+
+            {% endblock %}
+
+
+        <!--Form Wizard [ SAMPLE ]-->
+        <script src="{{ asset( 'pro/js/demo/form-wizard.js' ) }} "></script>
+
+        <script type="text/javascript">
+$(function() {
+
+         $.ajax({
+               url : "{{ path( 'contact_ajax_pro') }}",
+               type : 'post',
+               success : function( statut){
+
+                       
+                        if(statut){
+                             
+                             $('.nbMessage').text(statut); 
+
+                             if(statut > 0 ){
+                     $('.nbMessageAlert').html('<span class="badge badge-header badge-warning nbMessage">'+statut+'</span>');
+
+                             }
+
+
+                             }
+
+
+                      },
+
+               error : function(resultat, statut, erreur){
+
+                if(statut){
+
+                  
+                }
+                 
+               }
+
+              
+
+            });
+
+
+setTimeout(function () { 
+
+   $.ajax({
+               url : "{{ path( 'contact_ajax_pro') }}",
+               type : 'post',
+               success : function( statut){
+
+                       
+                        if(statut){
+                             
+                             $('.nbMessage').text(statut); 
+
+                             if(statut > 0 ){
+                     $('.nbMessageAlert').html('<span class="badge badge-header badge-warning nbMessage">'+statut+'</span>');
+
+                             }
+
+
+                             }
+
+
+                      },
+
+               error : function(resultat, statut, erreur){
+
+                if(statut){
+
+                  
+                }
+                 
+               }
+
+              
+
+            }); 
+
+
+
+
+ }, 50000);
+
+});
+        </script>
+    </body>
+
+</html>
